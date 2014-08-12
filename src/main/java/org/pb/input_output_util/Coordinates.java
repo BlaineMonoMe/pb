@@ -14,12 +14,22 @@ public class Coordinates {
 		this.y = y;
 	}
 
+	public Coordinates(Coordinates toCopy) {
+		this.x = toCopy.getX();
+		this.y = toCopy.getY();
+	}
+
 	public void changeX(int value) {
 		x += value;
 	}
 
 	public void changeY(int value) {
 		y += value;
+	}
+
+	public void change(int x, int y) {
+		this.x += x;
+		this.y += y;
 	}
 
 	public int getX() {

@@ -3,6 +3,7 @@ package org.pb.input_output_util;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 import org.sikuli.api.DesktopScreenRegion;
@@ -19,6 +20,17 @@ import org.sikuli.api.robot.desktop.DesktopMouse;
  *         Input-Output Util
  */
 public class IOUtil {
+
+	public static void absoluteLeftMouseClick(int x, int y) {
+		try {
+			Robot robot = new Robot();
+			robot.mouseMove(x, y);
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+			robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void absoluteLeftMouseDblClick(int x, int y) {
 		try {
@@ -39,7 +51,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 3);
+		ScreenRegion r = screen.wait(target, 1);
 		if (r == null) {
 			return false;
 		}
@@ -54,7 +66,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 3);
+		ScreenRegion r = screen.wait(target, 1);
 		if (r == null) {
 			return false;
 		}
@@ -67,7 +79,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 3);
+		ScreenRegion r = screen.wait(target, 1);
 		if (r == null) {
 			return false;
 		}
@@ -78,7 +90,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 3);
+		ScreenRegion r = screen.wait(target, 1);
 		return new Coordinates(r.getCenter().getX(), r.getCenter().getY());
 	}
 
@@ -86,6 +98,32 @@ public class IOUtil {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void closeWindow() {
+		try {
+			Robot robot = new Robot();
+			robot.keyPress(KeyEvent.VK_ALT);
+			robot.delay(200);
+			robot.keyPress(KeyEvent.VK_F4);
+			robot.keyRelease(KeyEvent.VK_F4);
+			robot.keyRelease(KeyEvent.VK_ALT);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void ctrlC() {
+		try {
+			Robot robot = new Robot();
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.delay(200);
+			robot.keyPress(KeyEvent.VK_C);
+			robot.keyRelease(KeyEvent.VK_C);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+		} catch (AWTException e) {
 			e.printStackTrace();
 		}
 	}

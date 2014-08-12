@@ -1,14 +1,10 @@
 package org.pb.select_table;
 
+import org.pb.input.ChatReader;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 
 public final class TableSearcher {
-
-	/**
-	 * offset from windowCoords.y
-	 */
-	private final int FIRST_TABLE_Y_OFFSET = 262;
 
 	private final int TABLE_ITEM_HEIGHT = 24;
 
@@ -30,7 +26,13 @@ public final class TableSearcher {
 	 */
 	private Coordinates windowCoords = null;
 
-	public TableSearcher() {
+	public TableSearcher(int status) {
+		this.status = status;
+	}
+
+	public void backOnTableList() {
+		updateWindowCoorditates();
+		status = 1;
 	}
 
 	/**
@@ -39,8 +41,13 @@ public final class TableSearcher {
 	 * @return O_o
 	 */
 	public boolean searchAndSeat() {
+
+		// EnemyPresentionReader epr = new EnemyPresentionReader(1000, this);
+		// epr.start();
+
 		while (status < 5) {
 
+			// epr.disable();
 			switch (status) {
 			case 0:
 				activateWindow();
@@ -58,8 +65,9 @@ public final class TableSearcher {
 			case 4:
 				IOUtil.leftMouseClickOnComponent("res\\images\\OK_GREEN.PNG",
 						30, 4);
+				// epr.enable();
 				IOUtil.wait(1000);
-				break;
+				return true;
 			}
 
 		}
@@ -78,16 +86,16 @@ public final class TableSearcher {
 	private void updateWindowCoorditates() {
 		windowCoords = IOUtil
 				.getCenterCoordinates("res\\images\\LITTLE_ICON.PNG");
-		windowCoords.changeX(-11);
-		windowCoords.changeY(+18);
-		// now, windowCoords refers to left up point of main menu
+		windowCoords.changeX(-22);
+		windowCoords.changeY(32);
+		System.out.println(windowCoords);
 	}
 
 	private void selectTable() {
 		while (true) {
 			IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
-					(windowCoords.getY() + FIRST_TABLE_Y_OFFSET) + currentTable
-							* TABLE_ITEM_HEIGHT + TABLE_ITEM_HEIGHT / 2);
+					windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
+							+ TABLE_ITEM_HEIGHT / 2);
 			IOUtil.wait(1000);
 			if (isTableEmptyMessage()) {
 				IOUtil.leftMouseClickOnComponent(
