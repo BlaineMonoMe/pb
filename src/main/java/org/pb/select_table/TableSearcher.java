@@ -96,16 +96,12 @@ public final class TableSearcher {
 
 	private void selectTable() {
 		while (true) {
-//            new Thread() {
-//                public void run() {
-//                    IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
-//                            windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
-//                                    + TABLE_ITEM_HEIGHT / 2);
-//                }
-//            }.start();
-			IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
-					windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
-							+ TABLE_ITEM_HEIGHT / 2);
+            synchronized (this) {
+                IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
+                        windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
+                                + TABLE_ITEM_HEIGHT / 2);
+            }
+
 			IOUtil.wait(1000);
 			if (isTableEmptyMessage()) {
 				IOUtil.leftMouseClickOnComponent(

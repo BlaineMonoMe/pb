@@ -15,8 +15,8 @@ public class App {
 		TableSearcher tableSearcher = new TableSearcher(0);
 		tableSearcher.searchAndSeat();
 
-//		TableParser tp = new TableParser();
-//		tp.start();
+		TableParser tp = new TableParser();
+		tp.start();
 
 		MyCardsReader mcr = new MyCardsReader();
 		mcr.printCardsOnTable();
