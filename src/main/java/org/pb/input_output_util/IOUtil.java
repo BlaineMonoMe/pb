@@ -79,7 +79,9 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
+		target.setMinScore(0.99);
 		ScreenRegion r = screen.wait(target, 1);
+		// System.out.println("min score: " + target.getMinScore());
 		if (r == null) {
 			return false;
 		}

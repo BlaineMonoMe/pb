@@ -12,25 +12,44 @@ public class ChatReader {
 
 	private final int ITEM_HEIGHT = 13;
 
+	/**
+	 * item count, which is shown in screen
+	 */
+	private final int ITEM_COUNT = 4;
+
 	public ChatReader(Coordinates lastItemCoords) {
 		this.lastItemCoords = new Coordinates(lastItemCoords);
 	}
 
-	public void readLastTwoItems() {
+	/**
+	 * this method hopes, that players will not write messages, which will be
+	 * contained in two items
+	 * 
+	 * @return
+	 */
+	public String readLastDillerMessage() {
 		int currentItem = 0;
-		for (int i = 0; i < 20; i++) {
-			String str1 = null;
-			String str2 = readItem(currentItem);
-			// System.out.println(str2);
-			if (str2.equals(new String("null"))) {
+		String gotItem = null;
+		String addtitionalItem = null;
+		for (int i = 0; i < ITEM_COUNT; i++) {
+			gotItem = readItem(currentItem);
+
+			// if Robot pressed at empty line
+			if (gotItem.trim().length() == 0) {
 				currentItem++;
 			} else {
-				str1 = readItem(currentItem + 1);
-				System.out.println("   got string: " + str1 + " " + str2);
-				break;
+				// if message contains of two items
+				if (MessageParser.beginsWithSpace(gotItem)) {
+					addtitionalItem = readItem(currentItem + 1);
+					return (addtitionalItem.trim() + " " + gotItem.trim());
+				} else {
+					if (MessageParser.isDealerMessage(gotItem)) {
+						return gotItem.trim();
+					}
+				}
 			}
-			//System.out.println("   got string: " + str1 + " " + str2);
 		}
+		return null;
 	}
 
 	/**
@@ -48,7 +67,7 @@ public class ChatReader {
 		IOUtil.wait(100);
 		IOUtil.ctrlC();
 		IOUtil.wait(100);
-		String result = ClipboardCommunicator.getClipboardText().trim();
+		String result = ClipboardCommunicator.getClipboardText();
 		IOUtil.wait(100);
 		// System.out.println("read: " + result);
 		return result;

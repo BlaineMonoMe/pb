@@ -23,7 +23,7 @@ public class TableParser {
 
 	public void start() {
 		ChatReader cr = new ChatReader(chatLastItemCoords);
-		cr.readLastTwoItems();
+		System.out.println(cr.readLastDillerMessage());
 	}
 
 }
