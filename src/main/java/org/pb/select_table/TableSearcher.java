@@ -44,7 +44,7 @@ public final class TableSearcher {
 	 */
 	public boolean searchAndSeat() {
 
-		// EnemyPresentionReader epr = new EnemyPresentionReader(1000, this);
+		// EnemyPresentationReader epr = new EnemyPresentationReader(1000, this);
 		// epr.start();
 
 		while (status < 5) {
