@@ -10,14 +10,14 @@ import org.pb.select_table.TableSearcher;
  *         additional thread, which controls if enemy is gone or not present
  * 
  */
-public class EnemyPresentionReader extends Thread {
+public class EnemyPresentationReader extends Thread {
 
 	private boolean enable;
 	private boolean isGoingToDie;
 	private int freequency;
 	private TableSearcher ts;
 
-	public EnemyPresentionReader(int freequency, TableSearcher ts) {
+	public EnemyPresentationReader(int freequency, TableSearcher ts) {
 		this.freequency = freequency;
 		enable = true;
 		isGoingToDie = false;

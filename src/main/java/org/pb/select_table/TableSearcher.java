@@ -1,6 +1,5 @@
 package org.pb.select_table;
 
-import org.pb.input.ChatReader;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 
@@ -31,7 +30,7 @@ public final class TableSearcher {
 	}
 
 	public void backOnTableList() {
-		updateWindowCoorditates();
+		updateWindowCoordinates();
 		status = 1;
 	}
 
@@ -42,7 +41,7 @@ public final class TableSearcher {
 	 */
 	public boolean searchAndSeat() {
 
-		// EnemyPresentionReader epr = new EnemyPresentionReader(1000, this);
+		// EnemyPresentationReader epr = new EnemyPresentationReader(1000, this);
 		// epr.start();
 
 		while (status < 5) {
@@ -51,7 +50,8 @@ public final class TableSearcher {
 			switch (status) {
 			case 0:
 				activateWindow();
-				updateWindowCoorditates();
+                IOUtil.wait(1000);
+				updateWindowCoordinates();
 				break;
 			case 1:
 				selectTable();
@@ -83,7 +83,7 @@ public final class TableSearcher {
 		return false;
 	}
 
-	private void updateWindowCoorditates() {
+	private void updateWindowCoordinates() {
 		windowCoords = IOUtil
 				.getCenterCoordinates("res\\images\\LITTLE_ICON.PNG");
 		windowCoords.changeX(-22);
@@ -93,9 +93,12 @@ public final class TableSearcher {
 
 	private void selectTable() {
 		while (true) {
-			IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
-					windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
-							+ TABLE_ITEM_HEIGHT / 2);
+            synchronized (this) {
+                IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
+                        windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
+                                + TABLE_ITEM_HEIGHT / 2);
+            }
+
 			IOUtil.wait(1000);
 			if (isTableEmptyMessage()) {
 				IOUtil.leftMouseClickOnComponent(
