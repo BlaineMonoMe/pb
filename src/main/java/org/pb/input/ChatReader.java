@@ -1,5 +1,7 @@
 package org.pb.input;
 
+import java.awt.Robot;
+
 import org.pb.input_output_util.ClipboardCommunicator;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;

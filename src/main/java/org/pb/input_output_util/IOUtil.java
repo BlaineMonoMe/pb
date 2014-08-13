@@ -24,9 +24,11 @@ public class IOUtil {
 	public static void absoluteLeftMouseClick(int x, int y) {
 		try {
 			Robot robot = new Robot();
+			CursorPositionSaver.pushCursorCoords();
 			robot.mouseMove(x, y);
 			robot.mousePress(InputEvent.BUTTON1_MASK);
 			robot.mouseRelease(InputEvent.BUTTON1_MASK);
+			CursorPositionSaver.popCursorCoords();
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
@@ -92,6 +94,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
+		target.setMinScore(0.95);
 		ScreenRegion r = screen.wait(target, 1);
 		return new Coordinates(r.getCenter().getX(), r.getCenter().getY());
 	}
