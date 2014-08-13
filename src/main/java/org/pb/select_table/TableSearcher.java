@@ -4,6 +4,8 @@ import org.pb.input.ChatReader;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 
+import javax.swing.*;
+
 public final class TableSearcher {
 
 	private final int TABLE_ITEM_HEIGHT = 24;
@@ -51,6 +53,7 @@ public final class TableSearcher {
 			switch (status) {
 			case 0:
 				activateWindow();
+                IOUtil.wait(1000);
 				updateWindowCoorditates();
 				break;
 			case 1:
@@ -93,6 +96,13 @@ public final class TableSearcher {
 
 	private void selectTable() {
 		while (true) {
+//            new Thread() {
+//                public void run() {
+//                    IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
+//                            windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
+//                                    + TABLE_ITEM_HEIGHT / 2);
+//                }
+//            }.start();
 			IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
 					windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
 							+ TABLE_ITEM_HEIGHT / 2);
