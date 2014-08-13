@@ -1,5 +1,6 @@
 package org.pb.appl;
 
+import org.pb.input.MyCardsReader;
 import org.pb.input.TableParser;
 import org.pb.select_table.TableSearcher;
 
@@ -16,6 +17,9 @@ public class App {
 
 //		TableParser tp = new TableParser();
 //		tp.start();
+
+		MyCardsReader mcr = new MyCardsReader();
+		mcr.printCardsOnTable();
 
 		System.out.println("Bue ");
 	}
