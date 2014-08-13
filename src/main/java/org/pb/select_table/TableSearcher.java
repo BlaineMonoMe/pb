@@ -1,10 +1,7 @@
 package org.pb.select_table;
 
-import org.pb.input.ChatReader;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
-
-import javax.swing.*;
 
 public final class TableSearcher {
 
@@ -33,7 +30,7 @@ public final class TableSearcher {
 	}
 
 	public void backOnTableList() {
-		updateWindowCoorditates();
+		updateWindowCoordinates();
 		status = 1;
 	}
 
@@ -54,7 +51,7 @@ public final class TableSearcher {
 			case 0:
 				activateWindow();
                 IOUtil.wait(1000);
-				updateWindowCoorditates();
+				updateWindowCoordinates();
 				break;
 			case 1:
 				selectTable();
@@ -86,7 +83,7 @@ public final class TableSearcher {
 		return false;
 	}
 
-	private void updateWindowCoorditates() {
+	private void updateWindowCoordinates() {
 		windowCoords = IOUtil
 				.getCenterCoordinates("res\\images\\LITTLE_ICON.PNG");
 		windowCoords.changeX(-22);
