@@ -3,8 +3,6 @@ package org.pb.input;
 /**
  * Begins to do it's job just after chips count was selected
  */
-import java.util.ArrayList;
-
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 import org.pb.state.Players;
@@ -19,15 +17,12 @@ public class TableParser {
 	private Coordinates centerOfTheTable;
 	private Coordinates chatLastItemCoords;
 
-	private ArrayList<String> chatMessages;
+	private Players players;
 
-	private ChatReader chatReader;
-
-	public TableParser() {
+	public TableParser(Players players) {
 		initCoordinates();
-		chatMessages = new ArrayList<String>();
-		chatReader = new ChatReader(chatLastItemCoords);
 		status = 0;
+		this.players = players;
 	}
 
 	private void initCoordinates() {
@@ -40,56 +35,40 @@ public class TableParser {
 		chatLastItemCoords.change(0, 86);
 	}
 
-	private String saveLastDillerMessage() {
-		String lastDillerMessage = chatReader.readLastDillerMessage();
-		chatMessages.add(lastDillerMessage);
-		return lastDillerMessage;
-	}
+	/*
+	 * private void saveLastDillerMessage() { String msg =
+	 * chatReader.readLastDillerMessage(); if (msg != null) { if
+	 * (!chatMessages.get(chatMessages.size() - 1).equals(msg)) {
+	 * chatMessages.add(msg); } } }
+	 */
 
-	private String loadLastDillerMessage() {
-		if (chatMessages.size() == 0) {
-			return new String("---");
-		}
-		return chatMessages.get(chatMessages.size() - 1);
-	}
+	/*
+	 * private void saveLastDillerMessages() { ArrayList<String> chatList =
+	 * chatReader.readLastDillerMessages(); ArrayList<String> reversedList = new
+	 * ArrayList<String>(); for (int i = 0; i < chatList.size(); i++) {
+	 * reversedList.add(chatList.get(chatList.size() - i - 1)); }
+	 * 
+	 * outer: for (int i = reversedList.size(); i > 0; i--) { for (int j = 0; j
+	 * < i; j++) { if (!chatMessages.get(chatMessages.size() - 1 - j).equals(
+	 * reversedList.get(reversedList.size() - 1 - j))) { continue outer; } } for
+	 * (int k = i; k < reversedList.size(); k++) {
+	 * chatMessages.add(reversedList.get(k)); } } }
+	 */
 
-	private boolean isWaitingForGameBegin(String msg) {
-		return msg.contains("Нова гра почнеться через");
-	}
+	private void setMyPositionAtTheTable(Players players) {
+		Coordinates myCoords = IOUtil
+				.getCenterCoordinates("res\\images\\MY_NAME.PNG");
+		if (myCoords.getY() > centerOfTheTable.getY()) {
+			players.setiAmSittingOnTheTop(false);
+		} else {
+			players.setiAmSittingOnTheTop(true);
+		}
 
-	private boolean isGameCanceled(String msg) {
-		return msg.contains("Роздачу відмінено");
-	}
-
-	private void parseMessage(String msg) {
-		if (msg.contains("Роздачу відмінено")) {
-			status = 0;
-		}
-		if (msg.contains("Нова гра почнеться через")) {
-			status = 1;
-		}
-		if (msg.contains("блайнд")) {
-			tryToSetEnemyName(msg, null);
-		}
-	}
-
-	// TODO: Players should be not as parameter, but as class member
-	private void tryToSetEnemyName(String msg, Players players) {
-		String name = msg.split(" ")[1];
-		if (!name.equals(players.getMyName())) {
-			players.setEnemyName(name);
-		}
+		System.out.println(players.isiAmSittingOnTheTop());
 	}
 
 	public void start() {
-
-		String msg = saveLastDillerMessage();
-		
-
-		/*
-		 * ChatReader cr = new ChatReader(chatLastItemCoords);
-		 * System.out.println(cr.readLastDillerMessage());
-		 */
+		setMyPositionAtTheTable(players);
 	}
 
 }
