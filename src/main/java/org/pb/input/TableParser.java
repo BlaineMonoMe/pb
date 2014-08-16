@@ -10,6 +10,7 @@ import org.pb.input_output_util.IOUtil;
 import org.pb.input_output_util.Rectangle;
 import org.pb.state.Card;
 import org.pb.state.Players;
+import org.pb.system_data.CardTargetManager;
 
 public class TableParser {
 
@@ -22,6 +23,7 @@ public class TableParser {
 	private int status;
 
 	private Coordinates centerOfTheTable;
+	private CardTargetManager cardTargetManager;
 	// private Coordinates chatLastItemCoords;
 
 	private Rectangle tableCardsArea;
@@ -29,10 +31,12 @@ public class TableParser {
 
 	private Players players;
 
-	public TableParser(Players players) {
+	public TableParser(Players players, CardTargetManager cardTargetManager) {
 		initCoordinates();
 		status = 0;
 		this.players = players;
+		this.cardTargetManager = cardTargetManager;
+		System.out.println("center of the table: " + centerOfTheTable);
 	}
 
 	private void initCoordinates() {
@@ -86,22 +90,24 @@ public class TableParser {
 	public void start() {
 		setMyPositionAtTheTable(players);
 		TableCardsReader tcr = new TableCardsReader(centerOfTheTable);
-		PlayerCardsReader pcr = new PlayerCardsReader(centerOfTheTable, players);
+		// PlayerCardsReader pcr = new PlayerCardsReader(centerOfTheTable,
+		// players);
 
 		while (true) {
-			IOUtil.wait(2000);
-			ArrayList<Card> tcards = tcr.readCards();
-			ArrayList<Card> pcards = pcr.readCards();
+			// IOUtil.wait(2000);
+			System.out.println("begin searching cards...");
+			ArrayList<Card> tcards = tcr.readCards(cardTargetManager);
+			// ArrayList<Card> pcards = pcr.readCards(cardTargetManager);
 			System.out.print("cards on the table: ");
 			for (int j = 0; j < tcards.size(); j++) {
 				System.out.print("  " + tcards.get(j));
 			}
 			System.out.println();
-			System.out.print("cards on hands: ");
-			for (int j = 0; j < pcards.size(); j++) {
-				System.out.print("  " + pcards.get(j));
-			}
-			System.out.println();
+			/*
+			 * System.out.print("cards on hands: "); for (int j = 0; j <
+			 * pcards.size(); j++) { System.out.print("  " + pcards.get(j)); }
+			 * System.out.println();
+			 */
 		}
 
 	}

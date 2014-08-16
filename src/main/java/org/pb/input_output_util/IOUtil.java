@@ -90,6 +90,23 @@ public class IOUtil {
 		return true;
 	}
 
+	/**
+	 * SUPER-FAST method!!! (shit, no!)
+	 * 
+	 * @param target
+	 * @param rectangle
+	 * @return
+	 */
+	public static boolean existPicture(Target target, Rectangle rectangle) {
+		ScreenRegion screen = new DesktopScreenRegion(rectangle.getLeft(),
+				rectangle.getTop(), rectangle.getWidth(), rectangle.getHeight());
+		ScreenRegion r = screen.wait(target, 1);
+		if (r == null) {
+			return false;
+		}
+		return true;
+	}
+
 	public static boolean existPicture(String file, Rectangle rectangle) {
 		ScreenRegion screen = new DesktopScreenRegion(rectangle.getLeft(),
 				rectangle.getTop(), rectangle.getWidth(), rectangle.getHeight());
@@ -102,6 +119,20 @@ public class IOUtil {
 			return false;
 		}
 		return true;
+	}
+
+	public static boolean checkColour(Coordinates coords, Color color) {
+		ScreenRegion screen = new DesktopScreenRegion();
+		int[] rgb = new int[3];
+		screen.capture().getData().getPixel(coords.getX(), coords.getY(), rgb);
+		System.out.println(rgb[0]);
+		System.out.println(rgb[1]);
+		System.out.println(rgb[2]);
+		Color gotColor = new Color(rgb);
+		if (gotColor.equals(color)) {
+			return true;
+		}
+		return false;
 	}
 
 	public static Coordinates getCenterCoordinates(String file) {

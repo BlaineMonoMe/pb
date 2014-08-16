@@ -8,19 +8,19 @@ public class PlayerCardsReader extends CardsReader {
 
 	public PlayerCardsReader(Coordinates centerOfTheTable, Players players) {
 		super(centerOfTheTable);
-		TABLE_CARDS_WIDTH_AREA = 150;
-		TABLE_CARDS_HEIGHT_AREA = 150;
+
 		if (players.isiAmSittingOnTheTop()) {
-			TABLE_CARDS_Y_OFFSET = -210;
+
 		} else {
-			TABLE_CARDS_Y_OFFSET = 80;
+
 		}
 
 		// TODO: remove code 'dublicating'
-		cardsArea = new Rectangle(centerOfTheTable.getX()
-				- TABLE_CARDS_WIDTH_AREA / 2, centerOfTheTable.getY()
-				- TABLE_CARDS_HEIGHT_AREA / 2 + TABLE_CARDS_Y_OFFSET,
-				TABLE_CARDS_WIDTH_AREA, TABLE_CARDS_HEIGHT_AREA);
+		cardsAreas.add(new Rectangle(273, 229, 16, 30));
+		cardsAreas.add(new Rectangle(328, 229, 16, 30));
+		cardsAreas.add(new Rectangle(382, 229, 16, 30));
+		cardsAreas.add(new Rectangle(436, 229, 16, 30));
+		cardsAreas.add(new Rectangle(490, 229, 16, 30));
 	}
 
 }
