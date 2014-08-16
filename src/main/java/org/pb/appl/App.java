@@ -13,6 +13,8 @@ public class App {
 	public static void main(String[] args) {
 		System.out.println("Hello ");
 
+		//assert false : "oh, shit!";
+
 		SystemManager sm = new SystemManager();
 		sm.start();
 

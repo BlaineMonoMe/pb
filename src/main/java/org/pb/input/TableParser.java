@@ -3,11 +3,18 @@ package org.pb.input;
 /**
  * Begins to do it's job just after chips count was selected
  */
+import java.util.ArrayList;
+
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
+import org.pb.input_output_util.Rectangle;
+import org.pb.state.Card;
 import org.pb.state.Players;
 
 public class TableParser {
+
+	private final int CARDS_ON_TABLE_WIDTH = 400;
+	// private final int CARDS_ON_TABLE_HEIGHT
 
 	/**
 	 * 0 - unnown. 1 - waiting for a new game
@@ -15,7 +22,10 @@ public class TableParser {
 	private int status;
 
 	private Coordinates centerOfTheTable;
-	private Coordinates chatLastItemCoords;
+	// private Coordinates chatLastItemCoords;
+
+	private Rectangle tableCardsArea;
+	private Rectangle myCardsArea;
 
 	private Players players;
 
@@ -30,9 +40,15 @@ public class TableParser {
 		centerOfTheTable.change(194, -152);
 		centerOfTheTable.change(173, -64);
 
-		chatLastItemCoords = IOUtil
-				.getCenterCoordinates("res\\images\\CHAT.PNG");
-		chatLastItemCoords.change(0, 86);
+		/*
+		 * chatLastItemCoords = IOUtil
+		 * .getCenterCoordinates("res\\images\\CHAT.PNG");
+		 * chatLastItemCoords.change(0, 86);
+		 */
+	}
+
+	private void initTableCardsArea() {
+
 	}
 
 	/*
@@ -69,6 +85,25 @@ public class TableParser {
 
 	public void start() {
 		setMyPositionAtTheTable(players);
+		TableCardsReader tcr = new TableCardsReader(centerOfTheTable);
+		PlayerCardsReader pcr = new PlayerCardsReader(centerOfTheTable, players);
+
+		while (true) {
+			IOUtil.wait(2000);
+			ArrayList<Card> tcards = tcr.readCards();
+			ArrayList<Card> pcards = pcr.readCards();
+			System.out.print("cards on the table: ");
+			for (int j = 0; j < tcards.size(); j++) {
+				System.out.print("  " + tcards.get(j));
+			}
+			System.out.println();
+			System.out.print("cards on hands: ");
+			for (int j = 0; j < pcards.size(); j++) {
+				System.out.print("  " + pcards.get(j));
+			}
+			System.out.println();
+		}
+
 	}
 
 }

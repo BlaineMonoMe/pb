@@ -90,6 +90,20 @@ public class IOUtil {
 		return true;
 	}
 
+	public static boolean existPicture(String file, Rectangle rectangle) {
+		ScreenRegion screen = new DesktopScreenRegion(rectangle.getLeft(),
+				rectangle.getTop(), rectangle.getWidth(), rectangle.getHeight());
+		File image = new File(file);
+		Target target = new ImageTarget(image);
+		target.setMinScore(0.99);
+		ScreenRegion r = screen.wait(target, 1);
+		// System.out.println("min score: " + target.getMinScore());
+		if (r == null) {
+			return false;
+		}
+		return true;
+	}
+
 	public static Coordinates getCenterCoordinates(String file) {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
