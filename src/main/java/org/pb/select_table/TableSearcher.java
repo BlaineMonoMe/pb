@@ -90,7 +90,7 @@ public final class TableSearcher {
 		windowCoords.changeY(32);
 		System.out.println(windowCoords);
 	}
-
+    //
 	private void selectTable() {
 		while (true) {
             synchronized (this) {
