@@ -125,9 +125,9 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		int[] rgb = new int[3];
 		screen.capture().getData().getPixel(coords.getX(), coords.getY(), rgb);
-		System.out.println(rgb[0]);
-		System.out.println(rgb[1]);
-		System.out.println(rgb[2]);
+		// System.out.println(rgb[0]);
+		// System.out.println(rgb[1]);
+		// System.out.println(rgb[2]);
 		Color gotColor = new Color(rgb);
 		if (gotColor.equals(color)) {
 			return true;

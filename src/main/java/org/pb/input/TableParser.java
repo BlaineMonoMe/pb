@@ -3,12 +3,10 @@ package org.pb.input;
 /**
  * Begins to do it's job just after chips count was selected
  */
-import java.util.ArrayList;
-
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 import org.pb.input_output_util.Rectangle;
-import org.pb.state.Card;
+import org.pb.state.CardsOnTableState;
 import org.pb.state.Players;
 import org.pb.system_data.CardTargetManager;
 
@@ -24,6 +22,8 @@ public class TableParser {
 
 	private Coordinates centerOfTheTable;
 	private CardTargetManager cardTargetManager;
+	private CardsOnTableState cardsOnTableState;
+	private CardsOnTableListener cardsOnTableListener;
 	// private Coordinates chatLastItemCoords;
 
 	private Rectangle tableCardsArea;
@@ -36,6 +36,10 @@ public class TableParser {
 		status = 0;
 		this.players = players;
 		this.cardTargetManager = cardTargetManager;
+		cardsOnTableState = new CardsOnTableState();
+		cardsOnTableListener = new CardsOnTableListener(cardsOnTableState,
+				centerOfTheTable);
+		// cardsOnTableState = CardsOnTableState.EMPTY;
 		System.out.println("center of the table: " + centerOfTheTable);
 	}
 
@@ -89,26 +93,7 @@ public class TableParser {
 
 	public void start() {
 		setMyPositionAtTheTable(players);
-		TableCardsReader tcr = new TableCardsReader(centerOfTheTable);
-		// PlayerCardsReader pcr = new PlayerCardsReader(centerOfTheTable,
-		// players);
-
-		while (true) {
-			// IOUtil.wait(2000);
-			System.out.println("begin searching cards...");
-			ArrayList<Card> tcards = tcr.readCards(cardTargetManager);
-			// ArrayList<Card> pcards = pcr.readCards(cardTargetManager);
-			System.out.print("cards on the table: ");
-			for (int j = 0; j < tcards.size(); j++) {
-				System.out.print("  " + tcards.get(j));
-			}
-			System.out.println();
-			/*
-			 * System.out.print("cards on hands: "); for (int j = 0; j <
-			 * pcards.size(); j++) { System.out.print("  " + pcards.get(j)); }
-			 * System.out.println();
-			 */
-		}
+		cardsOnTableListener.start();
 
 	}
 
