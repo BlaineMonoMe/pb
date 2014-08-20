@@ -94,6 +94,18 @@ public class TableParser {
 	public void start() {
 		setMyPositionAtTheTable(players);
 		cardsOnTableListener.start();
+		while (true) {
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (cardsOnTableState.isChanged()) {
+				System.out.println("--->" + cardsOnTableState.getState());
+				cardsOnTableState.setChanged(false);
+			}
+		}
 
 	}
 
