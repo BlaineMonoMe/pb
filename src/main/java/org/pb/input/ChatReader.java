@@ -30,39 +30,28 @@ public class ChatReader {
 	 * @return
 	 */
 	public ArrayList<String> readLastDillerMessages() {
-		int currentItemNumber = 0;
-		String currentItemValue;
-		ArrayList<String> messageList = new ArrayList<String>();
-
-		for (int i = 0; i < ITEM_COUNT; i++) {
-			currentItemValue = readItem(currentItemNumber);
-
-			if (currentItemValue.trim().length() == 0) {
-				currentItemNumber++;
-				continue;
-			} else {
-				if (MessageParser.beginsWithSpace(currentItemValue)
-						&& currentItemNumber != 3) {
-					String additionalItemValue = readItem(currentItemNumber + 1);
-					if (MessageParser.isDealerMessage(additionalItemValue)) {
-						messageList.add(additionalItemValue.trim() + " "
-								+ currentItemValue.trim());
-					}
-					currentItemNumber += 2;
-					continue;
-				}
-				if (MessageParser.isDealerMessage(currentItemValue)) {
-					messageList.add(currentItemValue.trim());
-					currentItemNumber++;
-				}
-			}
-		}
-		/*for (int i = 0; i < messageList.size(); i++) {
-			System.out.println(messageList.get(i));
-		}*/
-		return messageList;
+		/*
+		 * int currentItemNumber = 0; String currentItemValue; ArrayList<String>
+		 * messageList = new ArrayList<String>();
+		 * 
+		 * for (int i = 0; i < ITEM_COUNT; i++) { currentItemValue =
+		 * readItem(currentItemNumber);
+		 * 
+		 * if (currentItemValue.trim().length() == 0) { currentItemNumber++;
+		 * continue; } else { if
+		 * (MessageParser.beginsWithSpace(currentItemValue) && currentItemNumber
+		 * != 3) { String additionalItemValue = readItem(currentItemNumber + 1);
+		 * if (MessageParser.isDealerMessage(additionalItemValue)) {
+		 * messageList.add(additionalItemValue.trim() + " " +
+		 * currentItemValue.trim()); } currentItemNumber += 2; continue; } if
+		 * (MessageParser.isDealerMessage(currentItemValue)) {
+		 * messageList.add(currentItemValue.trim()); currentItemNumber++; } } }
+		 * /*for (int i = 0; i < messageList.size(); i++) {
+		 * System.out.println(messageList.get(i)); }
+		 */
+		return null;
 	}
-	
+
 	public String readLastDillerMessage() {
 		int currentItem = 0;
 		String gotItem = null;
@@ -71,19 +60,15 @@ public class ChatReader {
 			gotItem = readItem(currentItem);
 
 			// if Robot pressed at empty line
-			if (gotItem.trim().length() == 0) {
-				currentItem++;
-			} else {
-				// if message contains of two items
-				if (MessageParser.beginsWithSpace(gotItem)) {
-					addtitionalItem = readItem(currentItem + 1);
-					return (addtitionalItem.trim() + " " + gotItem.trim());
-				} else {
-					if (MessageParser.isDealerMessage(gotItem)) {
-						return gotItem.trim();
-					}
-				}
-			}
+			/*
+			 * if (gotItem.trim().length() == 0) { currentItem++; } else { // if
+			 * message contains of two items if
+			 * (MessageParser.beginsWithSpace(gotItem)) { addtitionalItem =
+			 * readItem(currentItem + 1); return (addtitionalItem.trim() + " " +
+			 * gotItem.trim()); } else { if
+			 * (MessageParser.isDealerMessage(gotItem)) { return gotItem.trim();
+			 * } } }
+			 */
 		}
 		return null;
 	}
