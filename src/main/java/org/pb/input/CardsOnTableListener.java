@@ -3,16 +3,16 @@ package org.pb.input;
 import java.awt.image.BufferedImage;
 
 import org.pb.input_output_util.Coordinates;
-import org.pb.state.CardsOnTableState;
+import org.pb.state.CardsState;
 
 public class CardsOnTableListener extends Thread {
 
-	private CardsOnTableState cardsOnTableState;
+	private CardsState cardsOnTableState;
 	private BufferedImage image;
 	private Coordinates centerOfTheTable;
 	private ScreenShootMaker screenShootMaker;
 
-	public CardsOnTableListener(CardsOnTableState сardsOnTableState,
+	public CardsOnTableListener(CardsState сardsOnTableState,
 			Coordinates coords, ScreenShootMaker screenShootMaker) {
 		this.setDaemon(true);
 		this.screenShootMaker = screenShootMaker;
@@ -36,7 +36,7 @@ public class CardsOnTableListener extends Thread {
 		if (checkRiver(image) == true) {
 			if (cardsOnTableState.getState() != 3) {
 				cardsOnTableState.setChanged(true);
-				System.out.println("river is coming!");
+				//System.out.println("river is coming!");
 			}
 			cardsOnTableState.setState(3);
 			return true;
@@ -44,7 +44,7 @@ public class CardsOnTableListener extends Thread {
 		if (checkTorn(image) == true) {
 			if (cardsOnTableState.getState() != 2) {
 				cardsOnTableState.setChanged(true);
-				System.out.println("torn is coming!");
+				//System.out.println("torn is coming!");
 			}
 			cardsOnTableState.setState(2);
 			return true;
@@ -52,14 +52,14 @@ public class CardsOnTableListener extends Thread {
 		if (checkFlop(image) == true) {
 			if (cardsOnTableState.getState() != 1) {
 				cardsOnTableState.setChanged(true);
-				System.out.println("flop is coming!");
+				//System.out.println("flop is coming!");
 			}
 			cardsOnTableState.setState(1);
 			return true;
 		}
 		if (cardsOnTableState.getState() != 0) {
 			cardsOnTableState.setChanged(true);
-			System.out.println("table becomes empty!");
+			//System.out.println("table becomes empty!");
 		}
 		cardsOnTableState.setState(0);
 		return true;

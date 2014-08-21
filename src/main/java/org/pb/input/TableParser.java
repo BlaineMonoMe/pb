@@ -6,7 +6,7 @@ package org.pb.input;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 import org.pb.input_output_util.Rectangle;
-import org.pb.state.CardsOnTableState;
+import org.pb.state.CardsState;
 import org.pb.state.Players;
 import org.pb.system_data.CardTargetManager;
 
@@ -22,8 +22,10 @@ public class TableParser {
 
 	private Coordinates centerOfTheTable;
 	private CardTargetManager cardTargetManager;
-	private CardsOnTableState cardsOnTableState;
+	private CardsState cardsOnTableState;
+	private CardsState cardsOnHandsState;
 	private CardsOnTableListener cardsOnTableListener;
+	private CardsOnHandsListener cardsOnHandsListener;
 	private ScreenShootMaker screenShootMaker;
 	// private Coordinates chatLastItemCoords;
 
@@ -38,9 +40,12 @@ public class TableParser {
 		this.players = players;
 		this.cardTargetManager = cardTargetManager;
 		screenShootMaker = new ScreenShootMaker();
-		cardsOnTableState = new CardsOnTableState();
+		cardsOnTableState = new CardsState();
+		cardsOnHandsState = new CardsState();
 		cardsOnTableListener = new CardsOnTableListener(cardsOnTableState,
 				centerOfTheTable, screenShootMaker);
+		cardsOnHandsListener = new CardsOnHandsListener(cardsOnHandsState,
+				centerOfTheTable, screenShootMaker, players);
 
 		// cardsOnTableState = CardsOnTableState.EMPTY;
 		System.out.println("center of the table: " + centerOfTheTable);
@@ -104,6 +109,7 @@ public class TableParser {
 		}
 
 		cardsOnTableListener.start();
+		cardsOnHandsListener.start();
 		while (true) {
 			try {
 				Thread.sleep(200);
@@ -112,8 +118,14 @@ public class TableParser {
 				e.printStackTrace();
 			}
 			if (cardsOnTableState.isChanged()) {
-				System.out.println("--->" + cardsOnTableState.getState());
+				System.out.println("MAIN table cards: "
+						+ cardsOnTableState.getState());
 				cardsOnTableState.setChanged(false);
+			}
+			if (cardsOnHandsState.isChanged()) {
+				System.out.println("MAIN hand cards: "
+						+ cardsOnHandsState.getState());
+				cardsOnHandsState.setChanged(false);
 			}
 		}
 
