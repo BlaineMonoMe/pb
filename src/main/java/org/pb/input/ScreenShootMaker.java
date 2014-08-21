@@ -27,14 +27,16 @@ public class ScreenShootMaker extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			synchronized (screen) {
+			synchronized (this) {
 				screen = robot.createScreenCapture(rectangle);
 			}
 		}
 	}
 
-	public synchronized BufferedImage getScreenShot() {
-		return screen;
+	public BufferedImage getScreenShot() {
+		synchronized (this) {
+			return screen;
+		}
 	}
 
 }
