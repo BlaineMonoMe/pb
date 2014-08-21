@@ -24,6 +24,7 @@ public class TableParser {
 	private CardTargetManager cardTargetManager;
 	private CardsOnTableState cardsOnTableState;
 	private CardsOnTableListener cardsOnTableListener;
+	private ScreenShootMaker screenShootMaker;
 	// private Coordinates chatLastItemCoords;
 
 	private Rectangle tableCardsArea;
@@ -36,9 +37,11 @@ public class TableParser {
 		status = 0;
 		this.players = players;
 		this.cardTargetManager = cardTargetManager;
+		screenShootMaker = new ScreenShootMaker();
 		cardsOnTableState = new CardsOnTableState();
 		cardsOnTableListener = new CardsOnTableListener(cardsOnTableState,
-				centerOfTheTable);
+				centerOfTheTable, screenShootMaker);
+
 		// cardsOnTableState = CardsOnTableState.EMPTY;
 		System.out.println("center of the table: " + centerOfTheTable);
 	}
@@ -93,6 +96,13 @@ public class TableParser {
 
 	public void start() {
 		setMyPositionAtTheTable(players);
+		screenShootMaker.start();
+		try {
+			Thread.sleep(250);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
 		cardsOnTableListener.start();
 		while (true) {
 			try {

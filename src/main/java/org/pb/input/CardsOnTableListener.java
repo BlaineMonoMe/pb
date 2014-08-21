@@ -1,8 +1,5 @@
 package org.pb.input;
 
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
 import org.pb.input_output_util.Coordinates;
@@ -11,23 +8,16 @@ import org.pb.state.CardsOnTableState;
 public class CardsOnTableListener extends Thread {
 
 	private CardsOnTableState cardsOnTableState;
-	private Robot robot;
 	private BufferedImage image;
-	private Rectangle rectangle;
 	private Coordinates centerOfTheTable;
+	private ScreenShootMaker screenShootMaker;
 
 	public CardsOnTableListener(CardsOnTableState сardsOnTableState,
-			Coordinates coords) {
+			Coordinates coords, ScreenShootMaker screenShootMaker) {
 		this.setDaemon(true);
+		this.screenShootMaker = screenShootMaker;
 		this.cardsOnTableState = сardsOnTableState;
-		this.rectangle = new Rectangle(0, 0, 1000, 800);
 		this.centerOfTheTable = new Coordinates(coords);
-		try {
-			this.robot = new Robot();
-		} catch (AWTException e) {
-			e.printStackTrace();
-		}
-		// this.start();
 	}
 
 	public void run() {
@@ -42,7 +32,7 @@ public class CardsOnTableListener extends Thread {
 	}
 
 	private boolean analyze() {
-		image = robot.createScreenCapture(rectangle);
+		image = screenShootMaker.getScreenShot();
 		if (checkRiver(image) == true) {
 			if (cardsOnTableState.getState() != 3) {
 				cardsOnTableState.setChanged(true);
