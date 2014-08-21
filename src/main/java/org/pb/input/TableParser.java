@@ -6,6 +6,7 @@ package org.pb.input;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 import org.pb.input_output_util.Rectangle;
+import org.pb.state.Cards;
 import org.pb.state.CardsState;
 import org.pb.state.Players;
 import org.pb.system_data.CardTargetManager;
@@ -27,6 +28,10 @@ public class TableParser {
 	private CardsOnTableListener cardsOnTableListener;
 	private CardsOnHandsListener cardsOnHandsListener;
 	private ScreenShootMaker screenShootMaker;
+	private TableCardsReader tableCardsReader;
+	private HandsCardsReader handsCardsReader;
+	private Cards cardsOnTable;
+	private Cards cardsOnHands;
 	// private Coordinates chatLastItemCoords;
 
 	private Rectangle tableCardsArea;
@@ -39,15 +44,25 @@ public class TableParser {
 		status = 0;
 		this.players = players;
 		this.cardTargetManager = cardTargetManager;
+
 		screenShootMaker = new ScreenShootMaker();
+
 		cardsOnTableState = new CardsState();
 		cardsOnHandsState = new CardsState();
+
+		cardsOnTable = new Cards(5);
+		cardsOnHands = new Cards(2);
+
 		cardsOnTableListener = new CardsOnTableListener(cardsOnTableState,
 				centerOfTheTable, screenShootMaker);
 		cardsOnHandsListener = new CardsOnHandsListener(cardsOnHandsState,
 				centerOfTheTable, screenShootMaker, players);
 
-		// cardsOnTableState = CardsOnTableState.EMPTY;
+		tableCardsReader = new TableCardsReader(centerOfTheTable, cardsOnTable,
+				cardsOnTableState, screenShootMaker);
+		handsCardsReader = new HandsCardsReader(centerOfTheTable, cardsOnHands,
+				cardsOnHandsState, screenShootMaker, players);
+
 		System.out.println("center of the table: " + centerOfTheTable);
 	}
 
@@ -63,30 +78,6 @@ public class TableParser {
 		 */
 	}
 
-	private void initTableCardsArea() {
-
-	}
-
-	/*
-	 * private void saveLastDillerMessage() { String msg =
-	 * chatReader.readLastDillerMessage(); if (msg != null) { if
-	 * (!chatMessages.get(chatMessages.size() - 1).equals(msg)) {
-	 * chatMessages.add(msg); } } }
-	 */
-
-	/*
-	 * private void saveLastDillerMessages() { ArrayList<String> chatList =
-	 * chatReader.readLastDillerMessages(); ArrayList<String> reversedList = new
-	 * ArrayList<String>(); for (int i = 0; i < chatList.size(); i++) {
-	 * reversedList.add(chatList.get(chatList.size() - i - 1)); }
-	 * 
-	 * outer: for (int i = reversedList.size(); i > 0; i--) { for (int j = 0; j
-	 * < i; j++) { if (!chatMessages.get(chatMessages.size() - 1 - j).equals(
-	 * reversedList.get(reversedList.size() - 1 - j))) { continue outer; } } for
-	 * (int k = i; k < reversedList.size(); k++) {
-	 * chatMessages.add(reversedList.get(k)); } } }
-	 */
-
 	private void setMyPositionAtTheTable(Players players) {
 		Coordinates myCoords = IOUtil
 				.getCenterCoordinates("res\\images\\MY_NAME.PNG");
@@ -96,7 +87,8 @@ public class TableParser {
 			players.setiAmSittingOnTheTop(true);
 		}
 
-		System.out.println(players.isiAmSittingOnTheTop());
+		System.out.println("I am sitting at the top: "
+				+ players.isiAmSittingOnTheTop());
 	}
 
 	public void start() {
@@ -110,6 +102,8 @@ public class TableParser {
 
 		cardsOnTableListener.start();
 		cardsOnHandsListener.start();
+		tableCardsReader.start();
+		handsCardsReader.start();
 		while (true) {
 			try {
 				Thread.sleep(200);

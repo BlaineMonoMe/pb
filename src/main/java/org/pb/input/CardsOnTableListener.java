@@ -33,35 +33,40 @@ public class CardsOnTableListener extends Thread {
 
 	private boolean analyze() {
 		image = screenShootMaker.getScreenShot();
+		boolean change = false;
 		if (checkRiver(image) == true) {
 			if (cardsOnTableState.getState() != 3) {
-				cardsOnTableState.setChanged(true);
-				//System.out.println("river is coming!");
+				change = true;
+				// System.out.println("river is coming!");
 			}
 			cardsOnTableState.setState(3);
+			cardsOnTableState.setChanged(change);
 			return true;
 		}
 		if (checkTorn(image) == true) {
 			if (cardsOnTableState.getState() != 2) {
-				cardsOnTableState.setChanged(true);
-				//System.out.println("torn is coming!");
+				change = true;
+				// System.out.println("torn is coming!");
 			}
 			cardsOnTableState.setState(2);
+			cardsOnTableState.setChanged(change);
 			return true;
 		}
 		if (checkFlop(image) == true) {
 			if (cardsOnTableState.getState() != 1) {
-				cardsOnTableState.setChanged(true);
-				//System.out.println("flop is coming!");
+				change = true;
+				// System.out.println("flop is coming!");
 			}
 			cardsOnTableState.setState(1);
+			cardsOnTableState.setChanged(change);
 			return true;
 		}
 		if (cardsOnTableState.getState() != 0) {
-			cardsOnTableState.setChanged(true);
-			//System.out.println("table becomes empty!");
+			change = true;
+			// System.out.println("table becomes empty!");
 		}
 		cardsOnTableState.setState(0);
+		cardsOnTableState.setChanged(change);
 		return true;
 	}
 

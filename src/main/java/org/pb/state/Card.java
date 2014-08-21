@@ -6,6 +6,11 @@ public class Card {
 	// from 2 to Ace
 	private int level;
 
+	public Card(Card card) {
+		this.lear = card.getLear();
+		this.level = card.getLevel();
+	}
+
 	public Card(char lear, int level) {
 		this.lear = lear;
 		this.level = level;

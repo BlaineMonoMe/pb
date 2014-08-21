@@ -2,7 +2,8 @@ package org.pb.state;
 
 public class CardsState {
 	/**
-	 * 0 - empty table, 1 - flop, 2 - tern, 3 - river
+	 * 0 - empty table, 1 - flop, 2 - tern, 3 - river; 0 - hands without cards,
+	 * 0 - hands with cards
 	 */
 	private int state;
 	private boolean changed;
