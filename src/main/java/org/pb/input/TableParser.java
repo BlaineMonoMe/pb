@@ -60,8 +60,10 @@ public class TableParser {
 
 		tableCardsReader = new TableCardsReader(centerOfTheTable, cardsOnTable,
 				cardsOnTableState, screenShootMaker);
+		tableCardsReader.setName("Table cards reader thread");
 		handsCardsReader = new HandsCardsReader(centerOfTheTable, cardsOnHands,
 				cardsOnHandsState, screenShootMaker, players);
+		handsCardsReader.setName("Hands cards reader thread");
 
 		System.out.println("center of the table: " + centerOfTheTable);
 	}

@@ -4,9 +4,12 @@ import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import org.sikuli.api.DesktopScreenRegion;
-import org.sikuli.api.ScreenRegion;
+import javax.imageio.ImageIO;
+
+import org.pb.input.CardLevelReader;
 
 /**
  * Hello world!
@@ -25,6 +28,8 @@ public class App {
 		 */
 
 		// IOUtil.checkColour(new Coordinates(0, 0), new Color(0, 0, 0));
+
+		
 
 		Robot r = null;
 		Rectangle rr = new Rectangle(0, 0, 1400, 800);

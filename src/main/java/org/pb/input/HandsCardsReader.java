@@ -14,6 +14,7 @@ public class HandsCardsReader extends Thread {
 	private CardsState cardsOnHandsState;
 	private ScreenShootMaker screenShootMaker;
 	private boolean iAdSittingAtTheTop;
+	private CardLevelReader cardsLevelReader;
 
 	public HandsCardsReader(Coordinates centerOfTable, Cards cardsOnHands,
 			CardsState cardsOnHandsState, ScreenShootMaker screenShootMaker,
@@ -24,6 +25,7 @@ public class HandsCardsReader extends Thread {
 		this.cardsOnHandsState = cardsOnHandsState;
 		this.screenShootMaker = screenShootMaker;
 		this.iAdSittingAtTheTop = players.isiAmSittingOnTheTop();
+		this.cardsLevelReader = new CardLevelReader();
 	}
 
 	public void run() {
@@ -48,16 +50,23 @@ public class HandsCardsReader extends Thread {
 	private void read() {
 		BufferedImage image = screenShootMaker.getScreenShot();
 		char lear = 'n';
+		char level = 'x';
 
 		if (!iAdSittingAtTheTop) {
 			// reading first card
 			lear = getLear(image, centerOfTable.getX() - 47,
 					centerOfTable.getY() + 127);
-			cardsOnHands.addCard(new Card(lear, 2));
+			level = cardsLevelReader.getLevel(image.getSubimage(
+					centerOfTable.getX() - 52, centerOfTable.getY() + 103, 15,
+					15));
+			cardsOnHands.addCard(new Card(lear, level));
 			// reading second card
 			lear = getLear(image, centerOfTable.getX() + 1,
 					centerOfTable.getY() + 127);
-			cardsOnHands.addCard(new Card(lear, 2));
+			level = cardsLevelReader.getLevel(image.getSubimage(
+					centerOfTable.getX() - 4, centerOfTable.getY() + 103, 15,
+					15));
+			cardsOnHands.addCard(new Card(lear, level));
 		}
 	}
 

@@ -12,15 +12,16 @@ public class TableCardsReader extends Thread {
 	private Cards cardsOnTable;
 	private CardsState cardsOnTableState;
 	private ScreenShootMaker screenShootMaker;
+	private CardLevelReader cardLevelReader;
 
-	public TableCardsReader(Coordinates centerOfTable,
-			Cards cardsOnTable, CardsState cardsOnTableState,
-			ScreenShootMaker screenShootMaker) {
+	public TableCardsReader(Coordinates centerOfTable, Cards cardsOnTable,
+			CardsState cardsOnTableState, ScreenShootMaker screenShootMaker) {
 		this.setDaemon(true);
 		this.cardsOnTable = cardsOnTable;
 		this.centerOfTable = centerOfTable;
 		this.cardsOnTableState = cardsOnTableState;
 		this.screenShootMaker = screenShootMaker;
+		cardLevelReader = new CardLevelReader();
 	}
 
 	public void run() {
@@ -30,19 +31,19 @@ public class TableCardsReader extends Thread {
 				switch (state) {
 				case 3:
 					readRiver();
-					System.out.println("TABLE: "+cardsOnTable);
+					System.out.println("TABLE: " + cardsOnTable);
 					break;
 				case 2:
 					readTorn();
-					System.out.println("TABLE: "+cardsOnTable);
+					System.out.println("TABLE: " + cardsOnTable);
 					break;
 				case 1:
 					readFlop();
-					System.out.println("TABLE: "+cardsOnTable);
+					System.out.println("TABLE: " + cardsOnTable);
 					break;
 				case 0:
 					cardsOnTable.removeCards();
-					System.out.println("TABLE: "+cardsOnTable);
+					System.out.println("TABLE: " + cardsOnTable);
 					break;
 				}
 				cardsOnTableState.setChanged(false);
@@ -53,37 +54,50 @@ public class TableCardsReader extends Thread {
 	private void readFlop() {
 		BufferedImage image = screenShootMaker.getScreenShot();
 		char lear = 'n';
+		char level = 'x';
 
 		// reading first card
 		lear = getLear(image, centerOfTable.getX() - 130,
 				centerOfTable.getY() - 18);
-		cardsOnTable.addCard(new Card(lear, 2));
+		level = cardLevelReader.getLevel(image.getSubimage(
+				centerOfTable.getX() - 135, centerOfTable.getY() - 42, 15, 15));
+		cardsOnTable.addCard(new Card(lear, level));
 
 		// reading second card
 		lear = getLear(image, centerOfTable.getX() - 76,
 				centerOfTable.getY() - 18);
-		cardsOnTable.addCard(new Card(lear, 2));
+		level = cardLevelReader.getLevel(image.getSubimage(
+				centerOfTable.getX() - 81, centerOfTable.getY() - 42, 15, 15));
+		cardsOnTable.addCard(new Card(lear, level));
 
 		// reading third card
 		lear = getLear(image, centerOfTable.getX() - 22,
 				centerOfTable.getY() - 18);
-		cardsOnTable.addCard(new Card(lear, 2));
+		level = cardLevelReader.getLevel(image.getSubimage(
+				centerOfTable.getX() - 27, centerOfTable.getY() - 42, 15, 15));
+		cardsOnTable.addCard(new Card(lear, level));
 	}
 
 	private void readTorn() {
 		BufferedImage image = screenShootMaker.getScreenShot();
 		char lear = 'n';
+		char level = 'x';
 		lear = getLear(image, centerOfTable.getX() + 32,
 				centerOfTable.getY() - 18);
-		cardsOnTable.addCard(new Card(lear, 2));
+		level = cardLevelReader.getLevel(image.getSubimage(
+				centerOfTable.getX() + 27, centerOfTable.getY() - 42, 15, 15));
+		cardsOnTable.addCard(new Card(lear, level));
 	}
 
 	private void readRiver() {
 		BufferedImage image = screenShootMaker.getScreenShot();
+		char level = 'n';
 		char lear = 'n';
 		lear = getLear(image, centerOfTable.getX() + 86,
 				centerOfTable.getY() - 18);
-		cardsOnTable.addCard(new Card(lear, 2));
+		level = cardLevelReader.getLevel(image.getSubimage(
+				centerOfTable.getX() + 81, centerOfTable.getY() - 42, 15, 15));
+		cardsOnTable.addCard(new Card(lear, level));
 	}
 
 	private char getLear(BufferedImage image, int x, int y) {
