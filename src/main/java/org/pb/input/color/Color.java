@@ -11,6 +11,12 @@ public class Color {
 		this.blue = blue;
 	}
 
+	public Color(int[] arr) {
+		this.red = arr[0];
+		this.green = arr[1];
+		this.blue = arr[2];
+	}
+
 	public Color(Color color) {
 		this.red = color.red;
 		this.blue = color.blue;
@@ -80,6 +86,13 @@ public class Color {
 
 	public void setBlue(int blue) {
 		this.blue = blue;
+	}
+
+	public boolean isGray() {
+		if (red == green && green == blue) {
+			return true;
+		}
+		return false;
 	}
 
 }

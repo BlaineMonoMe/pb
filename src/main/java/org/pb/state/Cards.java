@@ -23,7 +23,7 @@ public class Cards {
 	}
 
 	public void addCard(Card card) {
-		if (cardList.size() == 5) {
+		if (cardList.size() == maxCardsCount) {
 			removeCards();
 		}
 		cardList.add(new Card(card));
