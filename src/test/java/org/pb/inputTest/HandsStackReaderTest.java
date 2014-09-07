@@ -12,19 +12,20 @@ import org.pb.input.handsStackReader.HandsStackReader;
 
 public class HandsStackReaderTest extends TestCase {
 
-	private HandsStackReader shr = new HandsStackReader();
-	BufferedImage fourDigitsImage;
-	BufferedImage threeDigitsImage;
+	private BufferedImage[] imgList;
+	private File folder;
+	private File[] listOfFiles;
 
-	public BufferedImage[] imgList;
-	public File folder;
-	File[] listOfFiles;
+	private HandsStackReader testObj;
 
 	public HandsStackReaderTest() {
-
-		folder = new File("res\\unit-testing");
+		testObj = new HandsStackReader();
+		// System.out.println("hello, i'm constructor");
+		folder = new File("res\\unit-testing\\handsStackImgs");
 		listOfFiles = folder.listFiles();
+		// System.out.println(listOfFiles.length);
 		imgList = new BufferedImage[listOfFiles.length];
+		// System.out.println("hello, i'm constructor");
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 			try {
@@ -33,71 +34,34 @@ public class HandsStackReaderTest extends TestCase {
 				e.printStackTrace();
 			}
 		}
-
-		/*
-		 * try { fourDigitsImage = ImageIO.read(new File(
-		 * "res\\unit-testing\\fourDigits.PNG")); threeDigitsImage =
-		 * ImageIO.read(new File( "res\\unit-testing\\threeDigits.PNG")); }
-		 * catch (IOException e) { e.printStackTrace(); }
-		 */
+		// System.out.println("bue, i'm constructor");
 	}
 
-	public void testGetHandsStack() {
+	public void testGetHandsStackSizeBufferedImageBoolean() {
+		System.out.println("begin testing");
 
-		int digitsCount = 0;
-		for (int i = 0; i < imgList.length; i++) {
-			digitsCount = shr.getHandsStack(imgList[i], false);
-			String digits = listOfFiles[i].toString().substring(17, 18);
-			int expected = Integer.parseInt(digits);
-			System.out.println("i=" + listOfFiles[i].toString() + " -> "
-					+ digitsCount);
-			assertTrue(digitsCount == expected);
+		for (int i = 0; i < listOfFiles.length; i++) {
+
+			boolean up = false;
+			if (listOfFiles[i].toString().lastIndexOf("u") > 33) {
+				up = true;
+			}
+
+			int expected = Integer.parseInt(listOfFiles[i].toString()
+					.split("_")[1]);
+			if (expected < 10) {
+				expected = 5;
+			}
+
+			int result = testObj.getHandsStackSize(imgList[i], up);
+			System.out.println("testing " + listOfFiles[i].toString());
+			System.out.println("result = " + result);
+			System.out.println();
+
+			assertTrue(expected == result);
+
 		}
-
-		/*
-		 * digitsCount = shr.getHandsStack(fourDigitsImage, false);
-		 * System.out.println("fout digits size: " + digitsCount);
-		 * assertTrue(digitsCount == 4);
-		 * 
-		 * digitsCount = shr.getHandsStack(threeDigitsImage, false);
-		 * System.out.println("three digits size: " + digitsCount);
-		 * assertTrue(digitsCount == 3);
-		 */
+		System.out.println("end testing");
 	}
-
-	/*
-	 * public void oldTestGetCommasCoordinates() {
-	 * 
-	 * ArrayList<Coordinates> coord1 = shr
-	 * .getCommasCoordinates(fourDigitsImage); assertFalse(coord1.size() != 1);
-	 * 
-	 * ArrayList<Coordinates> coord2 = shr
-	 * .getCommasCoordinates(threeDigitsImage); assertTrue(coord2.size() == 0);
-	 * 
-	 * }
-	 * 
-	 * public void oldTestGetLeftXCoord() { int leftX =
-	 * shr.getLeftXCoord(fourDigitsImage); System.out.println("l f: " + leftX);
-	 * assertTrue(35 < leftX && leftX < 41);
-	 * 
-	 * leftX = shr.getLeftXCoord(threeDigitsImage); System.out.println("l t: " +
-	 * leftX); assertTrue(41 < leftX && leftX < 46); }
-	 * 
-	 * public void oldTestGetRightXCoord() { int rightX =
-	 * shr.getRightXCoord(fourDigitsImage); System.out.println("r f: " +
-	 * rightX); assertTrue(72 < rightX && rightX < 76);
-	 * 
-	 * rightX = shr.getRightXCoord(threeDigitsImage); System.out.println("r t: "
-	 * + rightX); assertTrue(64 < rightX && rightX < 70); }
-	 * 
-	 * public void oldTestGetHandsStack() { int digitsCount =
-	 * shr.getHandsStack(fourDigitsImage, false);
-	 * System.out.println("fout digits size: " + digitsCount);
-	 * assertTrue(digitsCount == 4);
-	 * 
-	 * digitsCount = shr.getHandsStack(threeDigitsImage, false);
-	 * System.out.println("three digits size: " + digitsCount);
-	 * assertTrue(digitsCount == 3); }
-	 */
 
 }

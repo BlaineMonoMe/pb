@@ -62,7 +62,7 @@ public class HandsStackDigitReader {
 		TwoIntegers twoInts = new TwoIntegers(red1, red2);
 
 		if (colorDigitlMap.get(twoInts) == null) {
-			System.out.println("shit!");
+			System.out.println("shit! " + red1 + " - " + red2);
 		}
 
 		return colorDigitlMap.get(twoInts);

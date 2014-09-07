@@ -3,131 +3,166 @@ package org.pb.input.handsStackReader;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import org.pb.input.color.Color;
 import org.pb.input_output_util.Coordinates;
+import org.pb.util.NumberFormatter;
 
 public class HandsStackReader {
 
+	private final int downYOffset = 4;
+	private final int downXOffset = 43;
+	private final int upYOffset = 4;
+	private final int upXOffset = 38;
+
 	private final int digitsAfterCommaCount = 3;
+	private final int leftDigitXDifference = 4;
+	private final int digitWidth = 8;
+	private final int digitHeight = 11;
+	private final int digitWithSpaceWidth = 9;
+
+	private HandsStackDigitReader digitReader;
+	private HandsStackDigitsCountReader digitCountReader;
 
 	public HandsStackReader() {
+		digitReader = new HandsStackDigitReader();
+		digitCountReader = new HandsStackDigitsCountReader();
 	}
 
-	public int getHandsStack(BufferedImage stackImage,
+	public int getHandsStackSize(BufferedImage stackImage,
 			boolean isPlayerSittingAtTheTop) {
 
-		int digitsCount = 0;
+		int digitsCount = digitCountReader.getDigitsCount(stackImage);
+		ArrayList<Coordinates> commasList = digitCountReader.getCommasList();
+		int[] stackSize = new int[digitsCount];
 
-		if (isCommasPersent(stackImage)) {
-			System.out.println("comma exist");
-			ArrayList<Coordinates> commasList = getCommasCoordinates(stackImage);
-			int leftX = getLeftXCoord(stackImage);
-			int differance = commasList.get(0).getX() - leftX - 2;
-			int digitsBeforeFirstCommaCount = getDigitsCount(differance);
-			// System.out.println("diff = " + differance);
-			digitsCount = digitsBeforeFirstCommaCount + commasList.size()
-					* digitsAfterCommaCount;
-		} else {
-			System.out.println("no comma");
-			int leftX = getLeftXCoord(stackImage);
-			int rightX = getRightXCoord(stackImage);
-			int differance = rightX - leftX - 2;
-			// System.out.println("diff = " + differance);
-			digitsCount = getDigitsCount(differance);
+		int result = 0;
 
+		// if digit count is 3 or less
+		if (digitsCount <= 3) {
+			result = getHandsStackSize(stackImage, digitsCount,
+					isPlayerSittingAtTheTop);
+		}
+		// if digit count is 4 or more
+		else {
+			result = getHandsStackSize(stackImage, commasList, digitsCount);
 		}
 
-		return digitsCount;
+		return result;
 	}
 
 	/**
-	 * Only for digits without commas
+	 * for 1 - 3 digits
 	 * 
-	 * @param width
-	 *            - how many pixels 'uses' number(digits)
-	 * @return number of digits (only [1-3])
+	 * @param stackImage
+	 * @param digitsCount
+	 * @param isPlayerSittingAtTheTop
+	 * @return
 	 */
-	public int getDigitsCount(int width) {
-		if (width < 8) {
-			return 1;
+	public int getHandsStackSize(BufferedImage stackImage, int digitsCount,
+			boolean isPlayerSittingAtTheTop) {
+
+		int[] stackSize = new int[digitsCount];
+		int currXOffset = 0;
+		int currYOffset = 0;
+
+		// TODO: change this stupid if
+		if (digitsCount < 2) {
+			return 5;
 		}
-		if (width < 16) {
-			return 2;
+
+		if (isPlayerSittingAtTheTop) {
+			currXOffset = upXOffset + (digitsAfterCommaCount - digitsCount)
+					* leftDigitXDifference;
+			currYOffset = upYOffset;
+		} else {
+			currXOffset = downXOffset + (digitsAfterCommaCount - digitsCount)
+					* leftDigitXDifference;
+			currYOffset = downYOffset;
 		}
-		return 3;
+
+		for (int i = 0; i < digitsCount; i++) {
+
+			System.out.println("SUBIMAGE: x="
+					+ (currXOffset + (digitWithSpaceWidth * i)) + ", y="
+					+ currYOffset);
+
+			stackSize[i] = digitReader.getDigit(stackImage.getSubimage(
+					currXOffset + (digitWithSpaceWidth * i), currYOffset,
+					digitWidth, digitHeight));
+
+		}
+
+		return NumberFormatter.getIntFromDigits(stackSize);
 	}
 
 	/**
-	 * finds left coordinate where digits begins
+	 * for 4 and more digits
+	 * 
+	 * @param stackImage
+	 * @param commasCoordinates
+	 * @param digitsCount
+	 * @return
 	 */
-	public int getLeftXCoord(BufferedImage stackImage) {
-		int maxX = stackImage.getWidth();
-		int currY = 5;
-		int[] inputArrColor = new int[4];
+	public int getHandsStackSize(BufferedImage stackImage,
+			ArrayList<Coordinates> commasCoordinates, int digitsCount) {
+		int[] digits = new int[digitsCount];
+		int digitIndex = 0;
 
-		for (int x = 1; x < maxX - 1; x++) {
-			stackImage.getData().getPixel(x, currY, inputArrColor);
-			Color rgbColor = new Color(inputArrColor);
-			if (rgbColor.isGray() == false) {
-				return x;
+		int[] digitsBeforeComma = getNumberBeforeComma(stackImage,
+				commasCoordinates.get(0), digitsCount);
+		for (int i = 0; i < digitsBeforeComma.length; i++) {
+			digits[digitIndex] = digitsBeforeComma[i];
+			++digitIndex;
+		}
+
+		int commasCount = commasCoordinates.size();
+		for (int currComma = 0; currComma < commasCount; currComma++) {
+			int[] currCommaDigits = getNumberAfterComma(stackImage,
+					commasCoordinates.get(currComma));
+			for (int currDigit = 0; currDigit < 3; currDigit++) {
+				digits[digitIndex] = currCommaDigits[currDigit];
+				++digitIndex;
 			}
 		}
 
-		throw new NullPointerException();
+		return NumberFormatter.getIntFromDigits(digits);
 	}
 
-	/**
-	 * finds right coordinate where digits begins
-	 */
-	public int getRightXCoord(BufferedImage stackImage) {
-		int maxX = stackImage.getWidth() - 1;
-		int currY = 5;
-		int[] inputArrColor = new int[4];
+	public int[] getNumberAfterComma(BufferedImage stackImage,
+			Coordinates commaCoords) {
 
-		for (int x = maxX; x > 1; x--) {
-			stackImage.getData().getPixel(x, currY, inputArrColor);
-			Color rgbColor = new Color(inputArrColor);
-			if (rgbColor.isGray() == false) {
-				return x;
-			}
+		int[] digits = new int[3];
+		for (int i = 0; i < 3; i++) {
+			digits[i] = digitReader.getDigit(stackImage.getSubimage(
+					commaCoords.getX() + 4 + digitWithSpaceWidth * i,
+					commaCoords.getY() - 12, digitWidth, digitHeight));
 		}
-
-		throw new NullPointerException();
+		return digits;
 	}
 
-	public boolean isCommasPersent(BufferedImage stackImage) {
-		final int commaYCoord = 17;
-		final int imageWith = stackImage.getWidth();
-		int[] inputArrColor = new int[4];
+	public int[] getNumberBeforeComma(BufferedImage stackImage,
+			Coordinates commaCoords, int digitsCount) {
 
-		for (int currX = 1; currX < imageWith - 1; currX++) {
-			stackImage.getData().getPixel(currX - 1, commaYCoord - 1,
-					inputArrColor);
-			if (inputArrColor[0] == 161 && inputArrColor[1] == 208
-					&& inputArrColor[2] == 152) {
-				return true;
-			}
+		int digitsBeforeComma = getDigitsBeforeCommaCount(digitsCount);
+
+		int[] digits = new int[digitsBeforeComma];
+		int digitIndex = digitsBeforeComma - 1;
+
+		for (int i = 0; i < digitsBeforeComma; i++) {
+			digits[digitIndex] = digitReader.getDigit(stackImage.getSubimage(
+					commaCoords.getX() - 8 - digitWithSpaceWidth * i,
+					commaCoords.getY() - 12, digitWidth, digitHeight));
+			--digitIndex;
 		}
 
-		return false;
+		return digits;
 	}
 
-	public ArrayList<Coordinates> getCommasCoordinates(BufferedImage stackImage) {
-		final int commaYCoord = 17;
-		final int imageWith = stackImage.getWidth();
-		int[] inputArrColor = new int[4];
-
-		ArrayList<Coordinates> commasList = new ArrayList<Coordinates>();
-
-		for (int currX = 1; currX < imageWith - 1; currX++) {
-			stackImage.getData().getPixel(currX - 1, commaYCoord - 1,
-					inputArrColor);
-			if (inputArrColor[0] == 161 && inputArrColor[1] == 208
-					&& inputArrColor[2] == 152) {
-				commasList.add(new Coordinates(currX - 1, commaYCoord - 1));
-			}
+	public int getDigitsBeforeCommaCount(int digitsCount) {
+		int digitsBeforeComma = digitsCount % 3;
+		if (digitsBeforeComma == 0) {
+			digitsBeforeComma = 3;
 		}
-		return commasList;
+		return digitsBeforeComma;
 	}
 
 }
