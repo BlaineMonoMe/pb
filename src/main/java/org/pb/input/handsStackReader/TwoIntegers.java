@@ -3,12 +3,12 @@ package org.pb.input.handsStackReader;
 public class TwoIntegers {
 	private int value1;
 	private int value2;
-	
+
 	public TwoIntegers(int value1, int value2) {
 		this.value1 = value1;
 		this.value2 = value2;
 	}
-	
+
 	public TwoIntegers() {
 	}
 
@@ -52,12 +52,5 @@ public class TwoIntegers {
 	public void setValue2(int value2) {
 		this.value2 = value2;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

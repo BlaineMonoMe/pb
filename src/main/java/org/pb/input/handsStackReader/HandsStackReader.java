@@ -21,18 +21,24 @@ public class HandsStackReader {
 
 	private HandsStackDigitReader digitReader;
 	private HandsStackDigitsCountReader digitCountReader;
+	private AllInChecker allInChecker;
 
 	public HandsStackReader() {
 		digitReader = new HandsStackDigitReader();
 		digitCountReader = new HandsStackDigitsCountReader();
+		allInChecker = new AllInChecker();
 	}
 
 	public int getHandsStackSize(BufferedImage stackImage,
 			boolean isPlayerSittingAtTheTop) {
 
+		// checking for all-in
+		if (allInChecker.checkForAllIn(stackImage, isPlayerSittingAtTheTop)) {
+			return 0;
+		}
+
 		int digitsCount = digitCountReader.getDigitsCount(stackImage);
 		ArrayList<Coordinates> commasList = digitCountReader.getCommasList();
-		int[] stackSize = new int[digitsCount];
 
 		int result = 0;
 
@@ -81,9 +87,9 @@ public class HandsStackReader {
 
 		for (int i = 0; i < digitsCount; i++) {
 
-			System.out.println("SUBIMAGE: x="
-					+ (currXOffset + (digitWithSpaceWidth * i)) + ", y="
-					+ currYOffset);
+			// System.out.println("SUBIMAGE: x="
+			//		+ (currXOffset + (digitWithSpaceWidth * i)) + ", y="
+			//		+ currYOffset);
 
 			stackSize[i] = digitReader.getDigit(stackImage.getSubimage(
 					currXOffset + (digitWithSpaceWidth * i), currYOffset,

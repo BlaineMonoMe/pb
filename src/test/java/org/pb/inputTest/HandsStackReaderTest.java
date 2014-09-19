@@ -47,6 +47,13 @@ public class HandsStackReaderTest extends TestCase {
 				up = true;
 			}
 
+			if (listOfFiles[i].toString().contains("all-in")) {
+				System.out.println("checking " + listOfFiles[i].toString());
+				int result = testObj.getHandsStackSize(imgList[i], up);
+				assertTrue(0 == result);
+				continue;
+			}
+
 			int expected = Integer.parseInt(listOfFiles[i].toString()
 					.split("_")[1]);
 			if (expected < 10) {

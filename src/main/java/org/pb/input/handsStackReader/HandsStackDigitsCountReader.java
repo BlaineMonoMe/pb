@@ -64,7 +64,7 @@ public class HandsStackDigitsCountReader {
 		int digitsCount = 0;
 
 		if (isCommasPersent(stackImage)) {
-			System.out.println("comma exist");
+			//System.out.println("comma exist");
 			commasList = new ArrayList<Coordinates>();
 			commasList = getCommasCoordinates(stackImage);
 			int leftX = getLeftXCoord(stackImage);
@@ -79,7 +79,7 @@ public class HandsStackDigitsCountReader {
 			// System.out.println("commasList.size() = " + commasList.size());
 
 		} else {
-			System.out.println("no comma");
+			//System.out.println("no comma");
 			int leftX = getLeftXCoord(stackImage);
 			int rightX = getRightXCoord(stackImage);
 			int differance = rightX - leftX - 2;
@@ -88,7 +88,7 @@ public class HandsStackDigitsCountReader {
 
 		}
 
-		System.out.println("digits count = " + digitsCount);
+		//System.out.println("digits count = " + digitsCount);
 		return digitsCount;
 	}
 

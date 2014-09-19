@@ -11,6 +11,10 @@ public class Cards {
 		cardList = new ArrayList<Card>();
 	}
 
+	public int getCardsCount() {
+		return cardList.size();
+	}
+
 	public void removeCards() {
 		for (int i = cardList.size(); i > 0; i--) {
 			cardList.remove(i - 1);
@@ -19,7 +23,7 @@ public class Cards {
 
 	@Override
 	public String toString() {
-		return "cardList=" + cardList + "]";
+		return "cards= " + cardList;
 	}
 
 	public void addCard(Card card) {

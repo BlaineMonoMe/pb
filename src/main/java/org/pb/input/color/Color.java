@@ -95,4 +95,11 @@ public class Color {
 		return false;
 	}
 
+	public boolean isWhite() {
+		if (red == 255 && green == 255 && blue == 255) {
+			return true;
+		}
+		return false;
+	}
+
 }
