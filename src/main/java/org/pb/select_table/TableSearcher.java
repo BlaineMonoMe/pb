@@ -2,6 +2,7 @@ package org.pb.select_table;
 
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
+import org.pb.input_output_util.Randomizer;
 
 public final class TableSearcher {
 
@@ -25,8 +26,11 @@ public final class TableSearcher {
 	 */
 	private Coordinates windowCoords = null;
 
+	private Randomizer randomizer;
+
 	public TableSearcher(int status) {
 		this.status = status;
+		randomizer = new Randomizer();
 	}
 
 	public void backOnTableList() {
@@ -41,7 +45,8 @@ public final class TableSearcher {
 	 */
 	public boolean searchAndSeat() {
 
-		// EnemyPresentationReader epr = new EnemyPresentationReader(1000, this);
+		// EnemyPresentationReader epr = new EnemyPresentationReader(1000,
+		// this);
 		// epr.start();
 
 		while (status < 5) {
@@ -50,21 +55,25 @@ public final class TableSearcher {
 			switch (status) {
 			case 0:
 				activateWindow();
-                IOUtil.wait(1000);
+				IOUtil.wait(1000);
 				updateWindowCoordinates();
 				break;
 			case 1:
 				selectTable();
 				break;
 			case 3:
-				IOUtil.leftMouseClickOnComponent("res\\images\\OK_BLACK.PNG",
-						30, 4);
+				// IOUtil.leftMouseClickOnComponent("res\\images\\OK_BLACK.PNG",
+				// 30, 4);
+				IOUtil.wait(randomizer.getRand(100, 400));
+				IOUtil.enter();
 				IOUtil.wait(1000);
 				status = 4;
 				break;
 			case 4:
-				IOUtil.leftMouseClickOnComponent("res\\images\\OK_GREEN.PNG",
-						30, 4);
+				// IOUtil.leftMouseClickOnComponent("res\\images\\OK_GREEN.PNG",
+				// 30, 4);
+				IOUtil.wait(randomizer.getRand(100, 400));
+				IOUtil.enter();
 				// epr.enable();
 				IOUtil.wait(1000);
 				return true;
@@ -93,16 +102,19 @@ public final class TableSearcher {
 
 	private void selectTable() {
 		while (true) {
-            synchronized (this) {
-                IOUtil.absoluteLeftMouseDblClick(windowCoords.getX() + 50,
-                        windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
-                                + TABLE_ITEM_HEIGHT / 2);
-            }
+			synchronized (this) {
+				IOUtil.absoluteLeftMouseDblClick(windowCoords.getX()
+						+ randomizer.getRand(50, 200, 100),
+						windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
+								+ randomizer.getRand(3, TABLE_ITEM_HEIGHT - 5));
+			}
 
 			IOUtil.wait(1000);
 			if (isTableEmptyMessage()) {
-				IOUtil.leftMouseClickOnComponent(
-						"res\\images\\CANCEL_EMPTY_TABLE.PNG", 30, 10);
+				// IOUtil.leftMouseClickOnComponent(
+				// "res\\images\\CANCEL_EMPTY_TABLE.PNG", 30, 10);
+				IOUtil.wait(randomizer.getRand(0, 300));
+				IOUtil.escape();
 				currentTable++;
 				if (currentTable == TABLE_COUNT) {
 					currentTable = 0;

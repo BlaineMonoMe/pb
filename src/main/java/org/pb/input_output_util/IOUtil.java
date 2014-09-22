@@ -177,4 +177,34 @@ public class IOUtil {
 			e.printStackTrace();
 		}
 	}
+
+	public static void enter() {
+		try {
+			Robot robot = new Robot();
+			Randomizer randomizer = new Randomizer();
+
+			robot.keyPress(KeyEvent.VK_ENTER);
+			int delay = randomizer.getRand(0, 50, 25);
+			System.out.println(".......deley = " + delay);
+			robot.delay(delay);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void escape() {
+		try {
+			Robot robot = new Robot();
+			Randomizer randomizer = new Randomizer();
+
+			robot.keyPress(KeyEvent.VK_ESCAPE);
+			int delay = randomizer.getRand(0, 50, 25);
+			System.out.println(".......deley = " + delay);
+			robot.delay(delay);
+			robot.keyRelease(KeyEvent.VK_ESCAPE);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
 }

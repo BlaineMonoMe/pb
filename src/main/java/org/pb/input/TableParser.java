@@ -6,8 +6,8 @@ package org.pb.input;
 import java.awt.image.BufferedImage;
 
 import org.pb.input.diller.DillerReader;
+import org.pb.input.diller.DillerState;
 import org.pb.input.handsCardsReader.CardsOnHandsListener;
-import org.pb.input.handsCardsReader.HandsCardsReader;
 import org.pb.input.handsStackReader.RealTimeHSR;
 import org.pb.input.tableCardsReader.CardsOnTableListener;
 import org.pb.input.whooseTurn.MyTurnReader;
@@ -15,13 +15,6 @@ import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
 
 public class TableParser {
-
-	// private final int CARDS_ON_TABLE_WIDTH = 400;
-	// private final int CARDS_ON_TABLE_HEIGHT
-
-	// private CardTargetManager cardTargetManager;
-	// private CardsState cardsOnTableState;
-	// private CardsState cardsOnHandsState;
 
 	private boolean amISittingAtTheTop;
 
@@ -36,23 +29,12 @@ public class TableParser {
 	private RealTimeHSR enemyHandsStackReader;
 
 	private DillerReader dillerReader;
+
 	private MyTurnReader myTurnReader;
-
-	// private Cards cardsOnTable;
-	// private Cards cardsOnHands;
-	// private Coordinates chatLastItemCoords;
-
-	// private Rectangle tableCardsArea;
-	// private Rectangle myCardsArea;
-
-	// private Players players;
 
 	public TableParser() {
 		initCoordinates();
 		setMyPositionAtTheTable();
-		// status = 0;
-		// this.players = players;
-		// this.cardTargetManager = cardTargetManager;
 
 		screenShootMaker = new ScreenShootMaker();
 
@@ -64,12 +46,6 @@ public class TableParser {
 				amISittingAtTheTop);
 		enemyHandsStackReader = new RealTimeHSR(centerOfTheTable,
 				!amISittingAtTheTop);
-
-		// cardsOnTableState = new CardsState();
-		// cardsOnHandsState = new CardsState();
-
-		// cardsOnTable = new Cards(5);
-		// cardsOnHands = new Cards(2);
 
 		cardsOnTableListener = new CardsOnTableListener(centerOfTheTable);
 		cardsOnHandsListener = new CardsOnHandsListener(centerOfTheTable,
@@ -97,62 +73,58 @@ public class TableParser {
 	}
 
 	public void start() {
-		// setMyPositionAtTheTable();
-
-		// cardsOnTableListener.start();
-		// cardsOnHandsListener.start();
-		// tableCardsReader.start();
-		// handsCardsReader.start();
 		while (true) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
 			BufferedImage screen = screenShootMaker.makeScreenShot();
 
+			// who is diller
 			if (dillerReader.checkForUpdates(screen)) {
-				System.out.println(dillerReader.getDillerState());
+				DillerState dillerState = dillerReader.getDillerState();
+				String dillerMsg = null;
+				switch (dillerState) {
+				case ME_DILLER:
+					dillerMsg = "diller: me";
+					break;
+				case ENEMY_DILLER:
+					dillerMsg = "diller: enemy";
+					break;
+				case NOBODY_DILLER:
+					dillerMsg = "diller: nobody";
+					break;
+				}
+				System.out.println(dillerMsg);
 			}
 
+			// table cards reading
 			if (cardsOnTableListener.isUpdated(screen)) {
 				System.out.println("table: "
 						+ cardsOnTableListener.getCards(screen));
 			}
 
+			// hands cards reading
 			if (cardsOnHandsListener.isNewCards(screen)) {
-				System.out.println("NEW_GAME");
+				// System.out.println("NEW_GAME");
 				System.out.println("hands: "
 						+ cardsOnHandsListener.getCards(screen));
 			}
 
-			// depends on cardsOnTableListener, so must be after it
-			if (myHandsStackReader.isNewTurn(screen, cardsOnTableListener)) {
-				System.out.println("  My stack at new game: "
+			// my stack reading
+			if (myHandsStackReader.isUpdated(screen)) {
+				System.out.println("  my stack : "
 						+ myHandsStackReader.getStackSize());
 			}
-			if (enemyHandsStackReader.isNewTurn(screen, cardsOnTableListener)) {
-				System.out.println("  Enemy stack at new game: "
+
+			// enemy stack reading
+			if (enemyHandsStackReader.isUpdated(screen)) {
+				System.out.println("  enemy stack : "
 						+ enemyHandsStackReader.getStackSize());
 			}
 
+			// checking if it is my turn
 			if (myTurnReader.isMyNewTurn(screen)) {
-				System.out.println("   MY_NEW_TURN");
+				System.out.println("my turn");
 			}
-
-			/*
-			 * if (cardsOnTableState.isChanged()) {
-			 * System.out.println("MAIN table cards: " +
-			 * cardsOnTableState.getState());
-			 * cardsOnTableState.setChanged(false); } if
-			 * (cardsOnHandsState.isChanged()) {
-			 * System.out.println("MAIN hand cards: " +
-			 * cardsOnHandsState.getState());
-			 * cardsOnHandsState.setChanged(false); }
-			 */
 		}
 
 	}
-
 }

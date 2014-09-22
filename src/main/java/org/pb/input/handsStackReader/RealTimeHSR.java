@@ -18,15 +18,16 @@ public class RealTimeHSR {
 	private int yOffset;
 
 	private HandsStackReader handsStackReader;
-	private int currentStackSize;
 	private boolean isPlayerSittingAtTheTop;
+
+	private int currentStackSize;
+	private int stackSizeAtNewTurn;
 
 	private boolean isNewTurn = true;
 
 	public RealTimeHSR(Coordinates centerOfTheTable,
 			boolean isPlayerSittingAtTheTop) {
 		this.isPlayerSittingAtTheTop = isPlayerSittingAtTheTop;
-		currentStackSize = 0;
 		handsStackReader = new HandsStackReader();
 
 		if (isPlayerSittingAtTheTop) {
@@ -50,6 +51,7 @@ public class RealTimeHSR {
 						yOffset, IMG_WITH, IMG_HEIGHT);
 				int newStckSize = handsStackReader.getHandsStackSize(
 						stackImage, isPlayerSittingAtTheTop);
+				stackSizeAtNewTurn = newStckSize;
 				if (newStckSize != currentStackSize) {
 					currentStackSize = newStckSize;
 				}
@@ -78,6 +80,10 @@ public class RealTimeHSR {
 
 	public int getStackSize() {
 		return currentStackSize;
+	}
+
+	public int getStackSizeAtNewTurn() {
+		return stackSizeAtNewTurn;
 	}
 
 }
