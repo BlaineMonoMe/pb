@@ -4,11 +4,14 @@ import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.Rectangle;
 import org.pb.state.Players;
 
+/**
+ * UNUSEFULL CLASS
+ */
 public class PlayerCardsReader {
 
-	public PlayerCardsReader(Coordinates centerOfTheTable, Players players) {
+	public PlayerCardsReader(Coordinates centerOfTheTable) {
 
-		if (players.isiAmSittingOnTheTop()) {
+		if (true) {
 
 		} else {
 

@@ -12,6 +12,11 @@ import org.pb.select_table.TableSearcher;
  */
 public class EnemyPresentationReader extends Thread {
 
+	/**
+	 * UNUSEFULL CLASS
+	 */
+	private int UUUU;
+
 	private boolean enable;
 	private boolean isGoingToDie;
 	private int freequency;

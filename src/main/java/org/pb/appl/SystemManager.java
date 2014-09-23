@@ -15,13 +15,8 @@ public class SystemManager {
 	private TableSearcher tableSearcher;
 	private TableParser tableParser;
 
-	// private CardTargetManager cardTargetManager;
-	// private Players players;
-
 	public SystemManager() {
 		tableSearcher = new TableSearcher(0);
-		// players = new Players();
-		// cardTargetManager = new CardTargetManager();
 	}
 
 	public void start() {

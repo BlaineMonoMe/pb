@@ -13,4 +13,5 @@ public class NumberFormatter {
 		}
 		return result;
 	}
+
 }

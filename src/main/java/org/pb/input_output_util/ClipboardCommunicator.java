@@ -8,7 +8,12 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
+/**
+ * UNUSEFULL CLASS
+ */
 public class ClipboardCommunicator {
+
+	private int UUU;
 
 	public static String getClipboardText() {
 		String data = null;

@@ -24,7 +24,7 @@ public final class TableSearcher {
 	/**
 	 * Left up co0rdinates of PS window
 	 */
-	private Coordinates windowCoords = null;
+	private Coordinates windowCoords;
 
 	private Randomizer randomizer;
 
@@ -45,13 +45,8 @@ public final class TableSearcher {
 	 */
 	public boolean searchAndSeat() {
 
-		// EnemyPresentationReader epr = new EnemyPresentationReader(1000,
-		// this);
-		// epr.start();
-
 		while (status < 5) {
 
-			// epr.disable();
 			switch (status) {
 			case 0:
 				activateWindow();
@@ -62,19 +57,14 @@ public final class TableSearcher {
 				selectTable();
 				break;
 			case 3:
-				// IOUtil.leftMouseClickOnComponent("res\\images\\OK_BLACK.PNG",
-				// 30, 4);
 				IOUtil.wait(randomizer.getRand(100, 400));
 				IOUtil.enter();
 				IOUtil.wait(1000);
 				status = 4;
 				break;
 			case 4:
-				// IOUtil.leftMouseClickOnComponent("res\\images\\OK_GREEN.PNG",
-				// 30, 4);
 				IOUtil.wait(randomizer.getRand(100, 400));
 				IOUtil.enter();
-				// epr.enable();
 				IOUtil.wait(1000);
 				return true;
 			}
@@ -111,8 +101,6 @@ public final class TableSearcher {
 
 			IOUtil.wait(1000);
 			if (isTableEmptyMessage()) {
-				// IOUtil.leftMouseClickOnComponent(
-				// "res\\images\\CANCEL_EMPTY_TABLE.PNG", 30, 10);
 				IOUtil.wait(randomizer.getRand(0, 300));
 				IOUtil.escape();
 				currentTable++;

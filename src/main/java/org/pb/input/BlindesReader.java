@@ -7,6 +7,11 @@ public class BlindesReader {
 
 	private RealTimeHSR myHandsStackReader;
 
+	/**
+	 * THIS CLASS IS NOT USED
+	 */
+	private int UNUSEFUL_VAR;
+
 	public BlindesReader(RealTimeHSR myHandsStackReader) {
 		this.myHandsStackReader = myHandsStackReader;
 	}

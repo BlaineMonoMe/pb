@@ -4,6 +4,9 @@ import org.pb.input_output_util.Coordinates;
 
 public abstract class CardsReader {
 
+	/**
+	 * UNUSEFULL CLASS
+	 */
 	private Coordinates centerOfTable;
 	private ScreenShootMaker screenShootMaker;
 
@@ -12,7 +15,5 @@ public abstract class CardsReader {
 		this.centerOfTable = centerOfTable;
 		this.screenShootMaker = screenShootMaker;
 	}
-	
-	
 
 }

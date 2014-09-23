@@ -1,5 +1,9 @@
 package org.pb.state;
 
+
+/**
+ * UNUSEFULL CLASS
+ */
 public class CardsState {
 	/**
 	 * 0 - empty table, 1 - flop, 2 - tern, 3 - river; 0 - hands without cards,
@@ -12,21 +16,14 @@ public class CardsState {
 		state = 0;
 		changed = false;
 	}
-
-	public int getState() {
-		return state;
-	}
-
-	public void setState(int state) {
-		this.state = state;
-	}
-
-	public boolean isChanged() {
-		return changed;
-	}
-
-	public void setChanged(boolean changed) {
-		this.changed = changed;
-	}
+	/*
+	 * public int getState() { return state; }
+	 * 
+	 * public void setState(int state) { this.state = state; }
+	 * 
+	 * public boolean isChanged() { return changed; }
+	 * 
+	 * public void setChanged(boolean changed) { this.changed = changed; }
+	 */
 
 }
