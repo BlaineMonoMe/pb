@@ -2,8 +2,8 @@ package org.pb.input.handsCardsReader;
 
 import java.awt.image.BufferedImage;
 
+import org.pb.input.state.Cards;
 import org.pb.input_output_util.Coordinates;
-import org.pb.state.Cards;
 
 /**
  * WAS A THREAD - BECOMES NOT THREAD***********
