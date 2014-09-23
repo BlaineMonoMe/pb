@@ -2,7 +2,6 @@ package org.pb.appl;
 
 import org.pb.input.TableParser;
 import org.pb.select_table.TableSearcher;
-import org.pb.state.Players;
 
 /**
  * 
