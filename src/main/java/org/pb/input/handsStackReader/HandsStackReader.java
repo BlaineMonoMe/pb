@@ -63,7 +63,7 @@ public class HandsStackReader {
 	 * @param isPlayerSittingAtTheTop
 	 * @return
 	 */
-	public int getHandsStackSize(BufferedImage stackImage, int digitsCount,
+	private int getHandsStackSize(BufferedImage stackImage, int digitsCount,
 			boolean isPlayerSittingAtTheTop) {
 
 		int[] stackSize = new int[digitsCount];
@@ -88,8 +88,8 @@ public class HandsStackReader {
 		for (int i = 0; i < digitsCount; i++) {
 
 			// System.out.println("SUBIMAGE: x="
-			//		+ (currXOffset + (digitWithSpaceWidth * i)) + ", y="
-			//		+ currYOffset);
+			// + (currXOffset + (digitWithSpaceWidth * i)) + ", y="
+			// + currYOffset);
 
 			stackSize[i] = digitReader.getDigit(stackImage.getSubimage(
 					currXOffset + (digitWithSpaceWidth * i), currYOffset,
@@ -108,7 +108,7 @@ public class HandsStackReader {
 	 * @param digitsCount
 	 * @return
 	 */
-	public int getHandsStackSize(BufferedImage stackImage,
+	private int getHandsStackSize(BufferedImage stackImage,
 			ArrayList<Coordinates> commasCoordinates, int digitsCount) {
 		int[] digits = new int[digitsCount];
 		int digitIndex = 0;
@@ -133,7 +133,7 @@ public class HandsStackReader {
 		return NumberFormatter.getIntFromDigits(digits);
 	}
 
-	public int[] getNumberAfterComma(BufferedImage stackImage,
+	private int[] getNumberAfterComma(BufferedImage stackImage,
 			Coordinates commaCoords) {
 
 		int[] digits = new int[3];
@@ -145,7 +145,7 @@ public class HandsStackReader {
 		return digits;
 	}
 
-	public int[] getNumberBeforeComma(BufferedImage stackImage,
+	private int[] getNumberBeforeComma(BufferedImage stackImage,
 			Coordinates commaCoords, int digitsCount) {
 
 		int digitsBeforeComma = getDigitsBeforeCommaCount(digitsCount);
@@ -163,7 +163,7 @@ public class HandsStackReader {
 		return digits;
 	}
 
-	public int getDigitsBeforeCommaCount(int digitsCount) {
+	private int getDigitsBeforeCommaCount(int digitsCount) {
 		int digitsBeforeComma = digitsCount % 3;
 		if (digitsBeforeComma == 0) {
 			digitsBeforeComma = 3;
