@@ -13,16 +13,7 @@ public class App {
 	public static void main(String[] args) {
 		System.out.println("Hello ");
 
-		// assert false : "oh, shit!";
-
-		// CardTargetManager ctm = new CardTargetManager();
-		/*
-		 * ArrayList<CardTarget> ct = ctm.getCardTargets(); for (int i = 0; i <
-		 * ct.size(); i++) { System.out.println(ct.get(i).getCard()); }
-		 */
-
-		// IOUtil.checkColour(new Coordinates(0, 0), new Color(0, 0, 0));
-
+		
 		Robot r = null;
 		Rectangle rr = new Rectangle(0, 0, 1400, 800);
 
