@@ -93,10 +93,12 @@ public final class TableSearcher {
 	private void selectTable() {
 		while (true) {
 			synchronized (this) {
+
 				IOUtil.absoluteLeftMouseDblClick(windowCoords.getX()
 						+ randomizer.getRand(50, 200, 100),
 						windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
 								+ randomizer.getRand(3, TABLE_ITEM_HEIGHT - 5));
+
 			}
 
 			IOUtil.wait(1000);

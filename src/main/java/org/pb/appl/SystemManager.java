@@ -1,6 +1,7 @@
 package org.pb.appl;
 
 import org.pb.input.TableParser;
+import org.pb.inputMessagesAnalyzer.TableMessagesParser;
 import org.pb.select_table.TableSearcher;
 
 /**
@@ -13,6 +14,7 @@ import org.pb.select_table.TableSearcher;
 public class SystemManager {
 	private TableSearcher tableSearcher;
 	private TableParser tableParser;
+	private TableMessagesParser tableMessagesParser;
 
 	public SystemManager() {
 		tableSearcher = new TableSearcher(0);
@@ -20,7 +22,9 @@ public class SystemManager {
 
 	public void start() {
 		tableSearcher.searchAndSeat();
+
+		tableMessagesParser = new TableMessagesParser();
 		tableParser = new TableParser();
-		tableParser.start();
+		tableParser.start(tableMessagesParser);
 	}
 }
