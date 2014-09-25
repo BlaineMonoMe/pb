@@ -19,7 +19,7 @@ public final class TableSearcher {
 	/**
 	 * table, which will be trying to access to.
 	 */
-	private int currentTable = 0;
+	private int currentTable = 1;
 
 	/**
 	 * Left up co0rdinates of PS window

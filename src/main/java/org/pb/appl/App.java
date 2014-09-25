@@ -13,7 +13,6 @@ public class App {
 	public static void main(String[] args) {
 		System.out.println("Hello ");
 
-		
 		Robot r = null;
 		Rectangle rr = new Rectangle(0, 0, 1400, 800);
 

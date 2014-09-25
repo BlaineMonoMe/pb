@@ -14,4 +14,15 @@ public class NumberFormatter {
 		return result;
 	}
 
+	public static int[] getDigitsFromInt(int value) {
+		String strNumber = new Integer(value).toString();
+		int[] digits = new int[strNumber.length()];
+
+		for (int i = 0; i < strNumber.length(); i++) {
+			digits[i] = Integer.parseInt(strNumber.substring(i, i + 1));
+		}
+
+		return digits;
+	}
+
 }

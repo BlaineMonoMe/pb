@@ -77,6 +77,68 @@ public class IOUtil {
 		return true;
 	}
 
+	public static void pressDigit(int digit) {
+		try {
+			Robot robot = new Robot();
+
+			switch (digit) {
+			case 0:
+				robot.keyPress(KeyEvent.VK_0);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_0);
+				break;
+			case 1:
+				robot.keyPress(KeyEvent.VK_1);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_1);
+				break;
+			case 2:
+				robot.keyPress(KeyEvent.VK_2);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_2);
+				break;
+			case 3:
+				robot.keyPress(KeyEvent.VK_3);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_3);
+				break;
+			case 4:
+				robot.keyPress(KeyEvent.VK_4);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_4);
+				break;
+			case 5:
+				robot.keyPress(KeyEvent.VK_5);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_5);
+				break;
+			case 6:
+				robot.keyPress(KeyEvent.VK_6);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_6);
+				break;
+			case 7:
+				robot.keyPress(KeyEvent.VK_7);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_7);
+				break;
+			case 8:
+				robot.keyPress(KeyEvent.VK_8);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_8);
+				break;
+			case 9:
+				robot.keyPress(KeyEvent.VK_9);
+				robot.delay(80);
+				robot.keyRelease(KeyEvent.VK_9);
+				break;
+			}
+
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static boolean existPicture(String file) {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);

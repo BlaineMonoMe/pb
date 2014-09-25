@@ -39,7 +39,11 @@ public class Randomizer {
 		int avgValue = (maxValue - minValue) / 2;
 		int randValue = random.nextInt(maxValue - minValue) + minValue;
 		int delta = randValue - avgValue;
-		int correctionValue = random.nextInt(Math.abs(delta));
+		int absDelta = Math.abs(delta);
+		if (absDelta == 0) {
+			absDelta = 1;
+		}
+		int correctionValue = random.nextInt(absDelta);
 
 		if (randValue > avgValue) {
 			randValue += correctionValue;

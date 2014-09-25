@@ -11,8 +11,6 @@ import org.pb.input.state.Cards;
  * 
  */
 
-//TODO: "enemy wins xx" - is writing two times. 
-//TODO: handle "check", "fold" events
 public class TableMessagesParser {
 
 	private StackSize myStackSize;
@@ -22,7 +20,11 @@ public class TableMessagesParser {
 	private DillerState dillerState;
 	private TableStack tableStack;
 
-	// if my or enemy's stack is up
+	/**
+	 * if my or enemy's stack is up. positive = true, zero = false; 2 - because
+	 * two methods must check it and make it false (this var becomes false (or
+	 * 0) after each of those methods check it)
+	 */
 	private int isStackUp = 2;
 
 	public TableMessagesParser() {
@@ -81,8 +83,6 @@ public class TableMessagesParser {
 							+ getMyAutoBlindes(blindes));
 					tableStack.setMyPart(getMyAutoBlindes(blindes));
 				} else {
-					// System.out.println("my stack becomes smaller for "
-					// + myStackDifferance);
 					tableStack.incrementMyPart(myStackDifferance);
 					System.out.println("   " + tableStack);
 					if (tableStack.isPalyerCalling()) {
@@ -95,8 +95,50 @@ public class TableMessagesParser {
 			}
 			myStackSize.setCurrentStackSize(stackSize);
 		}
+	}
 
-		// System.out.println("my new stack size " + stackSize);
+	/**
+	 * is called when enemy stack size was changed
+	 * 
+	 * @param stackSize
+	 *            - new stack size
+	 */
+	public void enemyNewStackSize(int stackSize) {
+		if (enemyStackSize.isInitialized() == false) {
+			enemyStackSize.setCurrentStackSize(stackSize);
+			enemyStackSize.setGameBeginStackSize(stackSize);
+			System.out.println("enemy begin stack size " + stackSize);
+		} else {
+			int enemyStackDifferance = enemyStackSize.getCurrentStackSize()
+					- stackSize;
+
+			// if enemy stack becomes bigger
+			if (enemyStackDifferance < 0) {
+				System.out.println("enemy wins " + (-enemyStackDifferance));
+				isStackUp = 2;
+			}
+			// if enemy stack becomes smaller
+			else {
+				// if it is auto blindes
+				if (isStackUp > 0) {
+					isStackUp--;
+					int blindes = getEnemyBlindes(enemyStackDifferance);
+					System.out.println("enemy auto blindes "
+							+ getEnemyAutoBlindes(blindes));
+					tableStack.setEnemyPart(getEnemyAutoBlindes(blindes));
+				} else {
+					tableStack.incrementEnemyPart(enemyStackDifferance);
+					System.out.println("   " + tableStack);
+					if (tableStack.isPalyerCalling()) {
+						System.out.println("enemy is calling");
+					} else {
+						System.out.println("enemy is raiseing to "
+								+ enemyStackDifferance);
+					}
+				}
+			}
+			enemyStackSize.setCurrentStackSize(stackSize);
+		}
 	}
 
 	private int getMyBlindes(int stackDifferance) {
@@ -128,55 +170,6 @@ public class TableMessagesParser {
 			return blindes;
 		} else {
 			return blindes / 2;
-		}
-	}
-
-	/**
-	 * is called when enemy stack size was changed
-	 * 
-	 * @param stackSize
-	 *            - new stack size
-	 */
-	public void enemyNewStackSize(int stackSize) {
-		if (enemyStackSize.isInitialized() == false) {
-			enemyStackSize.setCurrentStackSize(stackSize);
-			enemyStackSize.setGameBeginStackSize(stackSize);
-			System.out.println("enemy begin stack size " + stackSize);
-		} else {
-			int enemyStackDifferance = enemyStackSize.getCurrentStackSize()
-					- stackSize;
-
-			// if my stack becomes bigger
-			if (enemyStackDifferance < 0) {
-				System.out.println("enemy wins " + (-enemyStackDifferance));
-				isStackUp = 2;
-			}
-			// if my stack becomes smaller
-			else {
-				// if it is auto blindes
-				if (isStackUp > 0) {
-					isStackUp--;
-					// System.out.println("enemy stack diff = "
-					// + enemyStackDifferance);
-					int blindes = getEnemyBlindes(enemyStackDifferance);
-					// System.out.println("blindes = " + blindes);
-					System.out.println("enemy auto blindes "
-							+ getEnemyAutoBlindes(blindes));
-					tableStack.setEnemyPart(getEnemyAutoBlindes(blindes));
-				} else {
-					// System.out.println("enemy stack becomes smaller for "
-					// + enemyStackDifferance);
-					tableStack.incrementEnemyPart(enemyStackDifferance);
-					System.out.println("   " + tableStack);
-					if (tableStack.isPalyerCalling()) {
-						System.out.println("enemy is calling");
-					} else {
-						System.out.println("enemy is raiseing to "
-								+ enemyStackDifferance);
-					}
-				}
-			}
-			enemyStackSize.setCurrentStackSize(stackSize);
 		}
 	}
 
