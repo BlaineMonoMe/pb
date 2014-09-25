@@ -1,10 +1,10 @@
 package org.pb.input.enemyCardsReader;
 
-import java.awt.image.BufferedImage;
-
 import org.pb.input.cardReader.CardReader;
 import org.pb.input.state.Cards;
-import org.pb.input_output_util.Coordinates;
+import org.pb.inputOutputUtil.Coordinates;
+
+import java.awt.image.BufferedImage;
 
 /**
  * WAS A THREAD - BECOMES NOT THREAD ***********
@@ -23,10 +23,10 @@ public class HandsCardsReader {
 	// private Coordinates centerOfTable;
 	private Cards cardsOnHands;
 	// private CardsState cardsOnHandsState;
-	// private ScreenShootMaker screenShootMaker;
+	// private ScreenshotMaker screenShootMaker;
 	private boolean iAmSittingAtTheTop;
-	// private CardLevelReader cardsLevelReader;
-	// private CardLearReader cardsLearReader;
+	// private CardRankReader cardsLevelReader;
+	// private CardSuitReader cardsLearReader;
 	private CardReader cardReader;
 
 	public HandsCardsReader(Coordinates centerOfTable,
@@ -36,8 +36,8 @@ public class HandsCardsReader {
 		// this.cardsOnHandsState = cardsOnHandsState;
 		// this.screenShootMaker = screenShootMaker;
 		this.iAmSittingAtTheTop = amISittingAtTheTop;
-		// cardsLevelReader = new CardLevelReader();
-		// cardsLearReader = new CardLearReader();
+		// cardsLevelReader = new CardRankReader();
+		// cardsLearReader = new CardSuitReader();
 		cardReader = new CardReader();
 
 		LEFT_CARD_X = centerOfTable.getX() - 52;
@@ -54,13 +54,13 @@ public class HandsCardsReader {
 		if (!iAmSittingAtTheTop) {
 			// reading first card
 			/*
-			 * lear = getLear(image, centerOfTable.getX() - 47,
+			 * lear = getSuit(image, centerOfTable.getX() - 47,
 			 * centerOfTable.getY() + 127);
 			 */
 			/*
-			 * lear = cardsLearReader.getLear(image.getSubimage(LEFT_CARD_X,
+			 * lear = cardsLearReader.getSuit(image.getSubimage(LEFT_CARD_X,
 			 * CARD_Y, CARD_WIDTH, CARD_HEIGHT)); level =
-			 * cardsLevelReader.getLevel(image.getSubimage( centerOfTable.getX()
+			 * cardsLevelReader.getRank(image.getSubimage( centerOfTable.getX()
 			 * - 52, centerOfTable.getY() + 103, 15, 15));
 			 */
 			// cardsOnHands.addCard(new Card(lear, level));
@@ -70,13 +70,13 @@ public class HandsCardsReader {
 
 			// reading second card
 			/*
-			 * lear = getLear(image, centerOfTable.getX() + 1,
+			 * lear = getSuit(image, centerOfTable.getX() + 1,
 			 * centerOfTable.getY() + 127);
 			 */
 			/*
-			 * lear = cardsLearReader.getLear(image.getSubimage(RIGHT_CARD_X,
+			 * lear = cardsLearReader.getSuit(image.getSubimage(RIGHT_CARD_X,
 			 * CARD_Y, CARD_WIDTH, CARD_HEIGHT)); level =
-			 * cardsLevelReader.getLevel(image.getSubimage( centerOfTable.getX()
+			 * cardsLevelReader.getRank(image.getSubimage( centerOfTable.getX()
 			 * - 4, centerOfTable.getY() + 103, 15, 15));
 			 * cardsOnHands.addCard(new Card(lear, level));
 			 */
@@ -87,7 +87,7 @@ public class HandsCardsReader {
 		return cardsOnHands;
 	}
 	/*
-	 * private char getLear(BufferedImage image, int x, int y) { int[] rgb = new
+	 * private char getSuit(BufferedImage image, int x, int y) { int[] rgb = new
 	 * int[3]; image.getData().getPixel(x, y, rgb); if (rgb[0] == 236 && rgb[1]
 	 * == 168 && rgb[2] == 168) { return 'd'; } if (rgb[0] == 200 && rgb[1] == 6
 	 * && rgb[2] == 6) { return 'h'; } if (rgb[0] == 178 && rgb[1] == 178 &&

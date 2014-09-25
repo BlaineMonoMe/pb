@@ -1,10 +1,10 @@
 package org.pb.input.tableCardsReader;
 
-import java.awt.image.BufferedImage;
-
 import org.pb.input.cardReader.CardReader;
 import org.pb.input.state.Cards;
-import org.pb.input_output_util.Coordinates;
+import org.pb.inputOutputUtil.Coordinates;
+
+import java.awt.image.BufferedImage;
 
 /**
  * WAS A THREAD _ BECOMES NOT THREAD! *******
@@ -26,9 +26,9 @@ public class TableCardsReader {
 	// private Coordinates centerOfTable;
 	private Cards cardsOnTable;
 	// private CardsState cardsOnTableState;
-	// private ScreenShootMaker screenShootMaker;
-	// private CardLevelReader cardLevelReader;
-	// private CardLearReader cardLearReader;
+	// private ScreenshotMaker screenShootMaker;
+	// private CardRankReader cardLevelReader;
+	// private CardSuitReader cardLearReader;
 
 	private CardReader cardReader;
 
@@ -37,8 +37,8 @@ public class TableCardsReader {
 		// this.centerOfTable = centerOfTable;
 		// this.cardsOnTableState = cardsOnTableState;
 		// this.screenShootMaker = screenShootMaker;
-		// cardLevelReader = new CardLevelReader();
-		// cardLearReader = new CardLearReader();
+		// cardLevelReader = new CardRankReader();
+		// cardLearReader = new CardSuitReader();
 		cardReader = new CardReader();
 
 		CARD_Y = centerOfTable.getY() - 42;
@@ -87,13 +87,13 @@ public class TableCardsReader {
 
 		// reading first card
 		/*
-		 * lear = getLear(image, centerOfTable.getX() - 130,
+		 * lear = getSuit(image, centerOfTable.getX() - 130,
 		 * centerOfTable.getY() - 18);
 		 */
 		/*
-		 * lear = cardLearReader.getLear(image.getSubimage(CARD1_X, CARD_Y,
+		 * lear = cardLearReader.getSuit(image.getSubimage(CARD1_X, CARD_Y,
 		 * CARD_WIDTH, CARD_HEIGHT)); level =
-		 * cardLevelReader.getLevel(image.getSubimage( centerOfTable.getX() -
+		 * cardLevelReader.getRank(image.getSubimage( centerOfTable.getX() -
 		 * 135, centerOfTable.getY() - 42, 15, 15));
 		 */
 		// cardsOnTable.addCard(new Card(lear, level));
@@ -102,13 +102,13 @@ public class TableCardsReader {
 
 		// reading second card
 		/*
-		 * lear = getLear(image, centerOfTable.getX() - 76, centerOfTable.getY()
+		 * lear = getSuit(image, centerOfTable.getX() - 76, centerOfTable.getY()
 		 * - 18);
 		 */
 		/*
-		 * lear = cardLearReader.getLear(image.getSubimage(CARD2_X, CARD_Y,
+		 * lear = cardLearReader.getSuit(image.getSubimage(CARD2_X, CARD_Y,
 		 * CARD_WIDTH, CARD_HEIGHT)); level =
-		 * cardLevelReader.getLevel(image.getSubimage( centerOfTable.getX() -
+		 * cardLevelReader.getRank(image.getSubimage( centerOfTable.getX() -
 		 * 81, centerOfTable.getY() - 42, 15, 15));
 		 */
 		// cardsOnTable.addCard(new Card(lear, level));
@@ -117,13 +117,13 @@ public class TableCardsReader {
 
 		// reading third card
 		/*
-		 * lear = getLear(image, centerOfTable.getX() - 22, centerOfTable.getY()
+		 * lear = getSuit(image, centerOfTable.getX() - 22, centerOfTable.getY()
 		 * - 18);
 		 */
 		/*
-		 * lear = cardLearReader.getLear(image.getSubimage(CARD3_X, CARD_Y,
+		 * lear = cardLearReader.getSuit(image.getSubimage(CARD3_X, CARD_Y,
 		 * CARD_WIDTH, CARD_HEIGHT)); level =
-		 * cardLevelReader.getLevel(image.getSubimage( centerOfTable.getX() -
+		 * cardLevelReader.getRank(image.getSubimage( centerOfTable.getX() -
 		 * 27, centerOfTable.getY() - 42, 15, 15));
 		 */
 		// cardsOnTable.addCard(new Card(lear, level));
@@ -140,13 +140,13 @@ public class TableCardsReader {
 		cardsOnTable.removeCards();
 
 		/*
-		 * lear = getLear(image, centerOfTable.getX() + 32, centerOfTable.getY()
+		 * lear = getSuit(image, centerOfTable.getX() + 32, centerOfTable.getY()
 		 * - 18);
 		 */
 		/*
-		 * lear = cardLearReader.getLear(image.getSubimage(CARD4_X, CARD_Y,
+		 * lear = cardLearReader.getSuit(image.getSubimage(CARD4_X, CARD_Y,
 		 * CARD_WIDTH, CARD_HEIGHT)); level =
-		 * cardLevelReader.getLevel(image.getSubimage( centerOfTable.getX() +
+		 * cardLevelReader.getRank(image.getSubimage( centerOfTable.getX() +
 		 * 27, centerOfTable.getY() - 42, 15, 15));
 		 */
 		// cardsOnTable.addCard(new Card(lear, level));
@@ -163,13 +163,13 @@ public class TableCardsReader {
 		cardsOnTable.removeCards();
 
 		/*
-		 * lear = getLear(image, centerOfTable.getX() + 86, centerOfTable.getY()
+		 * lear = getSuit(image, centerOfTable.getX() + 86, centerOfTable.getY()
 		 * - 18);
 		 */
 		/*
-		 * lear = cardLearReader.getLear(image.getSubimage(CARD5_X, CARD_Y,
+		 * lear = cardLearReader.getSuit(image.getSubimage(CARD5_X, CARD_Y,
 		 * CARD_WIDTH, CARD_HEIGHT)); level =
-		 * cardLevelReader.getLevel(image.getSubimage( centerOfTable.getX() +
+		 * cardLevelReader.getRank(image.getSubimage( centerOfTable.getX() +
 		 * 81, centerOfTable.getY() - 42, 15, 15));
 		 */
 		// cardsOnTable.addCard(new Card(lear, level));
@@ -178,7 +178,7 @@ public class TableCardsReader {
 	}
 
 	/*
-	 * private char getLear(BufferedImage image, int x, int y) { int[] rgb = new
+	 * private char getSuit(BufferedImage image, int x, int y) { int[] rgb = new
 	 * int[3]; image.getData().getPixel(x, y, rgb); if (rgb[0] == 236 && rgb[1]
 	 * == 168 && rgb[2] == 168) { return 'd'; } if (rgb[0] == 200 && rgb[1] == 6
 	 * && rgb[2] == 6) { return 'h'; } if (rgb[0] == 178 && rgb[1] == 178 &&

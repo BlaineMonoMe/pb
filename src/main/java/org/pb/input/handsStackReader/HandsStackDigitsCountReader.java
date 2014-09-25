@@ -1,10 +1,10 @@
 package org.pb.input.handsStackReader;
 
+import org.pb.input.color.Color;
+import org.pb.inputOutputUtil.Coordinates;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import org.pb.input.color.Color;
-import org.pb.input_output_util.Coordinates;
 
 public class HandsStackDigitsCountReader {
 
@@ -21,7 +21,7 @@ public class HandsStackDigitsCountReader {
 		return listToReturn;
 	}
 
-	public boolean isCommasPersent(BufferedImage stackImage) {
+	public boolean isCommasPresent(BufferedImage stackImage) {
 		final int commaYCoord = 17;
 		final int imageWith = stackImage.getWidth();
 		int[] inputArrColor = new int[4];
@@ -63,7 +63,7 @@ public class HandsStackDigitsCountReader {
 
 		int digitsCount = 0;
 
-		if (isCommasPersent(stackImage)) {
+		if (isCommasPresent(stackImage)) {
 			//System.out.println("comma exist");
 			commasList = new ArrayList<Coordinates>();
 			commasList = getCommasCoordinates(stackImage);

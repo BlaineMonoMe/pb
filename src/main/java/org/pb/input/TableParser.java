@@ -3,18 +3,19 @@ package org.pb.input;
 /**
  * Begins to do it's job just after chips count was selected
  */
-import java.awt.image.BufferedImage;
-
-import org.pb.input.diller.DillerReader;
-import org.pb.input.diller.DillerState;
+import org.pb.input.dealer.DealerReader;
+import org.pb.input.dealer.DealerState;
 import org.pb.input.enemyCardsReader.EnemyCardsListener;
+import org.pb.input.global.FilePaths;
 import org.pb.input.handsStackReader.RealTimeHSR;
 import org.pb.input.myCardsReader.CardsOnHandsListener;
 import org.pb.input.tableCardsReader.CardsOnTableListener;
-import org.pb.input.whooseTurn.MyTurnReader;
+import org.pb.input.whoseTurn.MyTurnReader;
 import org.pb.inputMessagesAnalyzer.TableMessagesParser;
-import org.pb.input_output_util.Coordinates;
-import org.pb.input_output_util.IOUtil;
+import org.pb.inputOutputUtil.Coordinates;
+import org.pb.inputOutputUtil.IOUtil;
+
+import java.awt.image.BufferedImage;
 
 public class TableParser {
 
@@ -22,7 +23,7 @@ public class TableParser {
 
 	private Coordinates centerOfTheTable;
 
-	private ScreenShootMaker screenShootMaker;
+	private ScreenshotMaker screenshotMaker;
 
 	private CardsOnTableListener cardsOnTableListener;
 	private CardsOnHandsListener cardsOnHandsListener;
@@ -31,7 +32,7 @@ public class TableParser {
 	private RealTimeHSR myHandsStackReader;
 	private RealTimeHSR enemyHandsStackReader;
 
-	private DillerReader dillerReader;
+	private DealerReader dealerReader;
 
 	private MyTurnReader myTurnReader;
 
@@ -39,9 +40,9 @@ public class TableParser {
 		initCoordinates();
 		setMyPositionAtTheTable();
 
-		screenShootMaker = new ScreenShootMaker();
+		screenshotMaker = new ScreenshotMaker();
 
-		dillerReader = new DillerReader(centerOfTheTable);
+		dealerReader = new DealerReader(centerOfTheTable);
 
 		myTurnReader = new MyTurnReader(centerOfTheTable);
 
@@ -60,14 +61,14 @@ public class TableParser {
 	}
 
 	private void initCoordinates() {
-		centerOfTheTable = IOUtil.getCenterCoordinates("res\\images\\CHAT.PNG");
+		centerOfTheTable = IOUtil.getCenterCoordinates(FilePaths.CHAT);
 		centerOfTheTable.change(194, -152);
 		centerOfTheTable.change(173, -64);
 	}
 
 	private void setMyPositionAtTheTable() {
 		Coordinates myCoords = IOUtil
-				.getCenterCoordinates("res\\images\\MY_NAME.PNG");
+				.getCenterCoordinates(FilePaths.MY_NAME);
 		if (myCoords.getY() > centerOfTheTable.getY()) {
 			amISittingAtTheTop = false;
 		} else {
@@ -81,19 +82,19 @@ public class TableParser {
 
 		while (true) {
 
-			BufferedImage screen = screenShootMaker.makeScreenShot();
+			BufferedImage screen = screenshotMaker.makeScreenShot();
 
-			// who is diller
-			if (dillerReader.checkForUpdates(screen)) {
-				DillerState dillerState = dillerReader.getDillerState();
+			// who is dealer
+			if (dealerReader.checkForUpdates(screen)) {
+				DealerState dealerState = dealerReader.getDealerState();
 				/*
-				 * String dillerMsg = null; switch (dillerState) { case
-				 * ME_DILLER: dillerMsg = "diller: me"; break; case
-				 * ENEMY_DILLER: dillerMsg = "diller: enemy"; break; case
-				 * NOBODY_DILLER: dillerMsg = "diller: nobody"; break; }
-				 * System.out.println(dillerMsg);
+				 * String dealerMsg = null; switch (dealerState) { case
+				 * ME_DEALER: dealerMsg = "dealer: me"; break; case
+				 * ENEMY_DEALER: dealerMsg = "dealer: enemy"; break; case
+				 * NOBODY_DEALER: dealerMsg = "dealer: nobody"; break; }
+				 * System.out.println(dealerMsg);
 				 */
-				tableMessagesParser.newDillerState(dillerState);
+				tableMessagesParser.newDealerState(dealerState);
 			}
 
 			// table cards reading

@@ -1,5 +1,7 @@
 package org.pb.input.handsStackReader;
 
+import org.pb.input.global.FilePaths;
+
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -26,7 +28,7 @@ public class HandsStackDigitReader {
 	private void initailize() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(
-					"res\\data\\stackDigitsDifferences.txt"));
+                    FilePaths.STACK_DIFFERENCES));
 			String line = br.readLine();
 			line = br.readLine();
 			while (line != null) {

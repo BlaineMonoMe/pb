@@ -1,10 +1,10 @@
 package org.pb.input.handsStackReader;
 
+import org.pb.inputOutputUtil.Coordinates;
+import org.pb.util.NumberFormatter;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import org.pb.input_output_util.Coordinates;
-import org.pb.util.NumberFormatter;
 
 public class HandsStackReader {
 

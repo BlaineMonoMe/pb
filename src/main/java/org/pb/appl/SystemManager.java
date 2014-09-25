@@ -2,7 +2,7 @@ package org.pb.appl;
 
 import org.pb.input.TableParser;
 import org.pb.inputMessagesAnalyzer.TableMessagesParser;
-import org.pb.select_table.TableSearcher;
+import org.pb.selectTable.TableSearcher;
 
 /**
  * 
