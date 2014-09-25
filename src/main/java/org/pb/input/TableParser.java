@@ -7,14 +7,14 @@ import java.awt.image.BufferedImage;
 
 import org.pb.input.diller.DillerReader;
 import org.pb.input.diller.DillerState;
-import org.pb.input.handsCardsReader.CardsOnHandsListener;
+import org.pb.input.enemyCardsReader.EnemyCardsListener;
 import org.pb.input.handsStackReader.RealTimeHSR;
+import org.pb.input.myCardsReader.CardsOnHandsListener;
 import org.pb.input.tableCardsReader.CardsOnTableListener;
 import org.pb.input.whooseTurn.MyTurnReader;
 import org.pb.inputMessagesAnalyzer.TableMessagesParser;
 import org.pb.input_output_util.Coordinates;
 import org.pb.input_output_util.IOUtil;
-
 
 public class TableParser {
 
@@ -26,6 +26,7 @@ public class TableParser {
 
 	private CardsOnTableListener cardsOnTableListener;
 	private CardsOnHandsListener cardsOnHandsListener;
+	private EnemyCardsListener enemyCardsListener;
 
 	private RealTimeHSR myHandsStackReader;
 	private RealTimeHSR enemyHandsStackReader;
@@ -51,6 +52,8 @@ public class TableParser {
 
 		cardsOnTableListener = new CardsOnTableListener(centerOfTheTable);
 		cardsOnHandsListener = new CardsOnHandsListener(centerOfTheTable,
+				amISittingAtTheTop);
+		enemyCardsListener = new EnemyCardsListener(centerOfTheTable,
 				amISittingAtTheTop);
 
 		System.out.println("center of the table: " + centerOfTheTable);
@@ -101,6 +104,18 @@ public class TableParser {
 				 */
 				tableMessagesParser.newTableCards(cardsOnTableListener
 						.getCards(screen));
+			}
+			// TODO
+			// enemy cards reader
+			if (enemyCardsListener.isNewCards(screen)) {
+				// System.out.println("NEW_GAME");
+				/*
+				 * System.out.println("hands: " +
+				 * cardsOnHandsListener.getCards(screen));
+				 */
+				tableMessagesParser.enemyNewCards(enemyCardsListener
+						.getCards(screen));
+
 			}
 
 			// hands cards reading

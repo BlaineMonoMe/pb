@@ -17,6 +17,7 @@ public class TableMessagesParser {
 	private StackSize enemyStackSize;
 	private Cards cardsOnTable;
 	private Cards cardsOnHands;
+	private Cards enemyCards;
 	private DillerState dillerState;
 	private TableStack tableStack;
 
@@ -32,6 +33,7 @@ public class TableMessagesParser {
 		enemyStackSize = new StackSize();
 		cardsOnTable = new Cards(5);
 		cardsOnHands = new Cards(2);
+		enemyCards = new Cards(2);
 		tableStack = new TableStack();
 	}
 
@@ -178,14 +180,29 @@ public class TableMessagesParser {
 	 * 
 	 * @param handCards
 	 */
-	public void myNewHandsCards(Cards handCards) {
-		if (handCards.getCardList().size() == 0) {
+	public void myNewHandsCards(Cards cards) {
+		if (cards.getCardList().size() == 0) {
 			cardsOnHands.removeCards();
 			System.out.println("hands cards disappears");
 		} else {
-			cardsOnHands = handCards;
+			cardsOnHands = cards;
 			System.out.println("new turn");
-			System.out.println("my new hands cards " + handCards);
+			System.out.println("my new hands cards " + cardsOnHands);
+		}
+	}
+
+	/**
+	 * is called when new cards appears(or disappears) in your hands
+	 * 
+	 * @param handCards
+	 */
+	public void enemyNewCards(Cards cards) {
+		if (cards.getCardList().size() == 0) {
+			enemyCards.removeCards();
+			System.out.println("enemy cards disappears");
+		} else {
+			enemyCards = cards;
+			System.out.println("enemy hands cards " + enemyCards);
 		}
 	}
 
