@@ -23,7 +23,7 @@ public class Cards {
 
 	@Override
 	public String toString() {
-		return "cards= " + cardList;
+		return "[cards] : " + cardList;
 	}
 
 	public void addCard(Card card) {

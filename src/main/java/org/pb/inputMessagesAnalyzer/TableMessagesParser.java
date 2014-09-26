@@ -1,6 +1,6 @@
 package org.pb.inputMessagesAnalyzer;
 
-import org.pb.input.diller.DillerState;
+import org.pb.input.dealer.DealerState;
 import org.pb.input.state.Cards;
 
 /**
@@ -18,7 +18,7 @@ public class TableMessagesParser {
 	private Cards cardsOnTable;
 	private Cards cardsOnHands;
 	private Cards enemyCards;
-	private DillerState dillerState;
+	private DealerState dealerState;
 	private TableStack tableStack;
 
 	/**
@@ -45,13 +45,13 @@ public class TableMessagesParser {
 	}
 
 	/**
-	 * is called when diller changes
+	 * is called when dealer changes
 	 * 
-	 * @param dillerState
+	 * @param dealerState
 	 */
-	public void newDillerState(DillerState dillerState) {
-		this.dillerState = dillerState;
-		System.out.println("new diller state " + dillerState);
+	public void newDealerState(DealerState dealerState) {
+		this.dealerState = dealerState;
+		System.out.println("new dealer state " + dealerState);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class TableMessagesParser {
 					if (tableStack.isPalyerCalling()) {
 						System.out.println("i am calling");
 					} else {
-						System.out.println("i am raiseing to "
+						System.out.println("i am raising to "
 								+ myStackDifferance);
 					}
 				}
@@ -134,7 +134,7 @@ public class TableMessagesParser {
 					if (tableStack.isPalyerCalling()) {
 						System.out.println("enemy is calling");
 					} else {
-						System.out.println("enemy is raiseing to "
+						System.out.println("enemy is raising to "
 								+ enemyStackDifferance);
 					}
 				}
@@ -144,23 +144,23 @@ public class TableMessagesParser {
 	}
 
 	private int getMyBlindes(int stackDifferance) {
-		if (dillerState == DillerState.ME_DILLER) {
+		if (dealerState == DealerState.ME_DEALER) {
 			return stackDifferance * 2;
 		} else {
 			return stackDifferance;
 		}
 	}
 
-	private int getEnemyBlindes(int stackDifferance) {
-		if (dillerState == DillerState.ME_DILLER) {
-			return stackDifferance;
+	private int getEnemyBlindes(int stackDifference) {
+		if (dealerState == DealerState.ME_DEALER) {
+			return stackDifference;
 		} else {
-			return stackDifferance * 2;
+			return stackDifference * 2;
 		}
 	}
 
 	private int getMyAutoBlindes(int blindes) {
-		if (dillerState == DillerState.ME_DILLER) {
+		if (dealerState == DealerState.ME_DEALER) {
 			return blindes / 2;
 		} else {
 			return blindes;
@@ -168,7 +168,7 @@ public class TableMessagesParser {
 	}
 
 	private int getEnemyAutoBlindes(int blindes) {
-		if (dillerState == DillerState.ME_DILLER) {
+		if (dealerState == DealerState.ME_DEALER) {
 			return blindes;
 		} else {
 			return blindes / 2;

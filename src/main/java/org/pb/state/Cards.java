@@ -1,9 +1,10 @@
 package org.pb.state;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cards {
-	private ArrayList<Card> cardList;
+	private List<Card> cardList;
 	private int maxCardsCount;
 
 	public Cards(int maxCardsCount) {
@@ -23,7 +24,7 @@ public class Cards {
 
 	@Override
 	public String toString() {
-		return "cards= " + cardList;
+		return "[cards] : " + cardList;
 	}
 
 	public void addCard(Card card) {
@@ -33,7 +34,7 @@ public class Cards {
 		cardList.add(new Card(card));
 	}
 
-	public ArrayList<Card> getCardList() {
+	public List<Card> getCardList() {
 		return cardList;
 	}
 
