@@ -1,9 +1,9 @@
 package org.pb.input.handsStackReader;
 
-import java.awt.image.BufferedImage;
-
 import org.pb.input.tableCardsReader.CardsOnTableListener;
-import org.pb.input_output_util.Coordinates;
+import org.pb.inputOutputUtil.Coordinates;
+
+import java.awt.image.BufferedImage;
 
 public class RealTimeHSR {
 

@@ -1,21 +1,21 @@
 package org.pb.input.cardReader;
 
-import java.awt.image.BufferedImage;
-
 import org.pb.input.state.Card;
 
+import java.awt.image.BufferedImage;
+
 public class CardReader {
-	private CardLevelReader cardLevelReader;
-	private CardLearReader cardLearReader;
+	private CardRankReader cardRankReader;
+	private CardSuitReader cardSuitReader;
 
 	public CardReader() {
-		cardLevelReader = new CardLevelReader();
-		cardLearReader = new CardLearReader();
+		cardRankReader = new CardRankReader();
+		cardSuitReader = new CardSuitReader();
 	}
 
 	public Card readCard(BufferedImage cardImage) {
-		char level = cardLevelReader.getLevel(cardImage);
-		char lear = cardLearReader.getLear(cardImage);
+		char level = cardRankReader.getLevel(cardImage);
+		char lear = cardSuitReader.getLear(cardImage);
 		return new Card(lear, level);
 	}
 }
