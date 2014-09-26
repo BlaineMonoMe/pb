@@ -192,7 +192,7 @@ public class TableMessagesParser {
 	}
 
 	/**
-	 * is called when new cards appears(or disappears) in your hands
+	 * is called when enemy shows his cards
 	 * 
 	 * @param handCards
 	 */
