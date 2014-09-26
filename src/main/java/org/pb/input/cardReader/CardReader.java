@@ -15,7 +15,7 @@ public class CardReader {
 
 	public Card readCard(BufferedImage cardImage) {
 		char level = cardRankReader.getLevel(cardImage);
-		char lear = cardSuitReader.getLear(cardImage);
-		return new Card(lear, level);
+		char suit = cardSuitReader.getSuit(cardImage);
+		return new Card(suit, level);
 	}
 }

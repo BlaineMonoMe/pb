@@ -20,6 +20,8 @@ import java.io.File;
  */
 public class IOUtil {
 
+    private static final int SIKULI_TIME_OUT = 1;
+
 	public static void absoluteLeftMouseClick(int x, int y) {
 		try {
 			Robot robot = new Robot();
@@ -52,7 +54,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		if (r == null) {
 			return false;
 		}
@@ -67,7 +69,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		if (r == null) {
 			return false;
 		}
@@ -161,7 +163,7 @@ public class IOUtil {
 	public static boolean existPicture(Target target, Rectangle rectangle) {
 		ScreenRegion screen = new DesktopScreenRegion(rectangle.getLeft(),
 				rectangle.getTop(), rectangle.getWidth(), rectangle.getHeight());
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		if (r == null) {
 			return false;
 		}
@@ -174,7 +176,7 @@ public class IOUtil {
 		File image = new File(file);
 		Target target = new ImageTarget(image);
 		target.setMinScore(0.99);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		// System.out.println("min score: " + target.getMinScore());
 		if (r == null) {
 			return false;
@@ -201,7 +203,7 @@ public class IOUtil {
 		File image = new File(file);
 		Target target = new ImageTarget(image);
 		target.setMinScore(0.95);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		return new Coordinates(r.getCenter().getX(), r.getCenter().getY());
 	}
 

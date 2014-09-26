@@ -8,7 +8,7 @@ public class CardSuitReader {
 	private final int MAGIC_PIXELL_X_OFFSET = 5;
 	private final int MAGIC_PIXELL_Y_OFFSET = 24;
 
-	public char getLear(BufferedImage image) {
+	public char getSuit(BufferedImage image) {
 		int[] rgb = new int[3];
 		image.getData().getPixel(MAGIC_PIXELL_X_OFFSET, MAGIC_PIXELL_Y_OFFSET,
 				rgb);
