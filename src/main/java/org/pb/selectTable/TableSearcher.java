@@ -20,7 +20,7 @@ public final class TableSearcher {
 	/**
 	 * table, which will be trying to access to.
 	 */
-	private int currentTable = 1;
+	private int currentTable = 0;
 
 	/**
 	 * Left up co0rdinates of PS window
@@ -84,8 +84,7 @@ public final class TableSearcher {
 	}
 
 	private void updateWindowCoordinates() {
-		windowCoords = IOUtil
-				.getCenterCoordinates(FilePaths.LITTLE_ICON);
+		windowCoords = IOUtil.getCenterCoordinates(FilePaths.LITTLE_ICON);
 		windowCoords.changeX(-22);
 		windowCoords.changeY(32);
 		System.out.println(windowCoords);
