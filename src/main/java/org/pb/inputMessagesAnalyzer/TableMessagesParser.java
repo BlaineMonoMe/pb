@@ -105,7 +105,7 @@ public class TableMessagesParser {
 				} else {
 					tableStack.incrementMyPart(myStackDifferance);
 					System.out.println("   " + tableStack);
-					if (tableStack.isPalyerCalling()) {
+					if (tableStack.isPlayerCalling()) {
 						System.out.println("i am calling");
 						// raiseStackSize = 0;
 					} else {
@@ -132,16 +132,16 @@ public class TableMessagesParser {
 			enemyStackSize.setGameBeginStackSize(stackSize);
 			System.out.println("enemy begin stack size " + stackSize);
 		} else {
-			int enemyStackDifferance = enemyStackSize.getCurrentStackSize()
+			int enemyStackDifference = enemyStackSize.getCurrentStackSize()
 					- stackSize;
 
 			// if enemy stack becomes bigger
-			if (enemyStackDifferance < 0) {
+			if (enemyStackDifference < 0) {
 				// if (raiseStackSize == 0) {
-				gameResult.incrementWinningStack(-enemyStackDifferance);
+				gameResult.incrementWinningStack(-enemyStackDifference);
 				gameResult.setWinner(GameWinner.ENEMY);
 
-				System.out.println("enemy wins " + (-enemyStackDifferance));
+				System.out.println("enemy wins " + (-enemyStackDifference));
 				isStackUp = 2;
 				// }
 			}
@@ -150,19 +150,19 @@ public class TableMessagesParser {
 				// if it is auto blindes
 				if (isStackUp > 0) {
 					isStackUp--;
-					int blindes = getEnemyBlindes(enemyStackDifferance);
+					int blindes = getEnemyBlindes(enemyStackDifference);
 					System.out.println("enemy auto blindes "
 							+ getEnemyAutoBlindes(blindes));
 					tableStack.setEnemyPart(getEnemyAutoBlindes(blindes));
 				} else {
-					tableStack.incrementEnemyPart(enemyStackDifferance);
+					tableStack.incrementEnemyPart(enemyStackDifference);
 					System.out.println("   " + tableStack);
-					if (tableStack.isPalyerCalling()) {
+					if (tableStack.isPlayerCalling()) {
 						System.out.println("enemy is calling");
 						// raiseStackSize = 0;
 					} else {
 						System.out.println("enemy is raising to "
-								+ enemyStackDifferance);
+								+ enemyStackDifference);
 						// raiseStackSize = enemyStackDifferance;
 					}
 				}
