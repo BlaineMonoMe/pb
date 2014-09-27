@@ -1,7 +1,7 @@
 package org.pb.decisionMaker;
 
 public enum Round {
-	NO_CARDS("NO_CARDS"), FLOP("FLOP"), TURN("TURN"), RIVER("RІVER");
+	PRE_FLOP("pre flop"), FLOP("flop"), TURN("turn"), RIVER("river");
 
 	private Round(String s) {
 	}
