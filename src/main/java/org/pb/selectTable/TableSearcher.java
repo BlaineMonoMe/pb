@@ -33,6 +33,7 @@ public final class TableSearcher {
             boolean escape = false;
             for (TableRow row : homeScreen.getTableListScreen().getTableRowList()) {
                 IOUtil.absoluteLeftMouseDblClick(row.getCoordinates().getX(), row.getCoordinates().getY());
+                IOUtil.waitPatiently(WAIT_FOR_SCREEN_TIMEOUT);
                 if (!homeScreen.isTableEmptyMessage()) {
                     escape = true;
                     break;

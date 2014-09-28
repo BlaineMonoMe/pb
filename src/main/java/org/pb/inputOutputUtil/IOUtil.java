@@ -146,7 +146,7 @@ public class IOUtil {
 		File image = new File(file);
 		Target target = new ImageTarget(image);
 		target.setMinScore(0.99);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		// System.out.println("min score: " + target.getMinScore());
 		if (r == null) {
 			return false;
