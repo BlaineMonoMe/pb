@@ -9,8 +9,8 @@ import org.pb.util.ScreenWait;
 public final class TableSearcher {
 
     private static final int WAIT_TIMEOUT = 400; // milliseconds
-    private static final long WAIT_FOR_SCREEN_TIMEOUT = 6000;
-    private static final long WAIT_BETWEEN_ACTION_TIMEOUT = 6000; // milliseconds
+    private static final long WAIT_FOR_SCREEN_TIMEOUT = 4000;
+    private static final long WAIT_BETWEEN_ACTION_TIMEOUT = 4000; // milliseconds
 
     private static ScreenWait screenWait;
     private static Randomizer randomizer;
