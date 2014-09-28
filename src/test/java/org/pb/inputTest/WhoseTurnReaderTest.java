@@ -50,7 +50,7 @@ public class WhoseTurnReaderTest extends TestCase {
 		for (int i = 0; i < imgList.length; i++) {
 			boolean expected = listOfFiles[i].toString().contains("me-duller");
 			// System.out.println(expected);
-//			boolean got = deallerReader.getDealerStateDealer(imgList[i]);
+//			boolean got = deallerReader.getDealerState(imgList[i]);
 //			assertTrue(expected == got);
 		}
 

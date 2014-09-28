@@ -20,6 +20,9 @@ import java.io.File;
  */
 public class IOUtil {
 
+    private static final int SIKULI_TIME_OUT = 1;
+    private static final IOUtil lock = new IOUtil();
+
 	public static void absoluteLeftMouseClick(int x, int y) {
 		try {
 			Robot robot = new Robot();
@@ -52,7 +55,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		if (r == null) {
 			return false;
 		}
@@ -67,7 +70,7 @@ public class IOUtil {
 		ScreenRegion screen = new DesktopScreenRegion();
 		File image = new File(file);
 		Target target = new ImageTarget(image);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		if (r == null) {
 			return false;
 		}
@@ -143,7 +146,7 @@ public class IOUtil {
 		File image = new File(file);
 		Target target = new ImageTarget(image);
 		target.setMinScore(0.99);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		// System.out.println("min score: " + target.getMinScore());
 		if (r == null) {
 			return false;
@@ -161,7 +164,7 @@ public class IOUtil {
 	public static boolean existPicture(Target target, Rectangle rectangle) {
 		ScreenRegion screen = new DesktopScreenRegion(rectangle.getLeft(),
 				rectangle.getTop(), rectangle.getWidth(), rectangle.getHeight());
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		if (r == null) {
 			return false;
 		}
@@ -174,7 +177,7 @@ public class IOUtil {
 		File image = new File(file);
 		Target target = new ImageTarget(image);
 		target.setMinScore(0.99);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		// System.out.println("min score: " + target.getMinScore());
 		if (r == null) {
 			return false;
@@ -201,7 +204,7 @@ public class IOUtil {
 		File image = new File(file);
 		Target target = new ImageTarget(image);
 		target.setMinScore(0.95);
-		ScreenRegion r = screen.wait(target, 1);
+		ScreenRegion r = screen.wait(target, SIKULI_TIME_OUT);
 		return new Coordinates(r.getCenter().getX(), r.getCenter().getY());
 	}
 
@@ -212,6 +215,15 @@ public class IOUtil {
 			e.printStackTrace();
 		}
 	}
+
+    public static void waitPatiently(long ms) {
+        long currentTime = System.currentTimeMillis();
+        while (true) {
+            if (System.currentTimeMillis() > currentTime + ms) {
+                return;
+            }
+        }
+    }
 
 	public static void closeWindow() {
 		try {
@@ -240,18 +252,20 @@ public class IOUtil {
 	}
 
 	public static void enter() {
-		try {
-			Robot robot = new Robot();
-			Randomizer randomizer = new Randomizer();
+        try {
+            synchronized (lock) {
+                Robot robot = new Robot();
+                Randomizer randomizer = new Randomizer();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                int delay = randomizer.getRand(0, 50, 25);
+                System.out.println(".......delay = " + delay + " TIME : " + System.currentTimeMillis());
+                robot.delay(delay);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+            }
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
 
-			robot.keyPress(KeyEvent.VK_ENTER);
-			int delay = randomizer.getRand(0, 50, 25);
-			System.out.println(".......delay = " + delay);
-			robot.delay(delay);
-			robot.keyRelease(KeyEvent.VK_ENTER);
-		} catch (AWTException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static void escape() {

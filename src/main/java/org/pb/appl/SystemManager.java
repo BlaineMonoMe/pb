@@ -18,7 +18,7 @@ public class SystemManager {
 	// private TableMessagesParser tableMessagesParser;
 
 	public SystemManager() {
-		tableSearcher = new TableSearcher(0);
+		tableSearcher = new TableSearcher();
 	}
 
 	public void start() {

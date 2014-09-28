@@ -14,7 +14,7 @@ public class DealerReader {
 	}
 
 	public boolean checkForUpdates(BufferedImage screen) {
-		DealerState newDealerState = dealerChecker.getDealerStateDealer(screen);
+		DealerState newDealerState = dealerChecker.getDealerState(screen);
 		if (newDealerState != currentDealerState) {
 			currentDealerState = newDealerState;
 			return true;

@@ -24,7 +24,7 @@ public class DealerChecker {
 		color = new Color(255, 255, 255);
 	}
 
-	public DealerState getDealerStateDealer(BufferedImage screenImage) {
+	public DealerState getDealerState(BufferedImage screenImage) {
 		if (enemyDealerColorChecker.checkColor(screenImage, color)) {
 			return DealerState.ENEMY_DEALER;
 		}

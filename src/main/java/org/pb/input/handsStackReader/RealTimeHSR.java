@@ -49,11 +49,11 @@ public class RealTimeHSR {
 
 				BufferedImage stackImage = screenImage.getSubimage(xOffset,
 						yOffset, IMG_WITH, IMG_HEIGHT);
-				int newStckSize = handsStackReader.getHandsStackSize(
+				int newStackSize = handsStackReader.getHandsStackSize(
 						stackImage, isPlayerSittingAtTheTop);
-				stackSizeAtNewTurn = newStckSize;
-				if (newStckSize != currentStackSize) {
-					currentStackSize = newStckSize;
+				stackSizeAtNewTurn = newStackSize;
+				if (newStackSize != currentStackSize) {
+					currentStackSize = newStackSize;
 				}
 				return true;
 			}
@@ -69,10 +69,10 @@ public class RealTimeHSR {
 		BufferedImage stackImage = screenImage.getSubimage(xOffset, yOffset,
 				IMG_WITH, IMG_HEIGHT);
 
-		int newStckSize = handsStackReader.getHandsStackSize(stackImage,
+		int newStackSize = handsStackReader.getHandsStackSize(stackImage,
 				isPlayerSittingAtTheTop);
-		if (newStckSize != currentStackSize) {
-			currentStackSize = newStckSize;
+		if (newStackSize != currentStackSize) {
+			currentStackSize = newStackSize;
 			return true;
 		}
 		return false;

@@ -1,42 +1,25 @@
 package org.pb.selectTable;
 
-import org.pb.input.global.FilePaths;
-import org.pb.inputOutputUtil.Coordinates;
+import org.pb.input.screens.*;
 import org.pb.inputOutputUtil.IOUtil;
 import org.pb.inputOutputUtil.Randomizer;
+import org.pb.util.ExpectedCondition;
+import org.pb.util.ScreenWait;
 
 public final class TableSearcher {
 
-	private final int TABLE_ITEM_HEIGHT = 24;
+	private static final int WAIT_TIMEOUT = 400; // milliseconds
+	private static final long WAIT_FOR_SCREEN_TIMEOUT = 4000;
+	private static final long WAIT_BETWEEN_ACTION_TIMEOUT = 4000; // milliseconds
 
-	private final int TABLE_COUNT = 8;
+	private static ScreenWait screenWait;
+	private static Randomizer randomizer;
 
-	/**
-	 * 0 - PS window is not activated; 1 - list of tables we can see; 2 - empty
-	 * table warning; 3 - "bay-in" warning; 4 - chips count selection window.
-	 */
-	private int status = 0;
+	private static HomeScreen homeScreen;
 
-	/**
-	 * table, which will be trying to access to.
-	 */
-	private int currentTable = 0;
-
-	/**
-	 * Left up co0rdinates of PS window
-	 */
-	private Coordinates windowCoords;
-
-	private Randomizer randomizer;
-
-	public TableSearcher(int status) {
-		this.status = status;
-		randomizer = new Randomizer();
-	}
-
-	public void backOnTableList() {
-		updateWindowCoordinates();
-		status = 1;
+	public TableSearcher() {
+		homeScreen = new HomeScreen();
+		screenWait = new ScreenWait(WAIT_FOR_SCREEN_TIMEOUT);
 	}
 
 	/**
@@ -44,84 +27,50 @@ public final class TableSearcher {
 	 * 
 	 * @return O_o
 	 */
-	public boolean searchAndSeat() {
 
-		while (status < 5) {
-
-			switch (status) {
-			case 0:
-				activateWindow();
-				IOUtil.wait(1000);
-				updateWindowCoordinates();
-				break;
-			case 1:
-				selectTable();
-				break;
-			case 3:
-				IOUtil.wait(randomizer.getRand(100, 400));
-				IOUtil.enter();
-				IOUtil.wait(1000);
-				status = 4;
-				break;
-			case 4:
-				IOUtil.wait(randomizer.getRand(100, 400));
-				IOUtil.enter();
-				IOUtil.wait(1000);
-				return true;
-			}
-
-		}
-		return true;
-	}
-
-	private boolean activateWindow() {
-		if (IOUtil.leftMouseClickOnComponent(FilePaths.ICON, 3, 3)) {
-			status = 1;
-			return true;
-		}
-		System.out.println("PS is not launched, or I can't find it...");
-		return false;
-	}
-
-	private void updateWindowCoordinates() {
-		windowCoords = IOUtil.getCenterCoordinates(FilePaths.LITTLE_ICON);
-		windowCoords.changeX(-22);
-		windowCoords.changeY(32);
-		System.out.println(windowCoords);
-	}
-
-	private void selectTable() {
+	public void searchAndSeat() {
+		homeScreen.clickPokerStarsIcon();
 		while (true) {
-			synchronized (this) {
-
-				IOUtil.absoluteLeftMouseDblClick(windowCoords.getX()
-						+ randomizer.getRand(50, 200, 100),
-						windowCoords.getY() + currentTable * TABLE_ITEM_HEIGHT
-								+ randomizer.getRand(3, TABLE_ITEM_HEIGHT - 5));
-
-			}
-
-			IOUtil.wait(1000);
-			if (isTableEmptyMessage()) {
-				IOUtil.wait(randomizer.getRand(0, 300));
-				IOUtil.escape();
-				currentTable++;
-				if (currentTable == TABLE_COUNT) {
-					currentTable = 0;
+			boolean escape = false;
+			for (TableRow row : homeScreen.getTableListScreen()
+					.getTableRowList()) {
+				IOUtil.absoluteLeftMouseDblClick(row.getCoordinates().getX(),
+						row.getCoordinates().getY());
+				IOUtil.waitPatiently(WAIT_FOR_SCREEN_TIMEOUT);
+				if (!homeScreen.isTableEmptyMessage()
+						&& BuyInAlertMessageConfirmWindow.exists()) {
+					escape = true;
+					break;
+				} else {
+					IOUtil.wait(WAIT_TIMEOUT);
+					IOUtil.escape();
 				}
-				IOUtil.wait(1000);
-			} else {
-				status = 3;
-				return;
+			}
+			if (escape) {
+				break;
 			}
 		}
-	}
+		screenWait.waitUntil(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean until() {
+				return BuyInAlertMessageConfirmWindow.exists();
+			}
+		});
+		IOUtil.enter();
+		screenWait.waitUntil(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean until() {
+				return BuyInStackSizePromptWindow.exists();
+			}
+		});
+		IOUtil.enter();
+		screenWait.waitUntil(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean until() {
+				return PokerTableScreen.exists();
+			}
+		});
 
-	private boolean isTableEmptyMessage() {
-		if (IOUtil.existPicture(FilePaths.CANCEL_EMPTY_TABLE)) {
-			return true;
-		}
-		return false;
 	}
 
 }
