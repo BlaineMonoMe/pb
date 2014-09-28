@@ -36,8 +36,10 @@ public final class TableSearcher {
                 IOUtil.waitPatiently(WAIT_FOR_SCREEN_TIMEOUT);
                 if (!homeScreen.isTableEmptyMessage() && BuyInAlertMessageConfirmWindow.exists()) {
                     escape = true;
+                    System.out.println("yeah, escape!");
                     break;
                 } else {
+                	System.out.println("not escape!?");
                     IOUtil.wait(WAIT_TIMEOUT);
                     IOUtil.escape();
                 }
