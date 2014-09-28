@@ -1,6 +1,7 @@
 package org.pb.decisionMaker.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.pb.state.Cards;
 
@@ -12,7 +13,7 @@ import org.pb.state.Cards;
  */
 public class RoundData {
 
-	private ArrayList<Decision> decisionList;
+	private List<Decision> decisionList;
 	private Cards tableCards;
 
 	public RoundData() {

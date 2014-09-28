@@ -1,7 +1,7 @@
 package org.pb.inputMessagesAnalyzer;
 
 public class StackSize {
-	private int gameBeginStackSize;
+	private int gameStartStackSize;
 	private int currentStackSize;
 	private boolean initialized;
 
@@ -13,12 +13,12 @@ public class StackSize {
 		return initialized;
 	}
 
-	public int getGameBeginStackSize() {
-		return gameBeginStackSize;
+	public int getGameStartStackSize() {
+		return gameStartStackSize;
 	}
 
-	public void setGameBeginStackSize(int gameBeginStackSize) {
-		this.gameBeginStackSize = gameBeginStackSize;
+	public void setGameStartStackSize(int gameBeginStackSize) {
+		this.gameStartStackSize = gameBeginStackSize;
 	}
 
 	public int getCurrentStackSize() {

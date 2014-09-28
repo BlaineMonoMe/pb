@@ -1,10 +1,11 @@
 package org.pb.decisionMaker.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameData {
 
-	private ArrayList<HandData> handDataList;
+	private List<HandData> handDataList;
 
 	public GameData() {
 		handDataList = new ArrayList<HandData>();
@@ -14,7 +15,7 @@ public class GameData {
 		handDataList.add(handData);
 	}
 
-	public ArrayList<HandData> getHandDataList() {
+	public List<HandData> getHandDataList() {
 		return handDataList;
 	}
 }

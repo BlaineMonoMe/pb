@@ -3,6 +3,8 @@ package org.pb.input;
 /**
  * Begins to do it's job just after chips count was selected
  */
+import java.awt.image.BufferedImage;
+
 import org.pb.input.dealer.DealerReader;
 import org.pb.input.dealer.DealerState;
 import org.pb.input.enemyCardsReader.EnemyCardsListener;
@@ -14,8 +16,6 @@ import org.pb.input.whoseTurn.MyTurnReader;
 import org.pb.inputMessagesAnalyzer.TableMessagesParser;
 import org.pb.inputOutputUtil.Coordinates;
 import org.pb.inputOutputUtil.IOUtil;
-
-import java.awt.image.BufferedImage;
 
 public class TableParser {
 
@@ -35,6 +35,8 @@ public class TableParser {
 	private DealerReader dealerReader;
 
 	private MyTurnReader myTurnReader;
+
+	private TableMessagesParser tableMessagesParser;
 
 	public TableParser() {
 		initCoordinates();
@@ -57,6 +59,8 @@ public class TableParser {
 		enemyCardsListener = new EnemyCardsListener(centerOfTheTable,
 				amISittingAtTheTop);
 
+		tableMessagesParser = new TableMessagesParser(centerOfTheTable);
+
 		System.out.println("center of the table: " + centerOfTheTable);
 	}
 
@@ -67,8 +71,7 @@ public class TableParser {
 	}
 
 	private void setMyPositionAtTheTable() {
-		Coordinates myCoords = IOUtil
-				.getCenterCoordinates(FilePaths.MY_NAME);
+		Coordinates myCoords = IOUtil.getCenterCoordinates(FilePaths.MY_NAME);
 		if (myCoords.getY() > centerOfTheTable.getY()) {
 			amISittingAtTheTop = false;
 		} else {
@@ -78,7 +81,7 @@ public class TableParser {
 		System.out.println("I am sitting at the top: " + amISittingAtTheTop);
 	}
 
-	public void start(TableMessagesParser tableMessagesParser) {
+	public void start() {
 
 		while (true) {
 
