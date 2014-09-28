@@ -21,6 +21,7 @@ import java.io.File;
 public class IOUtil {
 
     private static final int SIKULI_TIME_OUT = 1;
+    private static final IOUtil lock = new IOUtil();
 
 	public static void absoluteLeftMouseClick(int x, int y) {
 		try {
@@ -215,6 +216,15 @@ public class IOUtil {
 		}
 	}
 
+    public static void waitPatiently(long ms) {
+        long currentTime = System.currentTimeMillis();
+        while (true) {
+            if (System.currentTimeMillis() > currentTime + ms) {
+                return;
+            }
+        }
+    }
+
 	public static void closeWindow() {
 		try {
 			Robot robot = new Robot();
@@ -242,18 +252,20 @@ public class IOUtil {
 	}
 
 	public static void enter() {
-		try {
-			Robot robot = new Robot();
-			Randomizer randomizer = new Randomizer();
+        try {
+            synchronized (lock) {
+                Robot robot = new Robot();
+                Randomizer randomizer = new Randomizer();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                int delay = randomizer.getRand(0, 50, 25);
+                System.out.println(".......delay = " + delay + " TIME : " + System.currentTimeMillis());
+                robot.delay(delay);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+            }
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
 
-			robot.keyPress(KeyEvent.VK_ENTER);
-			int delay = randomizer.getRand(0, 50, 25);
-			System.out.println(".......delay = " + delay);
-			robot.delay(delay);
-			robot.keyRelease(KeyEvent.VK_ENTER);
-		} catch (AWTException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static void escape() {

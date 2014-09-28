@@ -25,6 +25,7 @@ public class TableListScreen {
 
     private TableListScreen() {
         setTableRowList(new ArrayList<TableRow>());
+        randomizer = new Randomizer();
     }
 
     public static TableListScreen getTableListScreen(Coordinates startingPoint) {
