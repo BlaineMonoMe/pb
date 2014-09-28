@@ -43,7 +43,7 @@ public class HomeScreen {
     private void updateWindowCoordinates() {
         windowCoords = IOUtil
                 .getCenterCoordinates(FilePaths.LITTLE_ICON);
-        windowCoords.changeX(-22);
+        windowCoords.changeX(-15);
         windowCoords.changeY(32);
         System.out.println(windowCoords);
     }
