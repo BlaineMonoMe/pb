@@ -9,6 +9,6 @@ package org.pb.util;
  */
 public abstract class ExpectedCondition<T> {
 
-    public abstract boolean until();
+    public abstract <T> T until();
 
 }

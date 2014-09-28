@@ -47,27 +47,27 @@ public final class TableSearcher {
             }
         }
         screenWait.waitUntil(
-                new ExpectedCondition<BuyInAlertMessageConfirmWindow>() {
+                new ExpectedCondition<Boolean>() {
                     @Override
-                    public boolean until() {
+                    public Boolean until() {
                         return BuyInAlertMessageConfirmWindow.exists();
                     }
                 }
         );
         IOUtil.enter();
         screenWait.waitUntil(
-                new ExpectedCondition<BuyInStackSizePromptWindow>() {
+                new ExpectedCondition<Boolean>() {
                     @Override
-                    public boolean until() {
+                    public Boolean until() {
                         return BuyInStackSizePromptWindow.exists();
                     }
                 }
         );
         IOUtil.enter();
         screenWait.waitUntil(
-                new ExpectedCondition<PokerTableScreen>() {
+                new ExpectedCondition<Boolean>() {
                     @Override
-                    public boolean until() {
+                    public Boolean until() {
                         return PokerTableScreen.exists();
                     }
                 }
