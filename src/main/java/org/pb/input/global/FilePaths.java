@@ -23,7 +23,7 @@ public interface FilePaths {
     public static final String LITTLE_ICON = baseImagesPath + "LITTLE_ICON.PNG";
     public static final String CANCEL_EMPTY_TABLE = baseImagesPath + "CANCEL_EMPTY_TABLE.PNG";
     public static final String EMPTY_TABLE_CANCEL_BTN = baseImagesPath + "empty_table_cancel_btn.png";
-    public static final String EMPTY_TABLE_MASSAGE = baseImagesPath + "empty_table_message.png";
+    public static final String EMPTY_TABLE_MESSAGE = baseImagesPath + "empty_table_message.png";
     public static final String EMPTY_TABLE_SIT_BTN = baseImagesPath + "sit_at_empty_table_btn.png";
     public static final String BUY_IN_DISCONNECT_PROTECTION_MSG = baseImagesPath + "buy_in_disconnect_protection_msg.png";
     public static final String BUY_IN_STACK_SIZE_MSG = baseImagesPath + "buy_in_stack_size_msg.png";
