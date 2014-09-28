@@ -71,13 +71,6 @@ public final class TableSearcher {
                     }
                 }
         );
-//            IOUtil.waitPatiently(WAIT_BETWEEN_ACTION_TIMEOUT);
-//            IOUtil.enter();
-//            IOUtil.waitPatiently(WAIT_BETWEEN_ACTION_TIMEOUT);
-//            IOUtil.enter();
-//            IOUtil.waitPatiently(WAIT_BETWEEN_ACTION_TIMEOUT);
-//            IOUtil.enter();
-//            IOUtil.waitPatiently(WAIT_BETWEEN_ACTION_TIMEOUT);
 	}
 
 
