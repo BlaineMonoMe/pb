@@ -14,7 +14,8 @@ import org.pb.selectTable.TableSearcher;
 public class SystemManager {
 	private TableSearcher tableSearcher;
 	private TableParser tableParser;
-	private TableMessagesParser tableMessagesParser;
+
+	// private TableMessagesParser tableMessagesParser;
 
 	public SystemManager() {
 		tableSearcher = new TableSearcher(0);
@@ -23,8 +24,8 @@ public class SystemManager {
 	public void start() {
 		tableSearcher.searchAndSeat();
 
-		tableMessagesParser = new TableMessagesParser();
+		// tableMessagesParser = new TableMessagesParser();
 		tableParser = new TableParser();
-		tableParser.start(tableMessagesParser);
+		tableParser.start();
 	}
 }

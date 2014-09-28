@@ -3,7 +3,9 @@ package org.pb.decisionMaker.data;
 import java.util.ArrayList;
 
 import org.pb.input.dealer.DealerState;
-import org.pb.state.Cards;
+import org.pb.inputMessagesAnalyzer.HandResult;
+import org.pb.inputMessagesAnalyzer.BeginHandData;
+import org.pb.input.state.Cards;
 
 public class HandData {
 
@@ -17,6 +19,9 @@ public class HandData {
 	private final Cards myCards;
 	private final DealerState dealer;
 
+	private Cards enemysCards;
+	private HandResult handResult;
+
 	private ArrayList<RoundData> roundDataList;
 
 	public HandData(int myStackSize, int enemyStackSize, int bigBlindes,
@@ -26,6 +31,16 @@ public class HandData {
 		this.bigBlindes = bigBlindes;
 		this.myCards = myCards;
 		this.dealer = dealer;
+
+		roundDataList = new ArrayList<RoundData>();
+	}
+
+	public HandData(BeginHandData newHandData) {
+		this.myStackSize = newHandData.getMyStackSize();
+		this.enemyStackSize = newHandData.getEnemyStackSize();
+		this.bigBlindes = newHandData.getBigBlindes();
+		this.myCards = newHandData.getMyCards();
+		this.dealer = newHandData.getDealer();
 
 		roundDataList = new ArrayList<RoundData>();
 	}
