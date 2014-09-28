@@ -10,7 +10,7 @@ public class TableStack {
 				+ enemyPart;
 	}
 
-	public boolean isPalyerCalling() {
+	public boolean isPlayerCalling() {
 		return (myPart == enemyPart);
 	}
 
