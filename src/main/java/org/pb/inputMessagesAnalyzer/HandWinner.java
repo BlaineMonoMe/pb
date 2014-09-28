@@ -1,7 +1,7 @@
 package org.pb.inputMessagesAnalyzer;
 
 public enum HandWinner {
-	MY("MY"), ENEMY("ENEMY"), BOTH("BOTH");
+	ME("ME"), ENEMY("ENEMY"), BOTH("BOTH");
 
 	private HandWinner(String s) {
 	}

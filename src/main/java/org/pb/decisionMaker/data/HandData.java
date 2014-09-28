@@ -1,11 +1,12 @@
 package org.pb.decisionMaker.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.pb.input.dealer.DealerState;
-import org.pb.inputMessagesAnalyzer.HandResult;
-import org.pb.inputMessagesAnalyzer.BeginHandData;
 import org.pb.input.state.Cards;
+import org.pb.inputMessagesAnalyzer.HandResult;
+import org.pb.inputMessagesAnalyzer.StartHandData;
 
 public class HandData {
 
@@ -22,7 +23,7 @@ public class HandData {
 	private Cards enemysCards;
 	private HandResult handResult;
 
-	private ArrayList<RoundData> roundDataList;
+	private List<RoundData> roundDataList;
 
 	public HandData(int myStackSize, int enemyStackSize, int bigBlindes,
 			Cards myCards, DealerState dealer) {
@@ -35,7 +36,7 @@ public class HandData {
 		roundDataList = new ArrayList<RoundData>();
 	}
 
-	public HandData(BeginHandData newHandData) {
+	public HandData(StartHandData newHandData) {
 		this.myStackSize = newHandData.getMyStackSize();
 		this.enemyStackSize = newHandData.getEnemyStackSize();
 		this.bigBlindes = newHandData.getBigBlindes();
@@ -49,7 +50,7 @@ public class HandData {
 		roundDataList.add(roundData);
 	}
 
-	public ArrayList<RoundData> getRoundData() {
+	public List<RoundData> getRoundData() {
 		return roundDataList;
 	}
 

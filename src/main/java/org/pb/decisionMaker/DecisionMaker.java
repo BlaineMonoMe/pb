@@ -3,7 +3,7 @@ package org.pb.decisionMaker;
 import org.pb.decisionImplementation.ActionExecutor;
 import org.pb.decisionMaker.data.GameData;
 import org.pb.decisionMaker.data.HandData;
-import org.pb.inputMessagesAnalyzer.BeginHandData;
+import org.pb.inputMessagesAnalyzer.StartHandData;
 import org.pb.inputOutputUtil.Coordinates;
 import org.pb.state.Cards;
 
@@ -30,8 +30,8 @@ public class DecisionMaker {
 	}
 
 	// is called when new hand begins
-	public void setBeginHandData(BeginHandData beginHandData) {
-		gameData.getHandDataList().add(new HandData(beginHandData));
+	public void setStartHandData(StartHandData startHandData) {
+		gameData.getHandDataList().add(new HandData(startHandData));
 		System.out.println(gameData.getHandDataList().size());
 	}
 

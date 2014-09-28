@@ -41,7 +41,7 @@ public class TableMessagesParser {
 	 * private int winningStack = 0;
 	 */
 	private HandResult gameResult;
-	private BeginHandData beginHandData;
+	private StartHandData startHandData;
 
 	private DecisionMaker decisionMaker;
 
@@ -54,7 +54,7 @@ public class TableMessagesParser {
 		tableStack = new TableStack();
 		gameResult = new HandResult();
 
-		beginHandData = new BeginHandData();
+		startHandData = new StartHandData();
 		decisionMaker = new DecisionMaker(centerOfTheTable);
 	}
 
@@ -72,7 +72,7 @@ public class TableMessagesParser {
 	 */
 	public void newDealerState(DealerState dealerState) {
 		this.dealerState = dealerState;
-		beginHandData.setDealer(dealerState);
+		startHandData.setDealer(dealerState);
 		// System.out.println("new dealer state " + dealerState);
 		tryToSendAndNullNewHandData();
 	}
@@ -86,7 +86,7 @@ public class TableMessagesParser {
 	public void myNewStackSize(int stackSize) {
 		if (myStackSize.isInitialized() == false) {
 			myStackSize.setCurrentStackSize(stackSize);
-			myStackSize.setGameBeginStackSize(stackSize);
+			myStackSize.setGameStartStackSize(stackSize);
 			// System.out.println("my begin stack size " + stackSize);
 		} else {
 			int myStackDifferance = myStackSize.getCurrentStackSize()
@@ -96,7 +96,7 @@ public class TableMessagesParser {
 			if (myStackDifferance < 0) {
 				// if (raiseStackSize == 0) {
 				gameResult.incrementWinningStack(-myStackDifferance);
-				gameResult.setWinner(HandWinner.MY);
+				gameResult.setWinner(HandWinner.ME);
 
 				// System.out.println("i win " + (-myStackDifferance));
 				isStackUp = 2;
@@ -113,7 +113,7 @@ public class TableMessagesParser {
 					// + getMyAutoBlindes(blindes));
 					tableStack.setMyPart(getMyAutoBlindes(blindes));
 
-					beginHandData.setMyStackSize(stackSize
+					startHandData.setMyStackSize(stackSize
 							+ getMyAutoBlindes(blindes));
 					tryToSendAndNullNewHandData();
 
@@ -144,7 +144,7 @@ public class TableMessagesParser {
 	public void enemyNewStackSize(int stackSize) {
 		if (enemyStackSize.isInitialized() == false) {
 			enemyStackSize.setCurrentStackSize(stackSize);
-			enemyStackSize.setGameBeginStackSize(stackSize);
+			enemyStackSize.setGameStartStackSize(stackSize);
 			// System.out.println("enemy begin stack size " + stackSize);
 		} else {
 			int enemyStackDifference = enemyStackSize.getCurrentStackSize()
@@ -170,9 +170,9 @@ public class TableMessagesParser {
 							+ getEnemyAutoBlindes(blindes));
 					tableStack.setEnemyPart(getEnemyAutoBlindes(blindes));
 
-					beginHandData.setEnemyStackSize(stackSize
+					startHandData.setEnemyStackSize(stackSize
 							+ getEnemyAutoBlindes(blindes));
-					beginHandData.setBigBlindes(blindes);
+					startHandData.setBigBlindes(blindes);
 
 					tryToSendAndNullNewHandData();
 
@@ -226,14 +226,14 @@ public class TableMessagesParser {
 	}
 
 	/**
-	 * is called when new cards appears(or disappears) in your hands
+	 * is called when new cards appears(or disappear) in your hands
 	 * 
 	 * @param handCards
 	 */
 	public void myNewHandsCards(Cards cards) {
 		if (cards.getCardList().size() == 0) {
 			cardsOnHands.removeCards();
-			System.out.println("hands cards disappears");
+			System.out.println("hands cards disappear");
 		} else {
 			cardsOnHands = cards;
 			System.out.println("new turn");
@@ -245,7 +245,7 @@ public class TableMessagesParser {
 			/**
 			 * 
 			 */
-			beginHandData.setMyCards(cardsOnHands);
+			startHandData.setMyCards(cardsOnHands);
 			tryToSendAndNullNewHandData();
 
 		}
@@ -259,7 +259,7 @@ public class TableMessagesParser {
 	public void enemyNewCards(Cards cards) {
 		if (cards.getCardList().size() == 0) {
 			enemyCards.removeCards();
-			// System.out.println("enemy cards disappears");
+			// System.out.println("enemy cards disappear");
 		} else {
 			enemyCards = cards;
 			System.out.println("enemy hands cards " + enemyCards);
@@ -267,21 +267,21 @@ public class TableMessagesParser {
 	}
 
 	/**
-	 * is called when new cards appears(or disappears) on table
+	 * is called when new cards appears(or disappear) on table
 	 * 
 	 * @param cards
 	 */
 	public void newTableCards(Cards tableCards) {
 		if (tableCards.getCardList().size() == 0) {
 			cardsOnTable.removeCards();
-			// System.out.println("table cards disappears");
+			// System.out.println("table cards disappear");
 		} else {
 			cardsOnTable = tableCards;
 			// System.out.println("my new hands cards " + tableCards);
 		}
 	}
 
-	private boolean isNewHandDataReady(BeginHandData newHandData) {
+	private boolean isNewHandDataReady(StartHandData newHandData) {
 
 		if (newHandData.getBigBlindes() == 0) {
 			System.out.println("big blindes = 0");
@@ -296,7 +296,7 @@ public class TableMessagesParser {
 			return false;
 		}
 		if (newHandData.getDealer() == null) {
-			System.out.println("diller = null");
+			System.out.println("dealer = null");
 			return false;
 		}
 		if (newHandData.getMyCards() == null) {
@@ -308,10 +308,10 @@ public class TableMessagesParser {
 	}
 
 	private void tryToSendAndNullNewHandData() {
-		if (isNewHandDataReady(beginHandData)) {
-			System.out.println(beginHandData);
-			decisionMaker.setBeginHandData(beginHandData);
-			beginHandData = new BeginHandData();
+		if (isNewHandDataReady(startHandData)) {
+			System.out.println(startHandData);
+			decisionMaker.setStartHandData(startHandData);
+			startHandData = new StartHandData();
 		}
 	}
 
