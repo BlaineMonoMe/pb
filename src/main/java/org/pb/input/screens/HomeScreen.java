@@ -26,7 +26,7 @@ public class HomeScreen {
     }
 
     public boolean isTableEmptyMessage() {
-        if (IOUtil.existPicture(FilePaths.EMPTY_TABLE_MASSAGE)) {
+        if (IOUtil.existPicture(FilePaths.EMPTY_TABLE_MESSAGE)) {
             return true;
         }
         return false;

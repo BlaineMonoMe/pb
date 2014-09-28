@@ -13,7 +13,7 @@ import org.pb.inputOutputUtil.IOUtil;
 public class FindPlaceModalWindow {
 
     public static boolean exists() {
-        return IOUtil.existPicture(FilePaths.EMPTY_TABLE_MASSAGE);
+        return IOUtil.existPicture(FilePaths.EMPTY_TABLE_MESSAGE);
     }
 
 }
