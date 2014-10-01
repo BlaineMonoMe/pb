@@ -42,4 +42,8 @@ public class TableStack {
 		this.enemyPart = enemyPart;
 	}
 
+	public boolean isMyPartBigger() {
+		return (myPart > enemyPart);
+	}
+
 }
