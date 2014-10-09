@@ -12,10 +12,10 @@ import org.pb.decisionMaker.Player;
 public class Decision {
 
 	// who make decision
-	private Player player;
+	private final Player player;
 
 	// what decision
-	private Action action;
+	private final Action action;
 
 	// if it is rise or call - how big(in chips) is this rise/call
 	private int stackSize;
@@ -23,11 +23,24 @@ public class Decision {
 	public Decision(Player player, Action action) {
 		this.player = player;
 		this.action = action;
+		System.out.println("    creating new DECISION: " + player + " "
+				+ action);
 	}
 
 	public Decision(Player player, Action action, int stackSize) {
 		this.player = player;
 		this.action = action;
+		this.stackSize = stackSize;
+		System.out.println("    creating new DECISION: " + player + " "
+				+ action + " " + stackSize);
+	}
+
+	@Override
+	public String toString() {
+		return "|decision| " + player + " " + action + "(" + stackSize + ")";
+	}
+
+	public void setStackSize(int stackSize) {
 		this.stackSize = stackSize;
 	}
 

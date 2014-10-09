@@ -30,6 +30,8 @@ public class TableMessagesParser {
 	 */
 	private int isStackUp = 2;
 
+	private boolean isFirstHand = true;
+
 	private HandResult handResult;
 	private StartHandData startHandData;
 
@@ -224,7 +226,11 @@ public class TableMessagesParser {
 		} else {
 			cardsOnHands = cards;
 
-			decisionMaker.setGameResult(handResult);
+			if (isFirstHand == false) {
+				decisionMaker.setGameResult(handResult);
+			} else {
+				isFirstHand = false;
+			}
 			handResult.reset();
 
 			/**
@@ -260,6 +266,7 @@ public class TableMessagesParser {
 			cardsOnTable.removeCards();
 		} else {
 			cardsOnTable = tableCards;
+			// System.out.println("+++" + tableCards.getCardsCount());
 			decisionMaker.setNewTableCards(tableCards);
 		}
 	}

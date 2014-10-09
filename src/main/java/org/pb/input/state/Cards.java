@@ -11,6 +11,14 @@ public class Cards {
 		cardList = new ArrayList<Card>();
 	}
 
+	public Cards(Cards cards) {
+		this.maxCardsCount = 5;
+		cardList = new ArrayList<Card>();
+		for (int i = 0; i < cards.getCardsCount(); i++) {
+			cardList.add(new Card(cards.getCardList().get(i)));
+		}
+	}
+
 	public int getCardsCount() {
 		return cardList.size();
 	}

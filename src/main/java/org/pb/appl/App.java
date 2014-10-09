@@ -5,11 +5,17 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 /**
  * Hello world!
  * 
  */
 public class App {
+
+	final static Logger logger = Logger.getLogger(App.class);
+
 	public static void main(String[] args) {
 		System.out.println("Hello ");
 
@@ -40,6 +46,9 @@ public class App {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		PropertyConfigurator.configure("resources/log4j.properties");
+		logger.info("    ***launching pb***");
 
 		SystemManager sm = new SystemManager();
 		sm.start();

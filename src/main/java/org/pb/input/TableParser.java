@@ -100,15 +100,6 @@ public class TableParser {
 				tableMessagesParser.newDealerState(dealerState);
 			}
 
-			// table cards reading
-			if (cardsOnTableListener.isUpdated(screen)) {
-				/*
-				 * System.out.println("table: " +
-				 * cardsOnTableListener.getCards(screen));
-				 */
-				tableMessagesParser.newTableCards(cardsOnTableListener
-						.getCards(screen));
-			}
 			// TODO
 			// enemy cards reader
 			if (enemyCardsListener.isNewCards(screen)) {
@@ -151,6 +142,16 @@ public class TableParser {
 				 */
 				tableMessagesParser.enemyNewStackSize(enemyHandsStackReader
 						.getStackSize());
+			}
+
+			// table cards reading
+			if (cardsOnTableListener.isUpdated(screen)) {
+				/*
+				 * System.out.println("table: " +
+				 * cardsOnTableListener.getCards(screen));
+				 */
+				tableMessagesParser.newTableCards(cardsOnTableListener
+						.getCards(screen));
 			}
 
 			// checking if it is my turn
