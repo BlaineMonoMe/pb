@@ -1,8 +1,11 @@
 package org.pb.decisionMaker;
 
+import org.apache.log4j.Logger;
 import org.pb.decisionImplementation.ActionExecutor;
+import org.pb.decisionMaker.data.Decision;
 import org.pb.decisionMaker.data.GameData;
 import org.pb.decisionMaker.data.HandData;
+import org.pb.decisionMaker.data.RoundData;
 import org.pb.input.state.Cards;
 import org.pb.inputMessagesAnalyzer.HandResult;
 import org.pb.inputMessagesAnalyzer.StartHandData;
@@ -16,6 +19,8 @@ import org.pb.inputOutputUtil.Coordinates;
  */
 public class DecisionMaker {
 
+	final static Logger logger = Logger.getLogger(DecisionMaker.class);
+
 	// for executing decisions
 	private ActionExecutor actionExecutor;
 
@@ -28,52 +33,119 @@ public class DecisionMaker {
 
 	// is called when my new turn comes
 	public void makeDecision() {
-		System.out.println("hmm... I have to make some decision? hmm...");
+		System.out.println("MYTURN");
+		System.out.println("decision data: ");
+
+		HandData currentHandData = gameData.getCurrentHandData();
+
+		System.out.print("blindes: " + currentHandData.getBigBlindes());
+		System.out.print(", dealer: " + currentHandData.getDealer());
+		System.out.println(", round: " + currentHandData.getCurrentRound());
+
+		System.out.print("table cards: " + currentHandData.getTableCards());
+		System.out.println(", my cards: " + currentHandData.getMyCards());
+
+		System.out.print("my stack size: "
+				+ currentHandData.getCurrentPlayerStack(Player.ME));
+		System.out.println(", enemy stack size: "
+				+ currentHandData.getCurrentPlayerStack(Player.ENEMY));
+
+		System.out.print("my table bank: "
+				+ currentHandData.getPlayerPartTableBank(Player.ME));
+
+		System.out.println(", enemy table bank: "
+				+ currentHandData.getPlayerPartTableBank(Player.ENEMY));
+
 	}
 
 	// is called when new hand begins. creates a new hand data
 	public void setStartHandData(StartHandData startHandData) {
 		gameData.getHandDataList().add(new HandData(startHandData));
-		System.out.println(startHandData);
+		// System.out.println(startHandData);
 	}
 
 	public void setGameResult(HandResult handResult) {
-		System.out.println(handResult);
+		// maybe, we will set not to current, but to current-1
+		gameData.getCurrentHandData().setHandResult(handResult);
+		logger.info(gameData.getCurrentHandData());
+
+		// System.out.println(handResult);
+		// System.out.println(gameData.getCurrentHandData());
 	}
 
 	// creates a new round
 	public void setNewTableCards(Cards cards) {
-		System.out.println("new table cards: " + cards);
+		HandData currHandData = gameData.getCurrentHandData();
+		// System.out.println("crrr " + currHandData.getRoundData());
+		currHandData.addNextRoundData(cards);
+		// currHandData
+		// System.out.println("new table cards: " + cards);
 	}
 
 	public void setEnemyCards(Cards cards) {
-		System.out.println("enemy cards: " + cards);
+		HandData currHandData = gameData.getCurrentHandData();
+		currHandData.setEnemysCards(cards);
+		// System.out.println("enemy cards: " + cards);
 	}
 
 	// player decision handle. creates a new decision
 
-	public void enemyCallsHandle() {
-		System.out.println("enemy is calling...");
+	public void enemyCallsHandle(int callStack) {
+
+		RoundData currRound = gameData.getCurrentHandData()
+				.getCurrentRoundData();
+		currRound.addNewDecision(new Decision(Player.ENEMY, Action.CALL,
+				callStack));
+		// System.out.println("enemy is calling...");
+
 	}
 
 	public void enemyRaiseHandle(int raiseSize) {
-		System.out.println("enemy is rasing (" + raiseSize + ")");
+
+		RoundData currRound = gameData.getCurrentHandData()
+				.getCurrentRoundData();
+		currRound.addNewDecision(new Decision(Player.ENEMY, Action.RAISE,
+				raiseSize));
+
+		// System.out.println("enemy is rasing (" + raiseSize + ")");
 	}
 
 	public void enemyFallsHandle() {
-		System.out.println("enemy falls!");
+
+		RoundData currRound = gameData.getCurrentHandData()
+				.getCurrentRoundData();
+		currRound.addNewDecision(new Decision(Player.ENEMY, Action.FOLD));
+
+		// System.out.println("enemy falls!");
 	}
 
-	public void meCallsHandle() {
-		System.out.println("I am calling...");
+	public void meCallsHandle(int callStack) {
+
+		RoundData currRound = gameData.getCurrentHandData()
+				.getCurrentRoundData();
+		currRound
+				.addNewDecision(new Decision(Player.ME, Action.CALL, callStack));
+
+		// System.out.println("I am calling...");
 	}
 
 	public void meRaiseHandle(int raiseSize) {
-		System.out.println("I am rasing (" + raiseSize + ")");
+
+		RoundData currRound = gameData.getCurrentHandData()
+				.getCurrentRoundData();
+		currRound.addNewDecision(new Decision(Player.ME, Action.RAISE,
+				raiseSize));
+
+		// System.out.println("I am rasing (" + raiseSize + ")");
 	}
 
 	public void meFallsHandle() {
-		System.out.println("I fall :(");
+
+		RoundData currRound = gameData.getCurrentHandData()
+				.getCurrentRoundData();
+		currRound.addNewDecision(new Decision(Player.ME, Action.FOLD));
+
+		// System.out.println("I fall :(");
 	}
 
 }

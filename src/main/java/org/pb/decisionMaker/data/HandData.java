@@ -3,6 +3,8 @@ package org.pb.decisionMaker.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.pb.decisionMaker.Player;
+import org.pb.decisionMaker.Round;
 import org.pb.input.dealer.DealerState;
 import org.pb.input.state.Cards;
 import org.pb.inputMessagesAnalyzer.HandResult;
@@ -25,16 +27,10 @@ public class HandData {
 
 	private List<RoundData> roundDataList;
 
-	public HandData(int myStackSize, int enemyStackSize, int bigBlindes,
-			Cards myCards, DealerState dealer) {
-		this.myStackSize = myStackSize;
-		this.enemyStackSize = enemyStackSize;
-		this.bigBlindes = bigBlindes;
-		this.myCards = myCards;
-		this.dealer = dealer;
-
-		roundDataList = new ArrayList<RoundData>();
-	}
+	/*
+	 * public HandData() { roundDataList = new ArrayList<RoundData>();
+	 * roundDataList.add(new RoundData(bigBlindes, dealer)); }
+	 */
 
 	public HandData(StartHandData newHandData) {
 		this.myStackSize = newHandData.getMyStackSize();
@@ -44,12 +40,103 @@ public class HandData {
 		this.dealer = newHandData.getDealer();
 
 		roundDataList = new ArrayList<RoundData>();
+		roundDataList.add(new RoundData(bigBlindes, dealer));
+
+		System.out.println("    creating new HAND_DATA: " + newHandData
+				+ ", class=");
+	}
+
+	@Override
+	public String toString() {
+		String info = "|hand data| [my stack=" + myStackSize + ", enemy stack="
+				+ enemyStackSize + ", big blindes=" + bigBlindes + ", dealer="
+				+ dealer + "]\n";
+		String myC = "my cards = " + myCards.toString() + "\n";
+		String eC = "enemy cards = poof";// + enemysCards.toString() + "\n";
+		String handR = "";// "hand result = " + handResult.toString() + "\n";
+		String list = roundDataList.toString() + "\n";
+
+		return info + myC + eC + handR + list;
+	}
+
+	public int getPlayerPartTableBank(Player player) {
+		int playerChipsOnTable = 0;
+		for (int i = 0; i < roundDataList.size(); i++) {
+			playerChipsOnTable += roundDataList.get(i).getPlayerPartTableBank(
+					player);
+		}
+		return playerChipsOnTable;
+	}
+
+	public int getCurrentPlayerStack(Player player) {
+		if (player == Player.ME) {
+			return myStackSize - getPlayerPartTableBank(Player.ME);
+		} else {
+			return enemyStackSize - getPlayerPartTableBank(Player.ENEMY);
+		}
+	}
+
+	/*
+	 * public Cards getCurrentTableCards() { Cards currentCards = new Cards(5);
+	 * for (int round = 0; round < roundDataList.size(); round++) { for (int
+	 * card = 0; card < roundDataList.get(round).getTableCards()
+	 * .getCardsCount(); card++) {
+	 * currentCards.addCard(roundDataList.get(round).getTableCards()
+	 * .getCardList().get(card)); } } return currentCards; }
+	 */
+
+	public RoundData getCurrentRoundData() {
+		return roundDataList.get(roundDataList.size() - 1);
 	}
 
 	public void addRoundData(RoundData roundData) {
 		roundDataList.add(roundData);
+		/*
+		 * if (roundDataList.size() > 1) {
+		 * System.out.println("=====================");
+		 * System.out.println(roundDataList.get(roundDataList.size() - 2));
+		 * System.out.println("====================="); }
+		 */
 	}
 
+	public void addNextRoundData(Cards cards) {
+		RoundData currRoundData = getCurrentRoundData();
+		Round nextRound = null;
+		try {
+			nextRound = currRoundData.getNextRound();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		roundDataList.add(new RoundData(nextRound, cards));
+	}
+
+	/**
+	 * HandResult getter & setter
+	 */
+	public HandResult getHandResult() {
+		return handResult;
+	}
+
+	public void setHandResult(HandResult handResult) {
+		this.handResult = handResult;
+		System.out.println("    setting game result: " + handResult);
+
+	}
+
+	/**
+	 * Enemy cards getter & setter
+	 */
+	public Cards getEnemysCards() {
+		return enemysCards;
+	}
+
+	public void setEnemysCards(Cards enemysCards) {
+		this.enemysCards = enemysCards;
+	}
+
+	/**
+	 * Final fields getters
+	 */
 	public List<RoundData> getRoundData() {
 		return roundDataList;
 	}
@@ -72,6 +159,18 @@ public class HandData {
 
 	public DealerState getDealer() {
 		return dealer;
+	}
+
+	public Round getCurrentRound() {
+		return roundDataList.get(roundDataList.size() - 1).getRound();
+	}
+
+	public Cards getTableCards() {
+		Cards cards = new Cards(5);
+		for (int i = 0; i < roundDataList.size(); i++) {
+			cards.addCards(roundDataList.get(i).getTableCards().getCardList());
+		}
+		return cards;
 	}
 
 }

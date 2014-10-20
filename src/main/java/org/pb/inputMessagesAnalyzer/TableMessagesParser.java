@@ -30,6 +30,8 @@ public class TableMessagesParser {
 	 */
 	private int isStackUp = 2;
 
+	private boolean isFirstHand = true;
+
 	private HandResult handResult;
 	private StartHandData startHandData;
 
@@ -117,7 +119,7 @@ public class TableMessagesParser {
 				} else {
 					tableStack.incrementMyPart(myStackDifferance);
 					if (tableStack.isPlayerCalling()) {
-						decisionMaker.meCallsHandle();
+						decisionMaker.meCallsHandle(myStackDifferance);
 					} else {
 						decisionMaker.meRaiseHandle(myStackDifferance);
 					}
@@ -171,7 +173,7 @@ public class TableMessagesParser {
 				} else {
 					tableStack.incrementEnemyPart(enemyStackDifference);
 					if (tableStack.isPlayerCalling()) {
-						decisionMaker.enemyCallsHandle();
+						decisionMaker.enemyCallsHandle(enemyStackDifference);
 					} else {
 						decisionMaker.enemyRaiseHandle(enemyStackDifference);
 					}
@@ -224,7 +226,11 @@ public class TableMessagesParser {
 		} else {
 			cardsOnHands = cards;
 
-			decisionMaker.setGameResult(handResult);
+			if (isFirstHand == false) {
+				decisionMaker.setGameResult(handResult);
+			} else {
+				isFirstHand = false;
+			}
 			handResult.reset();
 
 			/**
@@ -260,6 +266,7 @@ public class TableMessagesParser {
 			cardsOnTable.removeCards();
 		} else {
 			cardsOnTable = tableCards;
+			// System.out.println("+++" + tableCards.getCardsCount());
 			decisionMaker.setNewTableCards(tableCards);
 		}
 	}
