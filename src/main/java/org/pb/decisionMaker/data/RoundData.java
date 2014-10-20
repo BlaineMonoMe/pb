@@ -55,7 +55,7 @@ public class RoundData {
 	public RoundData(Round round, Cards cards) {
 		decisionList = new ArrayList<Decision>();
 		tableCards = new Cards(cards);
-		//System.out.println("___" + tableCards);
+		// System.out.println("___" + tableCards);
 		this.round = round;
 		System.out.println("    creating new ROUND_DATA: round=" + round
 				+ ", cards=" + tableCards);
@@ -103,13 +103,13 @@ public class RoundData {
 
 	public void addNewDecision(Decision decision) {
 		System.out.println("            decisions = " + decisionList.size());
-		if (decision.getAction() == Action.CALL) {
-			// System.out.println("decision list size+++" +
-			// decisionList.size());
-			Decision beforeDecision = decisionList.get(decisionList.size() - 1);
-			int beforeRaiseSize = beforeDecision.getStackSize();
-			decision.setStackSize(beforeRaiseSize);
-		}
+		/*
+		 * if (decision.getAction() == Action.CALL) { //
+		 * System.out.println("decision list size+++" + // decisionList.size());
+		 * Decision beforeDecision = decisionList.get(decisionList.size() - 1);
+		 * int beforeRaiseSize = beforeDecision.getStackSize();
+		 * decision.setStackSize(beforeRaiseSize); }
+		 */
 		decisionList.add(decision);
 	}
 

@@ -1,7 +1,6 @@
 package org.pb.decisionMaker;
 
 import org.apache.log4j.Logger;
-import org.pb.appl.App;
 import org.pb.decisionImplementation.ActionExecutor;
 import org.pb.decisionMaker.data.Decision;
 import org.pb.decisionMaker.data.GameData;
@@ -35,6 +34,28 @@ public class DecisionMaker {
 	// is called when my new turn comes
 	public void makeDecision() {
 		System.out.println("MYTURN");
+		System.out.println("decision data: ");
+
+		HandData currentHandData = gameData.getCurrentHandData();
+
+		System.out.print("blindes: " + currentHandData.getBigBlindes());
+		System.out.print(", dealer: " + currentHandData.getDealer());
+		System.out.println(", round: " + currentHandData.getCurrentRound());
+
+		System.out.print("table cards: " + currentHandData.getTableCards());
+		System.out.println(", my cards: " + currentHandData.getMyCards());
+
+		System.out.print("my stack size: "
+				+ currentHandData.getCurrentPlayerStack(Player.ME));
+		System.out.println(", enemy stack size: "
+				+ currentHandData.getCurrentPlayerStack(Player.ENEMY));
+
+		System.out.print("my table bank: "
+				+ currentHandData.getPlayerPartTableBank(Player.ME));
+
+		System.out.println(", enemy table bank: "
+				+ currentHandData.getPlayerPartTableBank(Player.ENEMY));
+
 	}
 
 	// is called when new hand begins. creates a new hand data
@@ -58,7 +79,7 @@ public class DecisionMaker {
 		// System.out.println("crrr " + currHandData.getRoundData());
 		currHandData.addNextRoundData(cards);
 		// currHandData
-		//System.out.println("new table cards: " + cards);
+		// System.out.println("new table cards: " + cards);
 	}
 
 	public void setEnemyCards(Cards cards) {
@@ -69,11 +90,12 @@ public class DecisionMaker {
 
 	// player decision handle. creates a new decision
 
-	public void enemyCallsHandle() {
+	public void enemyCallsHandle(int callStack) {
 
 		RoundData currRound = gameData.getCurrentHandData()
 				.getCurrentRoundData();
-		currRound.addNewDecision(new Decision(Player.ENEMY, Action.CALL));
+		currRound.addNewDecision(new Decision(Player.ENEMY, Action.CALL,
+				callStack));
 		// System.out.println("enemy is calling...");
 
 	}
@@ -97,11 +119,12 @@ public class DecisionMaker {
 		// System.out.println("enemy falls!");
 	}
 
-	public void meCallsHandle() {
+	public void meCallsHandle(int callStack) {
 
 		RoundData currRound = gameData.getCurrentHandData()
 				.getCurrentRoundData();
-		currRound.addNewDecision(new Decision(Player.ME, Action.CALL));
+		currRound
+				.addNewDecision(new Decision(Player.ME, Action.CALL, callStack));
 
 		// System.out.println("I am calling...");
 	}

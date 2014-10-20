@@ -59,30 +59,31 @@ public class HandData {
 		return info + myC + eC + handR + list;
 	}
 
-	public int getCurrentPlayerStack(Player player) {
+	public int getPlayerPartTableBank(Player player) {
 		int playerChipsOnTable = 0;
 		for (int i = 0; i < roundDataList.size(); i++) {
 			playerChipsOnTable += roundDataList.get(i).getPlayerPartTableBank(
 					player);
 		}
+		return playerChipsOnTable;
+	}
+
+	public int getCurrentPlayerStack(Player player) {
 		if (player == Player.ME) {
-			return myStackSize - playerChipsOnTable;
+			return myStackSize - getPlayerPartTableBank(Player.ME);
 		} else {
-			return enemyStackSize - playerChipsOnTable;
+			return enemyStackSize - getPlayerPartTableBank(Player.ENEMY);
 		}
 	}
 
-	public Cards getCurrentTableCards() {
-		Cards currentCards = new Cards(5);
-		for (int round = 0; round < roundDataList.size(); round++) {
-			for (int card = 0; card < roundDataList.get(round).getTableCards()
-					.getCardsCount(); card++) {
-				currentCards.addCard(roundDataList.get(round).getTableCards()
-						.getCardList().get(card));
-			}
-		}
-		return currentCards;
-	}
+	/*
+	 * public Cards getCurrentTableCards() { Cards currentCards = new Cards(5);
+	 * for (int round = 0; round < roundDataList.size(); round++) { for (int
+	 * card = 0; card < roundDataList.get(round).getTableCards()
+	 * .getCardsCount(); card++) {
+	 * currentCards.addCard(roundDataList.get(round).getTableCards()
+	 * .getCardList().get(card)); } } return currentCards; }
+	 */
 
 	public RoundData getCurrentRoundData() {
 		return roundDataList.get(roundDataList.size() - 1);
@@ -90,11 +91,12 @@ public class HandData {
 
 	public void addRoundData(RoundData roundData) {
 		roundDataList.add(roundData);
-		/*if (roundDataList.size() > 1) {
-			System.out.println("=====================");
-			System.out.println(roundDataList.get(roundDataList.size() - 2));
-			System.out.println("=====================");
-		}*/
+		/*
+		 * if (roundDataList.size() > 1) {
+		 * System.out.println("=====================");
+		 * System.out.println(roundDataList.get(roundDataList.size() - 2));
+		 * System.out.println("====================="); }
+		 */
 	}
 
 	public void addNextRoundData(Cards cards) {
@@ -157,6 +159,18 @@ public class HandData {
 
 	public DealerState getDealer() {
 		return dealer;
+	}
+
+	public Round getCurrentRound() {
+		return roundDataList.get(roundDataList.size() - 1).getRound();
+	}
+
+	public Cards getTableCards() {
+		Cards cards = new Cards(5);
+		for (int i = 0; i < roundDataList.size(); i++) {
+			cards.addCards(roundDataList.get(i).getTableCards().getCardList());
+		}
+		return cards;
 	}
 
 }

@@ -119,7 +119,7 @@ public class TableMessagesParser {
 				} else {
 					tableStack.incrementMyPart(myStackDifferance);
 					if (tableStack.isPlayerCalling()) {
-						decisionMaker.meCallsHandle();
+						decisionMaker.meCallsHandle(myStackDifferance);
 					} else {
 						decisionMaker.meRaiseHandle(myStackDifferance);
 					}
@@ -173,7 +173,7 @@ public class TableMessagesParser {
 				} else {
 					tableStack.incrementEnemyPart(enemyStackDifference);
 					if (tableStack.isPlayerCalling()) {
-						decisionMaker.enemyCallsHandle();
+						decisionMaker.enemyCallsHandle(enemyStackDifference);
 					} else {
 						decisionMaker.enemyRaiseHandle(enemyStackDifference);
 					}
