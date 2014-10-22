@@ -57,6 +57,7 @@ public class HandParser {
         System.out.println("RESULT FULL HOUSE =#" + pokerHandParser("JcJcAcAcAd", "R[=3]R[=2]") + "#");
         System.out.println("RESULT FLUSH =#" + pokerHandParser("2c4c5c3c6c", "S[=5]") + "#");
         System.out.println("RESULT STRAIGHT =#" + pokerHandParser("2c3c4c5c6c", "R[*>>]") + "#");
+        System.out.println("RESULT STRAIGHT FLUSH=#" + pokerHandParser("2c3c4c5c6c", "R[*>>]S[=5]") + "#");
         System.out.println("RESULT ROYAL FLUSH =#" + pokerHandParser("1cJcQcKcAc", "R[1>>]S[=5]") + "#");
 
     }
