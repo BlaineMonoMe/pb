@@ -2,48 +2,50 @@ package org.pb.input.state;
 
 public class Card {
 	// mast'
-	private char lear;
+	private char suit;
 	// from 2 to Ace
-	private int level;
+	private int rank;
+    private String rankStringValue;
 
 	public Card(Card card) {
-		this.lear = card.getLear();
-		this.level = card.getLevel();
+		this.suit = card.getSuit();
+		this.rank = card.getRank();
 	}
 
-	public Card(char lear, int level) {
-		this.lear = lear;
-		this.level = level;
+	public Card(char suit, int rank) {
+		this.suit = suit;
+		this.rank = rank;
 	}
 
-	public Card(char lear, char level) {
-		this.lear = lear;
-		if (level == '2')
-			this.level = 2;
-		if (level == '3')
-			this.level = 3;
-		if (level == '4')
-			this.level = 4;
-		if (level == '5')
-			this.level = 5;
-		if (level == '6')
-			this.level = 6;
-		if (level == '7')
-			this.level = 7;
-		if (level == '8')
-			this.level = 8;
-		if (level == '9')
-			this.level = 9;
-		if (level == 'T')
-			this.level = 10;
-		if (level == 'J')
-			this.level = 11;
-		if (level == 'Q')
-			this.level = 12;
-		if (level == 'K')
-			this.level = 13;
-		if (level == 'A')
-			this.level = 14;
+	public Card(char suit, char rank) {
+		this.suit = suit;
+        rankStringValue = String.valueOf(rank);
+		if (rank == '2')
+			this.rank = 2;
+		if (rank == '3')
+			this.rank = 3;
+		if (rank == '4')
+			this.rank = 4;
+		if (rank == '5')
+			this.rank = 5;
+		if (rank == '6')
+			this.rank = 6;
+		if (rank == '7')
+			this.rank = 7;
+		if (rank == '8')
+			this.rank = 8;
+		if (rank == '9')
+			this.rank = 9;
+		if (rank == 'T')
+			this.rank = 10;
+		if (rank == 'J')
+			this.rank = 11;
+		if (rank == 'Q')
+			this.rank = 12;
+		if (rank == 'K')
+			this.rank = 13;
+		if (rank == 'A')
+			this.rank = 14;
 	}
 
 	public Card() {
@@ -51,22 +53,34 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return "[" + level + lear + "]";
+		return "[" + rank + suit + "]";
 	}
 
-	public char getLear() {
-		return lear;
+	public char getSuit() {
+		return suit;
 	}
 
-	public void setLear(char lear) {
-		this.lear = lear;
+	public void setSuit(char suit) {
+		this.suit = suit;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getRank() {
+		return rank;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
+
+    public String getRankStringValue() {
+        return rankStringValue;
+    }
+
+    public void setRankStringValue(String rankStringValue) {
+        this.rankStringValue = rankStringValue;
+    }
+
+    public String getCardStringValue() {
+        return rankStringValue + suit;
+    }
 }

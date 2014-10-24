@@ -13,23 +13,6 @@ import java.util.regex.Pattern;
  */
 public class HandParser {
 
-    private static Map<String, Integer> cardCodesOrdinaryAceMap = new LinkedHashMap<String, Integer>() {
-        {
-            put("2", 2);
-            put("3", 3);
-            put("4", 4);
-            put("5", 5);
-            put("6", 6);
-            put("7", 7);
-            put("8", 8);
-            put("9", 9);
-            put("1", 10);
-            put("J", 11);
-            put("Q", 12);
-            put("K", 13);
-            put("A", 14);
-        }
-    };
     private static Map<String, Integer> cardCodesAceAsOneMap = new LinkedHashMap<String, Integer>() {
         {
             put("A", 1);
@@ -41,10 +24,28 @@ public class HandParser {
             put("7", 7);
             put("8", 8);
             put("9", 9);
-            put("1", 10);
+            put("T", 10);
             put("J", 11);
             put("Q", 12);
             put("K", 13);
+        }
+    };
+
+    private static Map<String, Integer> cardCodesOrdinaryAceMap = new LinkedHashMap<String, Integer>() {
+        {
+            put("2", 2);
+            put("3", 3);
+            put("4", 4);
+            put("5", 5);
+            put("6", 6);
+            put("7", 7);
+            put("8", 8);
+            put("9", 9);
+            put("T", 10);
+            put("J", 11);
+            put("Q", 12);
+            put("K", 13);
+            put("A", 14);
         }
     };
 
@@ -56,9 +57,9 @@ public class HandParser {
         System.out.println("RESULT KARE =#" + pokerHandParser("JcAcAcAcAd", "R[=4]") + "#");
         System.out.println("RESULT FULL HOUSE =#" + pokerHandParser("JcJcAcAcAd", "R[=3]R[=2]") + "#");
         System.out.println("RESULT FLUSH =#" + pokerHandParser("2c4c5c3c6c", "S[=5]") + "#");
-        System.out.println("RESULT STRAIGHT =#" + pokerHandParser("2c3c4c5c6c", "R[*>>]") + "#");
+        System.out.println("RESULT STRAIGHT =#" + pokerHandParser("2c2c4c5c6c7c8c", "R[*>>]") + "#");
         System.out.println("RESULT STRAIGHT FLUSH=#" + pokerHandParser("2c3c4c5c6c", "R[*>>]S[=5]") + "#");
-        System.out.println("RESULT ROYAL FLUSH =#" + pokerHandParser("1cJcQcKcAc", "R[1>>]S[=5]") + "#");
+        System.out.println("RESULT ROYAL FLUSH =#" + pokerHandParser("TcJcQcKcAc", "R[1>>]S[=5]") + "#");
 
     }
 
@@ -112,6 +113,12 @@ public class HandParser {
         String cardSuits = cards.replaceAll("[^cshd]", "");
         String result = "";
         String intermediateResult = "";
+        List<String> cardRanksArray = new ArrayList(Arrays.asList(cardRanks.split("")));
+        Collections.sort(cardRanksArray, new Comparator<String>() {
+            public int compare(String card1, String card2) {
+                return cardCodesOrdinaryAceMap.get(card1).compareTo(cardCodesOrdinaryAceMap.get(card2));
+            }
+        });
         for (String rPredicate : rPredicates) {
 
             if (rPredicate.equals("4")) {
@@ -137,7 +144,6 @@ public class HandParser {
         rPredicates = new ArrayList(Arrays.asList(matchString(regexp, PokerRegExpParser.RANK_STRAIGHT.getRegExp(), true).split(" ")));
         Collections.sort(rPredicates);
         String straightResult = "";
-        List<String> cardRanksArray = new ArrayList(Arrays.asList(cardRanks.split("")));
         for (String rPredicate : rPredicates) {
             if (rPredicate.equals("*")) {
                 straightResult = getStraightResult(cardRanksArray);
@@ -149,7 +155,6 @@ public class HandParser {
         }
         System.out.println("STRAIGHT_RESULT === " + straightResult);
         result += straightResult;
-        sortCardsFromTwoToAce(cardRanksArray);
         for (String sPredicate : sPredicates) {
             if (sPredicate.equals("5")) {
                 result += matchString(cardSuits, CardHand.FLUSH.getRegExp(), false) + " ";
@@ -177,59 +182,40 @@ public class HandParser {
         return result;
     }
 
-    private static void sortCardsFromTwoToAce(List<String> cards) {
-        Collections.sort(cards, new Comparator<String>() {
-            public int compare(String card1, String card2) {
-                return cardCodesOrdinaryAceMap.get(card1).compareTo(cardCodesOrdinaryAceMap.get(card2));
-            }
-        });
-    }
-
-    private static void sortCardsFromAceToKing(List<String> cards) {
-        Collections.sort(cards, new Comparator<String>() {
-            public int compare(String card1, String card2) {
-                return cardCodesAceAsOneMap.get(card1).compareTo(cardCodesAceAsOneMap.get(card2));
-            }
-        });
-    }
-
     private static String getStraightResult(List<String> cardRanksArray) {
         String straightResult = "";
         if (cardRanksArray.contains("A")) {
-            sortCardsFromTwoToAce(cardRanksArray);
-            for (int i = 0; i < cardRanksArray.size() - 1; i++) {
-                if (cardCodesOrdinaryAceMap.get(cardRanksArray.get(i)) == cardCodesOrdinaryAceMap.get(cardRanksArray.get(i + 1)) - 1) {
-                    straightResult += cardRanksArray.get(i);
-                } else {
-                    straightResult = "";
-                }
-            }
-            if (straightResult.length() < 4) {
-                straightResult = "";
-                sortCardsFromAceToKing(cardRanksArray);
-                for (int i = 0; i < cardRanksArray.size() - 1; i++) {
-                    if (cardCodesAceAsOneMap.get(cardRanksArray.get(i)) == cardCodesAceAsOneMap.get(cardRanksArray.get(i + 1)) - 1) {
-                        straightResult += cardRanksArray.get(i);
-                    } else {
-                        straightResult = "";
-                    }
-                }
-                if (straightResult.length() < 4) {
-                    straightResult = "";
-                }
+            straightResult = getStraightResultDifferentAceValues(cardRanksArray, cardCodesAceAsOneMap);
+            if (straightResult.equals("")) {
+                straightResult = getStraightResultDifferentAceValues(cardRanksArray, cardCodesOrdinaryAceMap);
             }
         } else {
-            for (int i = 0; i < cardRanksArray.size() - 1; i++) {
-                sortCardsFromTwoToAce(cardRanksArray);
-                if (cardCodesOrdinaryAceMap.get(cardRanksArray.get(i)) == cardCodesOrdinaryAceMap.get(cardRanksArray.get(i + 1)) - 1) {
-                    straightResult += cardRanksArray.get(i);
-                } else {
+            straightResult = getStraightResultDifferentAceValues(cardRanksArray, cardCodesOrdinaryAceMap);
+        }
+        return straightResult;
+    }
+
+    private static String getStraightResultDifferentAceValues(List<String> cardRanksArray, Map<String, Integer> cardValuesMap) {
+        String straightResult = "";
+        Collections.sort(cardRanksArray, new Comparator<String>() {
+            public int compare(String card1, String card2) {
+                return cardValuesMap.get(card1).compareTo(cardValuesMap.get(card2));
+            }
+        });
+        for (int i = 0; i < cardRanksArray.size() - 1; i++) {
+            if (cardValuesMap.get(cardRanksArray.get(i)) == cardValuesMap.get(cardRanksArray.get(i + 1)) - 1) {
+                straightResult += cardRanksArray.get(i);
+                if (i == cardRanksArray.size() - 2) {
+                    straightResult += cardRanksArray.get(i + 1);
+                }
+            } else {
+                if (straightResult.length() < 5) {
                     straightResult = "";
                 }
             }
-            if (straightResult.length() < 4) {
-                straightResult = "";
-            }
+        }
+        if (straightResult.length() < 5) {
+            straightResult = "";
         }
         return straightResult;
     }
