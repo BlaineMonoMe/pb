@@ -1,49 +1,67 @@
 package org.pb.input.state;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Card {
+
+    private static Map<String, Integer> cardSymbolicValueToIntMap = new LinkedHashMap<String, Integer>() {
+        {
+            put("2", 2);
+            put("3", 3);
+            put("4", 4);
+            put("5", 5);
+            put("6", 6);
+            put("7", 7);
+            put("8", 8);
+            put("9", 9);
+            put("T", 10);
+            put("J", 11);
+            put("Q", 12);
+            put("K", 13);
+            put("A", 14);
+        }
+    };
+
+    private static Map<Integer, String> cardIntValueToSymbolicMap = new LinkedHashMap<Integer, String>() {
+        {
+            put(2, "2");
+            put(3, "3");
+            put(4, "4");
+            put(5, "5");
+            put(6, "6");
+            put(7, "7");
+            put(8, "8");
+            put(9, "9");
+            put(10, "T");
+            put(11, "J");
+            put(12, "Q");
+            put(13, "K");
+            put(14, "A");
+        }
+    };
+
 	// mast'
-	private char lear;
+	private char suit;
 	// from 2 to Ace
-	private int level;
+	private int rank;
+    private String rankStringValue;
 
 	public Card(Card card) {
-		this.lear = card.getLear();
-		this.level = card.getLevel();
+		this.suit = card.getSuit();
+		this.rank = card.getRank();
+        rankStringValue = cardIntValueToSymbolicMap.get(card.getRank());
 	}
 
-	public Card(char lear, int level) {
-		this.lear = lear;
-		this.level = level;
+	public Card(char suit, int rank) {
+		this.suit = suit;
+		this.rank = rank;
 	}
 
-	public Card(char lear, char level) {
-		this.lear = lear;
-		if (level == '2')
-			this.level = 2;
-		if (level == '3')
-			this.level = 3;
-		if (level == '4')
-			this.level = 4;
-		if (level == '5')
-			this.level = 5;
-		if (level == '6')
-			this.level = 6;
-		if (level == '7')
-			this.level = 7;
-		if (level == '8')
-			this.level = 8;
-		if (level == '9')
-			this.level = 9;
-		if (level == 'T')
-			this.level = 10;
-		if (level == 'J')
-			this.level = 11;
-		if (level == 'Q')
-			this.level = 12;
-		if (level == 'K')
-			this.level = 13;
-		if (level == 'A')
-			this.level = 14;
+	public Card(char suit, char rank) {
+		this.suit = suit;
+        rankStringValue = String.valueOf(rank);
+		this.rank = cardSymbolicValueToIntMap.get(rank);
 	}
 
 	public Card() {
@@ -51,22 +69,34 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return "[" + level + lear + "]";
+		return "[" + rank + suit + "]";
 	}
 
-	public char getLear() {
-		return lear;
+	public char getSuit() {
+		return suit;
 	}
 
-	public void setLear(char lear) {
-		this.lear = lear;
+	public void setSuit(char suit) {
+		this.suit = suit;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getRank() {
+		return rank;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
+
+    public String getRankStringValue() {
+        return rankStringValue;
+    }
+
+    public void setRankStringValue(String rankStringValue) {
+        this.rankStringValue = rankStringValue;
+    }
+
+    public String getCardStringValue() {
+        return rankStringValue + suit;
+    }
 }
