@@ -96,4 +96,8 @@ public class Card {
     public void setRankStringValue(String rankStringValue) {
         this.rankStringValue = rankStringValue;
     }
+
+    public String getCardStringValue() {
+        return rankStringValue + suit;
+    }
 }
