@@ -51,7 +51,7 @@ public class HandParser {
 
     public static void main(String[] args) {
 
-        System.out.println("RESULT 1 PAIR =#" + pokerHandParser("1c4c5cJcJd", "R[=2]") + "#");
+        System.out.println("RESULT 1 PAIR =#" + pokerHandParser("Tc4c5cJcJd", "R[=2]") + "#");
         System.out.println("RESULT 2 PAIRS =#" + pokerHandParser("JcQcQcAcAd", "R[=2]R[=2]") + "#");
         System.out.println("RESULT SET =#" + pokerHandParser("JcQcAcAcAd", "R[=3]") + "#");
         System.out.println("RESULT KARE =#" + pokerHandParser("JcAcAcAcAd", "R[=4]") + "#");
@@ -154,7 +154,7 @@ public class HandParser {
             }
         }
         System.out.println("STRAIGHT_RESULT === " + straightResult);
-        result += straightResult;
+        result += straightResult + " ";
         for (String sPredicate : sPredicates) {
             if (sPredicate.equals("5")) {
                 result += matchString(cardSuits, CardHand.FLUSH.getRegExp(), false) + " ";
