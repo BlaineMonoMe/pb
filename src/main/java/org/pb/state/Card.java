@@ -50,7 +50,7 @@ public class Card {
 	public Card(Card card) {
 		this.suit = card.getSuit();
 		this.rank = card.getRank();
-        rankStringValue = cardIntValueToSymbolicMap.get(rank);
+        rankStringValue = cardIntValueToSymbolicMap.get(card.getRank());
 	}
 
 	public Card(char suit, int rank) {
